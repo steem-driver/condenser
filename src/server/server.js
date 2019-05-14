@@ -289,12 +289,13 @@ if (env !== 'test') {
     // so `src/server/app_render.jsx` can `await` on it.
     app.pinnedPostsPromise = pinnedPosts();
     // refresh pinned posts every five minutes
+    /* temporarily remove pinned post refresh
     setInterval(function() {
         return new Promise(function(resolve, reject) {
             app.pinnedPostsPromise = pinnedPosts();
             resolve();
         });
-    }, 300000);
+    }, 300000); */
     
     app.use(function*() {
         yield appRender(this, supportedLocales, resolvedAssets);
