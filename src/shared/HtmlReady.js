@@ -318,14 +318,7 @@ function embedYouTubeNode(child, links, images) {
         const yt = youTubeId(data);
         if (!yt) return child;
 
-        if (yt.startTime) {
-            child.data = data.replace(
-                yt.url,
-                `~~~ embed:${yt.id} youtube ${yt.startTime} ~~~`
-            );
-        } else {
-            child.data = data.replace(yt.url, `~~~ embed:${yt.id} youtube ~~~`);
-        }
+        child.data = data.replace(yt.url, `~~~ embed:${yt.id} youtube ~~~`);
 
         if (links) links.add(yt.url);
         if (images) images.add(yt.thumbnail);
@@ -347,12 +340,9 @@ function youTubeId(data) {
     const id = m2 && m2.length >= 2 ? m2[1] : null;
     if (!id) return null;
 
-    const startTime = url.match(/t=(\d+)s?/);
-
     return {
         id,
         url,
-        startTime: startTime ? startTime[1] : 0,
         thumbnail: 'https://img.youtube.com/vi/' + id + '/0.jpg',
     };
 }
@@ -363,18 +353,7 @@ function embedVimeoNode(child, links /*images*/) {
         const vimeo = vimeoId(data);
         if (!vimeo) return child;
 
-        const vimeoRegex = new RegExp(`${vimeo.url}(#t=${vimeo.startTime}s?)?`);
-        if (vimeo.startTime > 0) {
-            child.data = data.replace(
-                vimeoRegex,
-                `~~~ embed:${vimeo.id} vimeo ${vimeo.startTime} ~~~`
-            );
-        } else {
-            child.data = data.replace(
-                vimeoRegex,
-                `~~~ embed:${vimeo.id} vimeo ~~~`
-            );
-        }
+        child.data = data.replace(vimeo.url, `~~~ embed:${vimeo.id} vimeo ~~~`);
 
         if (links) links.add(vimeo.canonical);
         // if(images) images.add(vimeo.thumbnail) // not available
@@ -389,12 +368,9 @@ function vimeoId(data) {
     const m = data.match(linksRe.vimeo);
     if (!m || m.length < 2) return null;
 
-    const startTime = m.input.match(/t=(\d+)s?/);
-
     return {
         id: m[1],
         url: m[0],
-        startTime: startTime ? startTime[1] : 0,
         canonical: `https://player.vimeo.com/video/${m[1]}`,
         // thumbnail: requires a callback - http://stackoverflow.com/questions/1361149/get-img-thumbnails-from-vimeo
     };
