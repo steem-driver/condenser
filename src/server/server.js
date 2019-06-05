@@ -321,7 +321,7 @@ if (env !== 'test') {
 
     const argv = minimist(process.argv.slice(2));
 
-    const port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
+    const port = process.env.PORT ? parseInt(process.env.PORT) : 8081;
 
     if (env === 'production') {
         if (cluster.isMaster) {
