@@ -939,7 +939,7 @@ export default formId =>
                 if (rtags.links.size) meta.links = rtags.links;
                 else delete meta.links;
 
-                meta.app = 'steemit/0.1';
+                meta.app = 'busy/2.5.6';
                 if (isStory) {
                     meta.format = isHtml ? 'html' : 'markdown';
                 }
