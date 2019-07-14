@@ -243,7 +243,9 @@
         "whitepaper": "Steem白皮书",
         "intro_tagline": "妙笔生金",
         "intro_paragraph":
-            "你的思想是有有价值的。赶快加入发表文章获得赏金的社区。"
+            "你的思想是有有价值的。赶快加入发表文章获得赏金的社区。",
+        "steem_guides": "《Steem指南》",
+        "steem_engine_handbook": "《Steem Engine手册》"
     },
     "main_menu": {
         "hot": "热门",
