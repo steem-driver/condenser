@@ -20,6 +20,7 @@ import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
+import { TAG_LIST } from 'app/client_config';
 
 class PostsIndex extends React.Component {
     static propTypes = {
@@ -332,19 +333,8 @@ module.exports = {
                 blogmode: state.app.getIn(['user_preferences', 'blogmode']),
                 sortOrder: ownProps.params.order,
                 topic: ownProps.params.category,
-                categories: state.global
-                    .getIn(['tag_idx', 'trending'])
-                    .take(50),
-                featured: state.offchain
-                    .get('special_posts')
-                    .get('featured_posts'),
-                promoted: state.offchain
-                    .get('special_posts')
-                    .get('promoted_posts'),
-                notices: state.offchain
-                    .get('special_posts')
-                    .get('notices')
-                    .toJS(),
+                categories: TAG_LIST,
+                pinned: state.offchain.get('pinned_posts'),
                 maybeLoggedIn: state.user.get('maybeLoggedIn'),
                 isBrowser: process.env.BROWSER,
                 gptEnabled: state.app.getIn(['googleAds', 'gptEnabled']),

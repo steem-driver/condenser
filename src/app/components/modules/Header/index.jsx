@@ -7,6 +7,7 @@ import Icon from 'app/components/elements/Icon';
 import resolveRoute from 'app/ResolveRoute';
 import tt from 'counterpart';
 import { APP_NAME } from 'app/client_config';
+import { APP_ICON } from 'app/client_config';
 import SortOrder from 'app/components/elements/SortOrder';
 import SearchInput from 'app/components/elements/SearchInput';
 import IconButton from 'app/components/elements/IconButton';
@@ -19,6 +20,7 @@ import SteemLogo from 'app/components/elements/SteemLogo';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import Announcement from 'app/components/elements/Announcement';
 import GptAd from 'app/components/elements/GptAd';
+import SvgImage from 'app/components/elements/SvgImage';
 
 class Header extends React.Component {
     static propTypes = {
@@ -310,7 +312,11 @@ class Header extends React.Component {
                         <div className="small-5 large-4 columns Header__logotype">
                             {/*LOGO*/}
                             <Link to={logo_link}>
-                                <SteemLogo />
+                                <SvgImage
+                                    name={APP_ICON}
+                                    width="150px"
+                                    height="40px"
+                                />
                             </Link>
                         </div>
 
