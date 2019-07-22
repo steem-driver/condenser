@@ -26,7 +26,6 @@ const SortOrder = ({ topic, sortOrder, horizontal, pathname }) => {
         tag = '';
         sort = 'trending';
     }
-
     const makeRoute = (tag, sort) =>
         tag ? `/${sort.value}/${tag}` : `/${sort.value}`;
 
