@@ -17,6 +17,7 @@ import { Set } from 'immutable';
 import Remarkable from 'remarkable';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
+import { DEFAULT_TAGS } from 'app/client_config';
 
 const remarkable = new Remarkable({ html: true, linkify: false, breaks: true });
 
@@ -927,7 +928,9 @@ export default formId =>
                 while (allCategories.size < 5 && postHashtags.length > 0) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-
+                for(var i in DEFAULT_TAGS){
+                    allCategories = allCategories.add(DEFAULT_TAGS[i]);
+                }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
                 if (allCategories.size) meta.tags = allCategories.toJS();
@@ -952,7 +955,7 @@ export default formId =>
                     return;
                 }
 
-                if (meta.tags.length > 10) {
+                if (meta.tags.length > 15) {
                     const includingCategory = isEdit
                         ? tt('reply_editor.including_the_category', {
                               rootCategory,

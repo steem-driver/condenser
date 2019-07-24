@@ -3,48 +3,42 @@ import { connect } from 'react-redux';
 
 class GptAd extends Component {
     componentDidMount() {
-        if (!this.ad.path || !this.enabled) return;
+        if (!this.ad_identifier || !this.enabled) return;
+        const ad_identifier = this.ad_identifier;
+        const unique_slot_id = this.unique_slot_id;
 
-        googletag.cmd.push(() => {
-            const slot = googletag.defineSlot(
-                this.ad.path,
-                this.ad.dimensions,
-                this.ad.path
-            );
+        freestar.newAdSlots([
+            {
+                placementName: ad_identifier, // This has to match up with the backend and frontend and all the other ends.
+                slotId: unique_slot_id, // This has to be unique per page and must match the id of the ad element.
+            },
+        ]);
 
-            if (slot) {
-                slot.addService(googletag.pubads());
-                googletag.pubads().enableSingleRequest();
-                googletag.enableServices();
+        freestar.queue.push(e => {
+            googletag.pubads().addEventListener('impressionViewable', e => {
+                window.dispatchEvent(new Event('gptadshown', e));
+            });
 
-                googletag.cmd.push(() => {
-                    googletag.display(this.ad.path);
-                    googletag.pubads().refresh([slot]);
-                    googletag
-                        .pubads()
-                        .addEventListener('slotRenderEnded', e => {
-                            window.dispatchEvent(new Event('gptadshown', e));
-                        });
-                });
-            }
+            googletag.pubads().addEventListener('slotRenderEnded', e => {
+                window.dispatchEvent(new Event('gptadshown', e));
+            });
         });
     }
 
     constructor(props) {
         super(props);
-        const { ad, enabled, type } = props;
+        const { ad_identifier, enabled, type } = props;
 
-        this.ad = {};
+        this.ad_identifier = '';
         this.type = type;
         this.enabled = false;
-
-        if (ad) {
+        if (ad_identifier != '') {
             // console.info(
-            //     `Slot named '${props.slotName}' will render with given data:`,
-            //     ad
+            //     `ad_identifier of '${ad_identifier}' will render.`,
+            //     ad_identifier
             // );
             this.enabled = enabled;
-            this.ad = ad.toJS();
+            this.ad_identifier = ad_identifier;
         } else {
             // console.info(
             //     `Slot named '${
@@ -52,10 +46,11 @@ class GptAd extends Component {
             //     }' will be disabled because we were unable to find the ad details.`
             // );
         }
+        this.unique_slot_id = `${this.ad_identifier}-${Date.now()}`;
     }
 
     render() {
-        if (!this.ad || !this.enabled) {
+        if (!this.ad_identifier || !this.enabled) {
             return <div id="disabled_ad" style={{ display: 'none' }} />;
         }
 
@@ -63,19 +58,16 @@ class GptAd extends Component {
             <div
                 className="gpt-ad"
                 style={{ width: '100%' }}
-                id={this.ad.path}
+                id={this.unique_slot_id}
             />
         );
     }
 }
 
 GptAd.propTypes = {
-    ad: PropTypes.shape({
-        path: PropTypes.string,
-        dimensions: PropTypes.array,
-    }).isRequired,
+    ad_identifier: PropTypes.string.isRequired,
     enabled: PropTypes.bool.isRequired,
-    type: PropTypes.oneOf(['Bidding', 'Category', 'Basic']),
+    type: PropTypes.oneOf(['Bidding', 'Category', 'Basic', 'Freestar']),
 };
 
 export default connect(
@@ -92,13 +84,20 @@ export default connect(
             `gptCategorySlots`,
         ]);
 
-        const slotName = props.slotName;
+        let slotName = props.slotName;
+        if (!slotName) {
+            slotName = props.id;
+        }
         let type = props.type;
-        let slot = state.app.getIn(['googleAds', `gpt${type}Slots`, slotName]);
+        let slot = slotName; // in case it's Freestar
+        if (type != 'Freestar') {
+            slot = state.app.getIn(['googleAds', `gpt${type}Slots`, slotName]);
+        }
 
         return {
             enabled,
             ad: slot,
+            ad_identifier: slotName,
             ...props,
         };
     },

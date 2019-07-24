@@ -17,10 +17,10 @@ import Notices from 'app/components/elements/Notices';
 import SteemMarket from 'app/components/elements/SteemMarket';
 import { GptUtils } from 'app/utils/GptUtils';
 import GptAd from 'app/components/elements/GptAd';
-import BiddingAd from 'app/components/elements/BiddingAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
+import { TAG_LIST } from 'app/client_config';
 
 class PostsIndex extends React.Component {
     static propTypes = {
@@ -93,7 +93,7 @@ class PostsIndex extends React.Component {
             order = constants.DEFAULT_SORT_ORDER,
         } = this.props.routeParams;
 
-        const { categories, pinned } = this.props;
+        const { categories, featured, promoted } = this.props;
 
         let topics_order = order;
         let posts = [];
@@ -234,7 +234,8 @@ class PostsIndex extends React.Component {
                     <hr className="articles__hr" />
                     {!fetching &&
                     (posts && !posts.size) &&
-                    (pinned && !pinned.size) ? (
+                    (featured && !featured.size) &&
+                    (promoted && !promoted.size) ? (
                         <Callout>{emptyText}</Callout>
                     ) : (
                         <PostsList
@@ -244,7 +245,8 @@ class PostsIndex extends React.Component {
                             anyPosts={true}
                             category={category}
                             loadMore={this.loadMore}
-                            showPinned={true}
+                            showFeatured={true}
+                            showPromoted={true}
                             showSpam={showSpam}
                         />
                     )}
@@ -267,21 +269,7 @@ class PostsIndex extends React.Component {
                     <SteemMarket />
                     {this.props.gptEnabled ? (
                         <div className="sidebar-ad">
-                            {this.props.maybeLoggedIn ? (
-                                <GptAd
-                                    type="Basic"
-                                    slotName={GptUtils.MobilizeSlotName(
-                                        'right-navigation-loggedin'
-                                    )}
-                                />
-                            ) : (
-                                <GptAd
-                                    type="Basic"
-                                    slotName={GptUtils.MobilizeSlotName(
-                                        'right-navigation'
-                                    )}
-                                />
-                            )}
+                            <GptAd type="Freestar" id="steemit_160x600_Right" />
                         </div>
                     ) : null}
                 </aside>
@@ -308,30 +296,18 @@ class PostsIndex extends React.Component {
                     {this.props.gptEnabled ? (
                         <div>
                             <div className="sidebar-ad">
-                                {this.props.maybeLoggedIn ? (
-                                    <GptAd
-                                        type="Basic"
-                                        slotName={GptUtils.MobilizeSlotName(
-                                            'left-navigation-loggedin'
-                                        )}
-                                    />
-                                ) : (
-                                    <GptAd
-                                        type="Basic"
-                                        slotName={GptUtils.MobilizeSlotName(
-                                            'left-navigation'
-                                        )}
-                                    />
-                                )}
+                                <GptAd
+                                    type="Freestar"
+                                    slotName="steemit_160x600_Left_1"
+                                />
                             </div>
                             <div
                                 className="sidebar-ad"
                                 style={{ marginTop: 20 }}
                             >
-                                <BiddingAd
-                                    type="Bidding"
-                                    slotName="left-navigation"
-                                    id="div-gpt-ad-1554687231046-0"
+                                <GptAd
+                                    type="Freestar"
+                                    slotName="steemit_160x600_Left_2"
                                 />
                             </div>
                         </div>
@@ -357,16 +333,10 @@ module.exports = {
                 blogmode: state.app.getIn(['user_preferences', 'blogmode']),
                 sortOrder: ownProps.params.order,
                 topic: ownProps.params.category,
-                categories: state.global
-                    .getIn(['tag_idx', 'trending'])
-                    .take(50),
+                categories: TAG_LIST,
                 pinned: state.offchain.get('pinned_posts'),
                 maybeLoggedIn: state.user.get('maybeLoggedIn'),
                 isBrowser: process.env.BROWSER,
-                notices: state.offchain
-                    .get('pinned_posts')
-                    .get('notices')
-                    .toJS(),
                 gptEnabled: state.app.getIn(['googleAds', 'gptEnabled']),
             };
         },

@@ -9,9 +9,31 @@ export const APP_NAME_UPPERCASE = 'STEEMCN';
 export const APP_ICON = 'steemcn';
 // FIXME figure out best way to do this on both client and server from env
 // vars. client should read $STM_Config, server should read config package.
-export const APP_URL = 'https://steemit.com';
-export const APP_DOMAIN = 'steemit.com';
-export const TAG_LIST = List(['cn', 'cn-curation', 'cn-activity', 'cn-reader']);
+export const APP_URL = 'https://steemcn.herokuapp.com';
+export const APP_DOMAIN = 'steemcn.herokuapp.com';
+export const TAG_LIST = List([
+    'cn',
+    'cn-activity',
+    'cn-book',
+    'cn-curation',
+    'cn-hello',
+    'cn-reader',
+    'cn-voice',
+    'cnweekends',
+    'steem-guides',
+    'teamcn-homework',
+]);
+export const DEFAULT_TAGS = [
+    'cn',
+    'palnet',
+    'zzan',
+    'mediaofficials',
+    'actnearn',
+    'marlians',
+    'neoxian',
+    'lassecash',
+    'busy'
+];
 export const LIQUID_TOKEN = 'Steem';
 // sometimes it's impossible to use html tags to style coin name, hence usage of _UPPERCASE modifier
 export const LIQUID_TOKEN_UPPERCASE = 'STEEM';
@@ -45,7 +67,7 @@ export const SHARE_IMAGE =
 export const TWITTER_SHARE_IMAGE =
     'https://' + APP_DOMAIN + '/images/steemit-twshare.png';
 export const SITE_DESCRIPTION =
-    'Steemit is a social media platform where everyone gets paid for ' +
+    'SteemCN is a social media platform where everyone gets paid for ' +
     'creating and curating content. It leverages a robust digital points system, called Steem, that ' +
     'supports real value for digital rewards through market price discovery and liquidity';
 
