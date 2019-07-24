@@ -278,7 +278,9 @@
         "intro_tagline": "Your voice is worth something",
         "intro_paragraph":
             "Get paid for good content. Post and upvote articles on Steemit to get your share of the daily rewards pool.",
-        "jobs": "Jobs at Steemit"
+        "jobs": "Jobs at Steemit",
+        "steem_guides": "Steem Guides",
+        "steem_engine_handbook": "Steem Engine Handbook"
     },
     "main_menu": {
         "hot": "Hot",
