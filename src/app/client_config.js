@@ -23,6 +23,16 @@ export const TAG_LIST = List([
     'steem-guides',
     'teamcn-homework',
 ]);
+export const DEFAULT_TAGS = [
+    'palnet',
+    'zzan',
+    'mediaofficials',
+    'actnearn',
+    'marlians',
+    'neoxian',
+    'lassecash',
+    'busy'
+];
 export const LIQUID_TOKEN = 'Steem';
 // sometimes it's impossible to use html tags to style coin name, hence usage of _UPPERCASE modifier
 export const LIQUID_TOKEN_UPPERCASE = 'STEEM';

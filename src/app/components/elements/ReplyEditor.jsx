@@ -17,7 +17,7 @@ import { Set } from 'immutable';
 import Remarkable from 'remarkable';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
-import { SCOT_TAG } from 'app/client_config';
+import { DEFAULT_TAGS } from 'app/client_config';
 
 const remarkable = new Remarkable({ html: true, linkify: false, breaks: true });
 
@@ -928,7 +928,9 @@ export default formId =>
                 while (allCategories.size < 5 && postHashtags.length > 0) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-                allCategories = allCategories.add(SCOT_TAG);
+                for(var i in DEFAULT_TAGS){
+                    allCategories = allCategories.add(DEFAULT_TAGS[i]);
+                }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
                 if (allCategories.size) meta.tags = allCategories.toJS();
