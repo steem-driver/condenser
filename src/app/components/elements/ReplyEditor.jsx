@@ -928,7 +928,9 @@ export default formId =>
                 while (allCategories.size < 5 && postHashtags.length > 0) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-                allCategories = allCategories.add(DEFAULT_TAGS);
+                for(var i in DEFAULT_TAGS){
+                    allCategories = allCategories.add(DEFAULT_TAGS[i]);
+                }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
                 if (allCategories.size) meta.tags = allCategories.toJS();
