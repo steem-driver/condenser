@@ -274,6 +274,7 @@ class Post extends React.Component {
                 </div>
                 {this.props.gptEnabled ? (
                     <div className="Post_footer__ad">
+
                         <GptAd
                             type="Freestar"
                             id="steemit_728x90_468x60_300x250_BelowComments"

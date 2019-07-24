@@ -40,7 +40,8 @@ class LoginForm extends Component {
             );
             cryptographyFailure = true;
         }
-        this.state = { cryptographyFailure };
+        const useKeychain = hasCompatibleKeychain();
+        this.state = { useKeychain, cryptographyFailure };
         this.usernameOnChange = e => {
             const value = e.target.value.toLowerCase();
             this.state.username.props.onChange(value);
@@ -61,7 +62,7 @@ class LoginForm extends Component {
                 password.props.onChange(data);
             });
         };
-        this.initForm(props);
+        this.initForm(props, useKeychain);
     }
 
     componentDidMount() {
@@ -73,7 +74,7 @@ class LoginForm extends Component {
 
     shouldComponentUpdate = shouldComponentUpdate(this, 'LoginForm');
 
-    initForm(props) {
+    initForm(props, useKeychain) {
         reactForm({
             name: 'login',
             instance: this,

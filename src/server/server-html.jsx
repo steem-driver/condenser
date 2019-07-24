@@ -209,6 +209,14 @@ export default function ServerHTML({
                         async
                     />
                 ) : null}
+                {shouldSeeCookieConsent ? (
+                    <script
+                            id="Cookiebot"
+                            src="https://consent.cookiebot.com/uc.js"
+                            data-cbid={cookieConsentApiKey}
+                            type="text/javascript" async
+                    />
+                ) : null}
                 <title>{page_title}</title>
             </head>
             <body>

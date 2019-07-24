@@ -206,7 +206,6 @@ class PostSummary extends React.Component {
                             )}
                         </Link>
                     </div>
-
                     {(featured || promoted) && (
                         <a
                             onClick={onClose}

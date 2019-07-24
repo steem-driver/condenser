@@ -32,7 +32,6 @@ class GptAd extends Component {
         this.ad_identifier = '';
         this.type = type;
         this.enabled = false;
-
         if (ad_identifier != '') {
             // console.info(
             //     `ad_identifier of '${ad_identifier}' will render.`,

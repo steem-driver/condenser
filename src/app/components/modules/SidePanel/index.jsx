@@ -62,9 +62,14 @@ const SidePanel = ({
                 link: `/faq.html`,
             },
             {
-                value: 'tags',
-                label: tt('navigation.explore'),
-                link: `/tags`,
+                value: 'steem_guides',
+                label: tt('navigation.steem_guides'),
+                link: 'https://steemh.org',
+            },
+            {
+                value: 'se_handbook',
+                label: tt('navigation.steem_engine_handbook'),
+                link: 'https://steem-engine.steemh.org',
             },
             {
                 value: 'market',
