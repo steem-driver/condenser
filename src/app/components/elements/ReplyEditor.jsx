@@ -14,6 +14,7 @@ import sanitize from 'sanitize-html';
 import HtmlReady from 'shared/HtmlReady';
 import * as globalActions from 'app/redux/GlobalReducer';
 import { Set } from 'immutable';
+import { List } from 'immutable';
 import Remarkable from 'remarkable';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
@@ -908,7 +909,7 @@ export default formId =>
                     return;
                 }
 
-                const formCategories = Set(
+                const formCategories = List(
                     category
                         ? category
                               .trim()
@@ -920,16 +921,17 @@ export default formId =>
                     originalPost && originalPost.category
                         ? originalPost.category
                         : formCategories.first();
-                let allCategories = Set([...formCategories.toJS()]);
+                let allCategories = List([...formCategories.toJS()]);
                 if (/^[-a-z\d]+$/.test(rootCategory))
-                    allCategories = allCategories.add(rootCategory);
+                    allCategories = allCategories.push(rootCategory);
 
                 let postHashtags = [...rtags.hashtags];
                 while (allCategories.size < 5 && postHashtags.length > 0) {
-                    allCategories = allCategories.add(postHashtags.shift());
+                    allCategories = allCategories.push(postHashtags.shift());
                 }
                 for(var i in DEFAULT_TAGS){
-                    allCategories = allCategories.add(DEFAULT_TAGS[i]);
+					if(!allCategories.includes(DEFAULT_TAGS[i]))
+						allCategories = allCategories.push(DEFAULT_TAGS[i]);
                 }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
@@ -955,7 +957,7 @@ export default formId =>
                     return;
                 }
 
-                if (meta.tags.length > 15) {
+                if (meta.tags.length > 20) {
                     const includingCategory = isEdit
                         ? tt('reply_editor.including_the_category', {
                               rootCategory,
