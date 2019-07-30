@@ -7,6 +7,7 @@ export const APP_NAME = 'SteemCN';
 export const APP_NAME_LATIN = 'SteemCN';
 export const APP_NAME_UPPERCASE = 'STEEMCN';
 export const APP_ICON = 'steemcn';
+export const APP_MAX_TAG = 20;
 // FIXME figure out best way to do this on both client and server from env
 // vars. client should read $STM_Config, server should read config package.
 export const APP_URL = 'https://steemcn.herokuapp.com';
@@ -32,7 +33,7 @@ export const DEFAULT_TAGS = [
     'marlians',
     'neoxian',
     'lassecash',
-    'busy'
+    'busy',
 ];
 export const LIQUID_TOKEN = 'Steem';
 // sometimes it's impossible to use html tags to style coin name, hence usage of _UPPERCASE modifier
