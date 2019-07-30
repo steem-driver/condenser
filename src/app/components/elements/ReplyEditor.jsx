@@ -937,8 +937,7 @@ export default formId =>
                     allCategories = allCategories.add(postHashtags.shift());
                 }
                 for (var i in DEFAULT_TAGS) {
-                    if (!allCategories.includes(DEFAULT_TAGS[i]))
-                        allCategories = allCategories.add(DEFAULT_TAGS[i]);
+                    allCategories = allCategories.add(DEFAULT_TAGS[i]);
                 }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
