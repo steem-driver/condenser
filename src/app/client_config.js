@@ -35,6 +35,23 @@ export const DEFAULT_TAGS = [
     'lassecash',
     'busy',
 ];
+export const RECOMMEND_TAGS = List([
+    'cn-reader cn-curation:中文好文',
+    'ocd-resteem:英文好文',
+    'cn-voice creativecoin:好声音',
+    'steem-guides sct:STEEM指南',
+    'cn-hello introduceyourself:自我介绍',
+    'cn-activity sct:发起活动',
+    'steemleo sct:投资',
+    'creativecoin:艺术',
+    'steemace battle iv:游戏',
+    'sct:区块链',
+    'spt battle steemace iv:Steemmonsters',
+    'aaa:影评',
+    'sportstalk:体育',
+    'realityhubs:产品评价',
+]);
+
 export const LIQUID_TOKEN = 'Steem';
 // sometimes it's impossible to use html tags to style coin name, hence usage of _UPPERCASE modifier
 export const LIQUID_TOKEN_UPPERCASE = 'STEEM';
