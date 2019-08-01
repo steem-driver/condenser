@@ -50,6 +50,8 @@ export const RECOMMEND_TAGS = List([
     'aaa:影评',
     'sportstalk:体育',
     'realityhubs:产品评价',
+	'科学技术:cn-stem steemstem',
+	'编程:cn-stem steemstem cn-programming'
 ]);
 
 export const LIQUID_TOKEN = 'Steem';
