@@ -57,8 +57,8 @@ class CategorySelector extends React.Component {
     }
     render() {
         const { trending, tabIndex, disabled } = this.props;
-        const categories = trending.slice(0, 20);
-        // .filterNot(c => validateCategory(c));
+        const categories = trending.slice(0, 20)
+        .filterNot(c => validateCategory(c));
         const { createCategory } = this.state;
 
         const categoryOptions = categories.map((c, idx) => (
@@ -83,19 +83,19 @@ class CategorySelector extends React.Component {
                         <span>
                             <a
                                 key={idx}
-                                value={c.split(':')[0]}
-                                onClick={() => {
-                                    if (
-                                        !impProps.value.includes(
-                                            c.split(':')[0]
-                                        )
-                                    ) {
-                                        impProps.onChange(
-                                            `${impProps.value} ${
-                                                c.split(':')[0]
-                                            }`.trim()
-                                        );
+                                values={c.split(':')[0]}
+                                onClick={() => {	
+								const  values=c.split(':')[0].split(" ");
+								let tags ='';
+									values.forEach((value) =>{
+										  if (!impProps.value.includes(value)) {
+											  tags=(tags+" "+value).trim();                                      
                                     }
+									});
+									  impProps.onChange(
+                                            `${impProps.value} ${tags}`.trim()
+                                        );
+                                  
                                 }}
                             >
                                 #{c.split(':')[1]}
