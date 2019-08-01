@@ -57,9 +57,8 @@ class CategorySelector extends React.Component {
     }
     render() {
         const { trending, tabIndex, disabled } = this.props;
-        const categories = trending
-            .slice(0, 11)
-            .filterNot(c => validateCategory(c));
+        const categories = trending.slice(0, 20)
+        .filterNot(c => validateCategory(c));
         const { createCategory } = this.state;
 
         const categoryOptions = categories.map((c, idx) => (
@@ -70,14 +69,42 @@ class CategorySelector extends React.Component {
 
         const impProps = { ...this.props };
         const categoryInput = (
-            <input
-                type="text"
-                {...cleanReduxInput(impProps)}
-                ref="categoryRef"
-                tabIndex={tabIndex}
-                disabled={disabled}
-                autoCapitalize="none"
-            />
+            <span>
+                <input
+                    type="text"
+                    {...cleanReduxInput(impProps)}
+                    ref="categoryRef"
+                    tabIndex={tabIndex}
+                    disabled={disabled}
+                    autoCapitalize="none"
+                />
+                {categories.map((c, idx) => {
+                    return (
+                        <span>
+                            <a
+                                key={idx}
+                                values={c.split(':')[0]}
+                                onClick={() => {	
+								const  values=c.split(':')[0].split(" ");
+								let tags ='';
+									values.forEach((value) =>{
+										  if (!impProps.value.includes(value)) {
+											  tags=(tags+" "+value).trim();                                      
+                                    }
+									});
+									  impProps.onChange(
+                                            `${impProps.value} ${tags}`.trim()
+                                        );
+                                  
+                                }}
+                            >
+                                #{c.split(':')[1]}
+                            </a>{' '}
+                            &nbsp;
+                        </span>
+                    );
+                })}
+            </span>
         );
 
         const categorySelect = (
@@ -99,9 +126,12 @@ class CategorySelector extends React.Component {
     }
 }
 export function validateCategory(category, required = true) {
-    if (!category || category.trim() === '')
+    if (!category || category.split(':')[0].trim() === '')
         return required ? tt('g.required') : null;
-    const cats = category.trim().split(' ');
+    const cats = category
+        .split(':')[0]
+        .trim()
+        .split(' ');
     return (
         // !category || category.trim() === '' ? 'Required' :
         cats.length > MAX_TAG
