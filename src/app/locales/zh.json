@@ -38,11 +38,15 @@
         "insufficient_balance": "余额不足",
         "invalid_amount": "金额无效",
         "joined": "加入",
+        "links": "链接",
         "loading": "正在载入",
         "login": "登录",
         "logout": "登出",
         "memo": "备注",
         "mute": "屏蔽",
+        "my_feed": "我的订阅",
+        "my_blog": "我的文章",
+        "my_wallet": "我的钱包",
         "new": "最新",
         "newer": "较新的",
         "next": "下一个",
@@ -65,6 +69,7 @@
         "promote": "推广",
         "promoted": "推广",
         "re": "回复",
+        "read_offical_blog": "官方博客",
         "re_to": "回复%(topic)s",
         "recent_password": "最近的密码",
         "receive": "收到",
@@ -464,7 +469,8 @@
             "如果你最近关注了新的用户，更新内容将会显示在你的个性化主页",
         "empty_feed_3": "浏览流行文章",
         "empty_feed_4": "阅读快速入门指南",
-        "empty_feed_5": "浏览常见问题解答"
+        "empty_feed_5": "浏览常见问题解答",
+        "my_feed": "我的订阅"
     },
     "explorepost_jsx": {
         "copied": "已复制！",
