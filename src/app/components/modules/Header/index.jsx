@@ -252,7 +252,7 @@ class Header extends React.Component {
         const replies_link = `/@${username}/recent-replies`;
         const account_link = `/@${username}`;
         const comments_link = `/@${username}/comments`;
-        const wallet_link = `${walletUrl}/@${username}`;
+        const wallet_link = `/@${username}/transfers`;
         const settings_link = `/@${username}/settings`;
         const pathCheck = userPath === '/submit.html' ? true : null;
 
