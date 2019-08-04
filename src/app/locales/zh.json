@@ -593,7 +593,10 @@
             "需要在3天的等待期后提取资金。",
         "from": "从",
         "to": "到",
-        "asset_currently_collecting": "%(asset)s目前获得%(interest)s%%利息"
+        "asset_currently_collecting": "%(asset)s目前获得%(interest)s%%利息",
+        "autocomplete_previous_transfers": "有过转账",
+        "autocomplete_user_following": "我的关注",
+        "confirm_transfer": "从 %(from)s 转账 %(amount)s 到 %(to)s?"
     },
     "userwallet_jsx": {
         "transfer": "转账",
