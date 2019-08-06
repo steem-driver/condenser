@@ -42,7 +42,7 @@ export const RECOMMEND_TAGS = List([
     'steem-guides sct:STEEM指南',
     'cn-hello introduceyourself:自我介绍',
     'cn-activity sct:发起活动',
-	'teamcn-homework:新手作业'，
+	'teamcn-homework:新手作业',
     'steemleo sct:投资',
     'creativecoin:艺术',
     'steemace battle iv:游戏',
