@@ -95,6 +95,41 @@ class PostAdvancedSettings extends Component {
                               : tt('reply_editor.power_up_100')}
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="column">
+                        <h4>
+                            {tt(
+                                'post_advanced_settings_jsx.app_selection_header'
+                            )}
+                        </h4>
+                        <p>
+                            {tt(
+                                'post_advanced_settings_jsx.app_selection_description'
+                            )}
+                        </p>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="small-12 medium-6 large-12 columns">
+                        <select
+                            //defaultValue={meta.app}
+                            onChange={this.handlePayoutChange}
+                        >
+                            <option value="steemcoinpan">
+                                {tt('app_selections.sct')}
+                            </option>
+                            <option value="steemzzang/0.1">
+                                {tt('app_selections.zzan')}
+                            </option>
+                            <option value="busy/2.5.4">
+                                {tt('app_selections.busy')}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
                 <div className="row">
                     <div className="column">
                         <a href={'/@' + username + '/settings'}>
@@ -104,6 +139,7 @@ class PostAdvancedSettings extends Component {
                         </a>
                     </div>
                 </div>
+
                 <br />
                 <div className="row">
                     <div className="column">
