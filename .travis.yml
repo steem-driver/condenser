@@ -10,7 +10,7 @@ before_install:
 install: true
 
 script:
-  - docker build -t registry.heroku.com/steemcn/web .
+  - bash docker_build
 
 after_success:
   - bash docker_push_staging
