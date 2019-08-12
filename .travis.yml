@@ -12,6 +12,9 @@ install: true
 script:
   - docker build -t registry.heroku.com/steemcn/web .
 
+after_success:
+  - bash docker_push_staging
+
 deploy:
   provider: script
   script:
