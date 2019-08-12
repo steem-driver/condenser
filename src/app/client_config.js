@@ -47,7 +47,7 @@ export const RECOMMEND_TAGS = List([
     'steemleo sct:投资',
     'creativecoin:艺术',
     'steemace battle iv:游戏',
-    'sct:区块链',
+    'sct sct-cn sct-freeboard:区块链',
     'spt battle steemace iv:Steemmonsters',
     'aaa:影评',
     'sportstalk:体育',
