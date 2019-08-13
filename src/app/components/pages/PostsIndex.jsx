@@ -93,7 +93,18 @@ class PostsIndex extends React.Component {
             order = constants.DEFAULT_SORT_ORDER,
         } = this.props.routeParams;
 
-        const { categories, featured, promoted } = this.props;
+        const {
+            categories,
+            featured,
+            promoted,
+            gptBannedTags,
+            topic,
+        } = this.props;
+
+        let allowAdsOnContent = true;
+        allowAdsOnContent =
+            this.props.gptEnabled &&
+            !GptUtils.HasBannedTags([topic], gptBannedTags);
 
         let topics_order = order;
         let posts = [];
@@ -216,7 +227,7 @@ class PostsIndex extends React.Component {
                                     order={topics_order}
                                     current={category}
                                     categories={categories}
-                                    compact={true}
+                                    compact
                                 />
                             </span>
                         </div>
@@ -242,12 +253,13 @@ class PostsIndex extends React.Component {
                             ref="list"
                             posts={posts ? posts : List()}
                             loading={fetching}
-                            anyPosts={true}
+                            anyPosts
                             category={category}
                             loadMore={this.loadMore}
-                            showFeatured={true}
-                            showPromoted={true}
+                            showFeatured
+                            showPromoted
                             showSpam={showSpam}
+                            allowAdsOnContent={allowAdsOnContent}
                         />
                     )}
                 </article>
@@ -267,7 +279,7 @@ class PostsIndex extends React.Component {
                     )}
                     <Notices notices={this.props.notices} />
                     <SteemMarket />
-                    {this.props.gptEnabled ? (
+                    {this.props.gptEnabled && allowAdsOnContent ? (
                         <div className="sidebar-ad">
                             <GptAd type="Freestar" id="steemit_160x600_Right" />
                         </div>
@@ -293,7 +305,7 @@ class PostsIndex extends React.Component {
                         </a>
                         {' ' + tt('g.next_3_strings_together.value_posts')}
                     </small>
-                    {this.props.gptEnabled ? (
+                    {this.props.gptEnabled && allowAdsOnContent ? (
                         <div>
                             <div className="sidebar-ad">
                                 <GptAd
@@ -338,6 +350,7 @@ module.exports = {
                 maybeLoggedIn: state.user.get('maybeLoggedIn'),
                 isBrowser: process.env.BROWSER,
                 gptEnabled: state.app.getIn(['googleAds', 'gptEnabled']),
+                gptBannedTags: state.app.getIn(['googleAds', 'gptBannedTags']),
             };
         },
         dispatch => {
