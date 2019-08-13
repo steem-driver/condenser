@@ -39,7 +39,7 @@ export const DEFAULT_TAGS = [
 export const RECOMMEND_TAGS = List([
     'cn-reader cn-curation:中文好文',
     'ocd-resteem:英文好文',
-    'cn-voice creativecoin sonicgroovy tunes:好声音',
+    'cn-voice creativecoin sonicgroove tunes:好声音',
     'steem-guides sct sct-cn sct-userguide:STEEM指南',
     'cn-hello introduceyourself:自我介绍',
     'cn-activity sct sct-cn sct-freeboard:发起活动',
