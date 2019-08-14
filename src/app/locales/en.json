@@ -98,6 +98,7 @@
         "request": "request",
         "required": "Required",
         "rewards": "Rewards",
+        "app": "App",
         "save": "Save",
         "saved": "Saved",
         "search": "Search",
@@ -319,7 +320,8 @@
     "app_selections": {
         "sct": "Steemcoinpan",
         "zzan": "Steemzzang",
-        "busy": "Busy"
+        "busy": "Busy",
+        "esteem": "Esteem"
     },
     "category_selector_jsx": {
         "tag_your_story":
