@@ -952,6 +952,7 @@ export default formId =>
                 else delete meta.links;
 
                 meta.app = 'busy/2.5.6';
+                meta.community = 'steemcn';
                 if (isStory) {
                     meta.format = isHtml ? 'html' : 'markdown';
                 }
