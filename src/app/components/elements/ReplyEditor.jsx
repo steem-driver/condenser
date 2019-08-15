@@ -1039,6 +1039,22 @@ export default formId =>
                             break;
                         default: // 50% steem power, 50% sd+steem
                     }
+                    if (appType == 'esteem/1.6.0') {
+                        meta.community = 'esteemapp';
+                        if (!__config.comment_options) {
+                            __config.comment_options = {};
+                        }
+                        __config.comment_options.extensions = [
+                            [
+                                0,
+                                {
+                                    beneficiaries: [
+                                        { account: 'esteemapp', weight: 1000 },
+                                    ],
+                                },
+                            ],
+                        ];
+                    }
                 }
 
                 const operation = {
