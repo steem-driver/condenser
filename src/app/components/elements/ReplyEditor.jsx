@@ -87,6 +87,7 @@ class ReplyEditor extends React.Component {
                 if (title) title.props.onChange(draft.title);
                 if (draft.payoutType)
                     this.props.setPayoutType(formId, draft.payoutType);
+                if (draft.appType) this.props.setAppType(formId, draft.appType);
                 raw = draft.body;
             }
 
@@ -128,10 +129,11 @@ class ReplyEditor extends React.Component {
                 ts.body.value !== ns.body.value ||
                 (ns.category && ts.category.value !== ns.category.value) ||
                 (ns.title && ts.title.value !== ns.title.value) ||
-                np.payoutType !== tp.payoutType
+                np.payoutType !== tp.payoutType ||
+                np.appType !== tp.appType
             ) {
                 // also prevents saving after parent deletes this information
-                const { formId, payoutType } = np;
+                const { formId, payoutType, appType } = np;
                 const { category, title, body } = ns;
                 const data = {
                     formId,
@@ -139,6 +141,7 @@ class ReplyEditor extends React.Component {
                     category: category ? category.value : undefined,
                     body: body.value,
                     payoutType,
+                    appType,
                 };
 
                 clearTimeout(saveEditorTimeout);
@@ -215,6 +218,7 @@ class ReplyEditor extends React.Component {
             });
             this.setState({ progress: {} });
             this.props.setPayoutType(formId, defaultPayoutType);
+            this.props.setAppType(formId, 'steemcn/0.1');
             if (onCancel) onCancel(e);
         }
     };
@@ -338,6 +342,7 @@ class ReplyEditor extends React.Component {
             successCallback,
             defaultPayoutType,
             payoutType,
+            appType,
         } = this.props;
         const { submitting, valid, handleSubmit } = this.state.replyForm;
         const { postError, titleWarn, rte } = this.state;
@@ -351,6 +356,7 @@ class ReplyEditor extends React.Component {
         const successCallbackWrapper = (...args) => {
             this.setState({ loading: false });
             this.props.setPayoutType(formId, defaultPayoutType);
+            this.props.setAppType(formId, 'steemcn/1.0');
             if (successCallback) successCallback(args);
         };
         const isEdit = type === 'edit';
@@ -367,6 +373,7 @@ class ReplyEditor extends React.Component {
             isStory,
             jsonMetadata,
             payoutType,
+            appType,
             successCallback: successCallbackWrapper,
             errorCallback,
         };
@@ -604,6 +611,27 @@ class ReplyEditor extends React.Component {
                                                         'reply_editor.power_up_100'
                                                     )}
                                             </div>
+                                            <div>
+                                                {tt('g.app')}
+                                                {': '}
+                                                {this.props.appType ==
+                                                    'steemcn/0.1' &&
+                                                    tt(
+                                                        'app_selections.steemcn'
+                                                    )}
+                                                {this.props.appType ==
+                                                    'busy/2.5.4' &&
+                                                    tt('app_selections.busy')}
+                                                {this.props.appType ==
+                                                    'steemcoinpan/0.1' &&
+                                                    tt('app_selections.sct')}
+                                                {this.props.appType ==
+                                                    'steemzzang/0.1' &&
+                                                    tt('app_selections.zzan')}
+                                                {this.props.appType ==
+                                                    'esteem/1.6.0' &&
+                                                    tt('app_selections.esteem')}
+                                            </div>
                                             <a
                                                 href="#"
                                                 onClick={
@@ -802,6 +830,15 @@ export default formId =>
             if (!payoutType) {
                 payoutType = defaultPayoutType;
             }
+            let appType = state.user.getIn([
+                'current',
+                'post',
+                formId,
+                'appType',
+            ]);
+            if (!appType) {
+                appType = 'steemcn/0.1';
+            }
 
             const ret = {
                 ...ownProps,
@@ -810,6 +847,7 @@ export default formId =>
                 username,
                 defaultPayoutType,
                 payoutType,
+                appType,
                 initialValues: { title, body, category },
                 state,
                 formId,
@@ -842,6 +880,13 @@ export default formId =>
                         value: payoutType,
                     })
                 ),
+            setAppType: (formId, appType) =>
+                dispatch(
+                    userActions.set({
+                        key: ['current', 'post', formId, 'appType'],
+                        value: appType,
+                    })
+                ),
             reply: ({
                 category,
                 title,
@@ -855,6 +900,7 @@ export default formId =>
                 type,
                 originalPost,
                 payoutType = '50%',
+                appType = 'steemcn/0.1',
                 state,
                 jsonMetadata,
                 successCallback,
@@ -940,6 +986,9 @@ export default formId =>
                 for (var i in DEFAULT_TAGS) {
                     allCategories = allCategories.add(DEFAULT_TAGS[i]);
                 }
+                if (appType == 'busy/2.5.4') {
+                    allCategories = allCategories.add('busy');
+                }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
                 if (allCategories.size) meta.tags = allCategories.toJS();
@@ -950,9 +999,7 @@ export default formId =>
                 else delete meta.image;
                 if (rtags.links.size) meta.links = rtags.links;
                 else delete meta.links;
-
-                meta.app = 'busy/2.5.6';
-                meta.community = 'steemcn';
+                meta.app = appType;
                 if (isStory) {
                     meta.format = isHtml ? 'html' : 'markdown';
                 }
@@ -998,6 +1045,43 @@ export default formId =>
                             };
                             break;
                         default: // 50% steem power, 50% sd+steem
+                    }
+                    if (!__config.comment_options) {
+                        __config.comment_options = {};
+                    }
+                    switch (appType) {
+                        case 'esteem/1.6.0':
+                            meta.community = 'esteemapp';
+                            __config.comment_options.extensions = [
+                                [
+                                    0,
+                                    {
+                                        beneficiaries: [
+                                            {
+                                                account: 'esteemapp',
+                                                weight: 1000,
+                                            },
+                                        ],
+                                    },
+                                ],
+                            ];
+                            break;
+                        case 'steemcn/0.1':
+                            __config.comment_options.extensions = [
+                                [
+                                    0,
+                                    {
+                                        beneficiaries: [
+                                            {
+                                                account: 'steem-drivers',
+                                                weight: 500,
+                                            },
+                                        ],
+                                    },
+                                ],
+                            ];
+                            break;
+                        default:
                     }
                 }
 

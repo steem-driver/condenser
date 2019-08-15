@@ -14,7 +14,10 @@ class PostAdvancedSettings extends Component {
 
     constructor(props) {
         super();
-        this.state = { payoutType: props.initialPayoutType };
+        this.state = {
+            payoutType: props.initialPayoutType,
+            appType: props.initialAppType,
+        };
         this.initForm(props);
     }
 
@@ -33,23 +36,34 @@ class PostAdvancedSettings extends Component {
         this.setState({ payoutType: event.target.value });
     };
 
+    handleAppChange = event => {
+        this.setState({ appType: event.target.value });
+    };
+
     render() {
         const {
             formId,
             username,
             defaultPayoutType,
             initialPayoutType,
+            initialAppType,
         } = this.props;
-        const { payoutType } = this.state;
+        const { payoutType, appType } = this.state;
         const { submitting, valid, handleSubmit } = this.state.advancedSettings;
         const disabled =
-            submitting || !(valid || payoutType !== initialPayoutType);
+            submitting ||
+            !(
+                valid ||
+                payoutType !== initialPayoutType ||
+                appType != initialAppType
+            );
 
         const form = (
             <form
                 onSubmit={handleSubmit(({ data }) => {
                     this.props.setPayoutType(formId, payoutType);
-                    this.props.hideAdvancedSettings();
+                    this.props.setAppType(formId, appType),
+                        this.props.hideAdvancedSettings();
                 })}
             >
                 <div className="row">
@@ -95,6 +109,47 @@ class PostAdvancedSettings extends Component {
                               : tt('reply_editor.power_up_100')}
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="column">
+                        <h4>
+                            {tt(
+                                'post_advanced_settings_jsx.app_selection_header'
+                            )}
+                        </h4>
+                        <p>
+                            {tt(
+                                'post_advanced_settings_jsx.app_selection_description'
+                            )}
+                        </p>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="small-12 medium-6 large-12 columns">
+                        <select
+                            defaultValue={appType}
+                            onChange={this.handleAppChange}
+                        >
+                            <option value="steemcn/0.1">
+                                {tt('app_selections.steemcn')}
+                            </option>
+                            <option value="steemcoinpan/0.1">
+                                {tt('app_selections.sct')}
+                            </option>
+                            <option value="steemzzang/0.1">
+                                {tt('app_selections.zzan')}
+                            </option>
+                            <option value="busy/2.5.4">
+                                {tt('app_selections.busy')}
+                            </option>
+                            <option value="esteem/1.6.0">
+                                {tt('app_selections.esteem')}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
                 <div className="row">
                     <div className="column">
                         <a href={'/@' + username + '/settings'}>
@@ -104,6 +159,7 @@ class PostAdvancedSettings extends Component {
                         </a>
                     </div>
                 </div>
+
                 <br />
                 <div className="row">
                     <div className="column">
@@ -156,11 +212,18 @@ export default connect(
             formId,
             'payoutType',
         ]);
+        const initialAppType = state.user.getIn([
+            'current',
+            'post',
+            formId,
+            'appType',
+        ]);
         return {
             ...ownProps,
             fields: [],
             defaultPayoutType,
             initialPayoutType,
+            initialAppType,
             username,
             initialValues: {},
         };
@@ -175,6 +238,13 @@ export default connect(
                 userActions.set({
                     key: ['current', 'post', formId, 'payoutType'],
                     value: payoutType,
+                })
+            ),
+        setAppType: (formId, appType) =>
+            dispatch(
+                userActions.set({
+                    key: ['current', 'post', formId, 'appType'],
+                    value: appType,
                 })
             ),
     })

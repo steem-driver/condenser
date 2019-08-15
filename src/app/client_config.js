@@ -34,7 +34,6 @@ export const DEFAULT_TAGS = [
     'neoxian',
     'lassecash',
     'upfundme',
-    'busy',
 ];
 export const RECOMMEND_TAGS = List([
     'cn-reader cn-curation:中文好文',

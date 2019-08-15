@@ -98,6 +98,7 @@
         "request": "request",
         "required": "Required",
         "rewards": "Rewards",
+        "app": "App",
         "save": "Save",
         "saved": "Saved",
         "search": "Search",
@@ -316,6 +317,13 @@
         "markdown_not_supported": "Markdown is not supported here",
         "advanced_settings": "Advanced settings"
     },
+    "app_selections": {
+        "sct": "Steemcoinpan",
+        "zzan": "Steemzzang",
+        "busy": "Busy",
+        "esteem": "Esteem",
+        "steemcn": "SteemCN"
+    },
     "category_selector_jsx": {
         "tag_your_story":
             "Tag (up to 5 tags), the first tag is your main category.",
@@ -336,6 +344,8 @@
         "payout_option_header": "Author rewards",
         "payout_option_description":
             "What type of tokens do you want as rewards from this post?",
+        "app_selection_header": "App Selection",
+        "app_selection_description": "Which app would you like to use?",
         "current_default": "Default",
         "update_default_in_settings": "Update"
     },
