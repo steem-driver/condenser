@@ -287,7 +287,8 @@
         "sct": "Steemcoinpan",
         "zzan": "Steemzzang",
         "busy": "Busy",
-        "esteem": "Esteem"
+        "esteem": "Esteem",
+        "steemcn": "SteemCN"
     },
     "category_selector_jsx": {
         "tag_your_story": "标签(最多20个标签)，第一个标签是您文章的主要类别。",
