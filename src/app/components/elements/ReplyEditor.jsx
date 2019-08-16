@@ -356,7 +356,7 @@ class ReplyEditor extends React.Component {
         const successCallbackWrapper = (...args) => {
             this.setState({ loading: false });
             this.props.setPayoutType(formId, defaultPayoutType);
-            this.props.setAppType(formId, 'steemcn/1.0');
+            this.props.setAppType(formId, 'steemcn/0.1');
             if (successCallback) successCallback(args);
         };
         const isEdit = type === 'edit';
@@ -983,8 +983,15 @@ export default formId =>
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
+                if (appType == 'esteem/1.6.0') {
+                    allCategories = allCategories.add('esteem');
+                    allCategories = allCategories.add('esteem-cn');
+                }
                 for (var i in DEFAULT_TAGS) {
                     allCategories = allCategories.add(DEFAULT_TAGS[i]);
+                }
+                if (isEdit) {
+                    appType = 'busy/2.5.4';
                 }
                 if (appType == 'busy/2.5.4') {
                     allCategories = allCategories.add('busy');
