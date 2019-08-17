@@ -43,6 +43,8 @@ export const RECOMMEND_TAGS = List([
     'cn-hello introduceyourself:自我介绍',
     'cn-activity sct sct-cn sct-freeboard:发起活动',
     'teamcn-homework:新手作业',
+    'lifestyle:生活',
+    'naturalproducts:养生',
     'steemleo sct sct-cn sct-freeboard:投资',
     'creativecoin:艺术',
     'steemace battle iv:游戏',
