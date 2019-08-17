@@ -10,8 +10,8 @@ export const APP_ICON = 'steemcn';
 export const APP_MAX_TAG = 20;
 // FIXME figure out best way to do this on both client and server from env
 // vars. client should read $STM_Config, server should read config package.
-export const APP_URL = 'https://steemcn.herokuapp.com';
-export const APP_DOMAIN = 'steemcn.herokuapp.com';
+export const APP_URL = 'https://www.steemcn.org';
+export const APP_DOMAIN = 'steemcn.org';
 export const TAG_LIST = List([
     'cn',
     'cn-activity',

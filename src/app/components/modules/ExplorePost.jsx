@@ -55,7 +55,7 @@ class ExplorePost extends Component {
         const steemd = 'https://steemd.com' + link;
         const steemdb = 'https://steemdb.com' + link;
         const busy = 'https://busy.org' + link;
-        const steemit = 'https://steemcn.herokuapp.com' + link;
+        const steemit = 'https://www.steemcn.org' + link;
         const steemitmd = '[' + title + '](https://steemit.com' + link + ')';
         let text =
             this.state.copied == true
