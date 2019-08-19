@@ -7,7 +7,7 @@ export const APP_NAME = 'SteemCN';
 export const APP_NAME_LATIN = 'SteemCN';
 export const APP_NAME_UPPERCASE = 'STEEMCN';
 export const APP_ICON = 'steemcn';
-export const APP_MAX_TAG = 20;
+export const APP_MAX_TAG = 25;
 // FIXME figure out best way to do this on both client and server from env
 // vars. client should read $STM_Config, server should read config package.
 export const APP_URL = 'https://www.steemcn.org';
@@ -34,6 +34,9 @@ export const DEFAULT_TAGS = [
     'neoxian',
     'lassecash',
     'upfundme',
+    'sct',
+    'sct-cn',
+    'sct-freeboard',
 ];
 export const RECOMMEND_TAGS = List([
     'cn-reader cn-curation:中文好文',

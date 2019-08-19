@@ -264,7 +264,7 @@
         "exceeds_maximum_length": "超过最大长度(%(maxKb)sKB)",
         "including_the_category": "(包括类别'%(rootCategory)s ')",
         "use_limited_amount_of_tags":
-            "你总共可以标记%(tagsLength)s个标签%(includingCategory)s。请在你的文章分类栏中最多使用20个标签。",
+            "你总共可以标记%(tagsLength)s个标签%(includingCategory)s。请在你的文章分类栏中最多使用25个标签。",
         "are_you_sure_you_want_to_clear_this_form": "你确定要清除这个表格吗?",
         "uploading": "上传",
         "draft_saved": "草稿已保存。",
@@ -291,7 +291,7 @@
         "steemcn": "SteemCN(抽取5%%STEEM收益)"
     },
     "category_selector_jsx": {
-        "tag_your_story": "标签(最多20个标签)，第一个标签是您文章的主要类别。",
+        "tag_your_story": "标签(最多25个标签)，第一个标签是您文章的主要类别。",
         "select_a_tag": "选择一个标签",
         "maximum_tag_length_is_24_characters": "最大标签长度为24个字符",
         "use_limited_amount_of_categories": "请只使用%(amount)s个类别",
