@@ -1039,7 +1039,7 @@ export default formId =>
                 const originalBody = isEdit ? originalPost.body : null;
                 const __config = { originalBody };
                 // Avoid changing payout option during edits #735
-                if (!isEdit) {
+                if (!isEdit && isStory) {
                     switch (payoutType) {
                         case '0%': // decline payout
                             __config.comment_options = {
