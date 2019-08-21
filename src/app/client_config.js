@@ -25,6 +25,7 @@ export const TAG_LIST = List([
     'teamcn-homework',
 ]);
 export const DEFAULT_TAGS = [
+	'cn',
     'palnet',
     'zzan',
     'mediaofficials',
@@ -34,11 +35,10 @@ export const DEFAULT_TAGS = [
     'lassecash',
     'upfundme',
     'sct',
+	'sct-cn',
     'sct-freeboard',
 ];
 export const RECOMMEND_TAGS = List([
-	'cn sct-cn:中文',
-	'sct-en:English',
     'cn-reader cn-curation:中文好文',
     'ocd-resteem:英文好文',
     'cn-voice creativecoin sonicgroove tunes:好声音',
