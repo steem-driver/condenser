@@ -47,6 +47,7 @@ export const RECOMMEND_TAGS = List([
     'cn-activity sct sct-freeboard:发起活动',
     'teamcn-homework:新手作业',
     'lifestyle:生活',
+	'photography:摄影',
     'naturalproducts:养生',
     'steemleo sct sct-freeboard:投资',
     'creativecoin:艺术',
