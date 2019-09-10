@@ -48,6 +48,7 @@ export const RECOMMEND_TAGS = List([
     'teamcn-homework:新手作业',
     'lifestyle:生活',
 	'photography:摄影',
+	'build-it:DIY',
     'naturalproducts:养生',
     'steemleo:投资',
     'creativecoin:艺术',
