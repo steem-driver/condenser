@@ -300,7 +300,10 @@
         "use_spaces_to_separate_tags": "使用空格分隔标签",
         "use_only_allowed_characters": "只使用小写字母、数字和一个破折号",
         "must_start_with_a_letter": "必须从一个字母开始",
-        "must_end_with_a_letter_or_number": "必须以字母或数字结尾"
+        "must_end_with_a_letter_or_number": "必须以字母或数字结尾",
+        "language_tags": "语言标签",
+        "normal_tags": "普通标签（建议放在前五位置）",
+        "scot_tags": "SCOT平台标签"
     },
     "post_advanced_settings_jsx": {
         "payout_option_header": "作者收益",

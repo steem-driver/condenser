@@ -17,7 +17,7 @@ import { OrderedSet } from 'immutable';
 import Remarkable from 'remarkable';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
-import { DEFAULT_TAGS, APP_MAX_TAG, RECOMMEND_TAGS } from 'app/client_config';
+import { DEFAULT_TAGS, APP_MAX_TAG, SCOT_TAGS } from 'app/client_config';
 
 const remarkable = new Remarkable({ html: true, linkify: false, breaks: true });
 
@@ -578,7 +578,7 @@ class ReplyEditor extends React.Component {
                                         disabled={loading}
                                         isEdit={isEdit}
                                         tabIndex={3}
-                                        trending={RECOMMEND_TAGS}
+                                        trending={SCOT_TAGS}
                                     />
                                     <div className="error">
                                         {(category.touched || category.value) &&
