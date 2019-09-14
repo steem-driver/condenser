@@ -12,6 +12,7 @@ export const APP_MAX_TAG = 25;
 // vars. client should read $STM_Config, server should read config package.
 export const APP_URL = 'https://www.steemcn.org';
 export const APP_DOMAIN = 'steemcn.org';
+export const CURATION_ACCOUNT = 'cn-curation';
 export const TAG_LIST = List([
     'cn',
     'cn-activity',
@@ -25,7 +26,7 @@ export const TAG_LIST = List([
     'teamcn-homework',
 ]);
 export const DEFAULT_TAGS = [
-	'cn',
+    'cn',
     'palnet',
     'zzan',
     'mediaofficials',
@@ -35,7 +36,7 @@ export const DEFAULT_TAGS = [
     'lassecash',
     'upfundme',
     'sct',
-	'sct-cn',
+    'sct-cn',
     'sct-freeboard',
 ];
 export const RECOMMEND_TAGS = List([
@@ -47,7 +48,7 @@ export const RECOMMEND_TAGS = List([
     'cn-activity sct sct-freeboard:发起活动',
     'teamcn-homework:新手作业',
     'lifestyle:生活',
-	'photography:摄影',
+    'photography:摄影',
     'naturalproducts:养生',
     'steemleo sct sct-freeboard:投资',
     'creativecoin:艺术',

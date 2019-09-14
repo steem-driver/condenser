@@ -257,7 +257,8 @@
     },
     "main_menu": {
         "hot": "热门",
-        "trending": "流行"
+        "trending": "流行",
+        "recommended": "好文推荐"
     },
     "reply_editor": {
         "shorten_title": "缩短标题",

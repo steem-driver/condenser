@@ -12,6 +12,7 @@ import offchainReducer from './OffchainReducer';
 
 function initReducer(reducer, type) {
     return (state, action) => {
+        console.log('rootreducer:', type);
         if (!state) return reducer(state, action);
 
         // @@redux/INIT server and client init

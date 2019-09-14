@@ -29,6 +29,7 @@ export const defaultState = Map({
 });
 
 export default function reducer(state = defaultState, action = {}) {
+    console.log('type:' + action.type);
     switch (action.type) {
         case '@@router/LOCATION_CHANGE':
             return state.set('location', { pathname: action.payload.pathname });

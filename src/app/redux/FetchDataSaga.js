@@ -71,7 +71,7 @@ export function* fetchState(location_change_action) {
         console.error('~~ Saga fetchState error ~~>', url, error);
         yield put(appActions.steemApiError(error.message));
     }
-
+    console.log('end');
     yield put(appActions.fetchDataEnd());
 }
 
@@ -137,12 +137,14 @@ function* getAccounts(usernames) {
 
 export function* fetchData(action) {
     const { order, author, permlink, accountname, postFilter } = action.payload;
+    console.log('here again');
     let { category } = action.payload;
     if (!category) category = '';
     category = category.toLowerCase();
 
     yield put(globalActions.fetchingData({ order, category }));
     let call_name, args;
+    console.log('order one more time: ', order);
     if (order === 'trending') {
         call_name = 'getDiscussionsByTrendingAsync';
         args = [
@@ -236,6 +238,18 @@ export function* fetchData(action) {
                 start_permlink: permlink,
             },
         ];
+    } else if (order === 'recommended') {
+        // https://github.com/steemit/steem/issues/249
+        console.log(author);
+        call_name = 'getDiscussionsByFeedAsync';
+        args = [
+            {
+                tag: 'cn-curation',
+                limit: constants.FETCH_DATA_BATCH_SIZE,
+                start_author: author,
+                start_permlink: permlink,
+            },
+        ];
     } else {
         // this should never happen. undefined behavior
         call_name = 'getDiscussionsByTrendingAsync';
@@ -249,7 +263,9 @@ export function* fetchData(action) {
         let fetchLimitReached = false;
         let fetchDone = false;
         let batch = 0;
+        console.log('fetchDataEnd');
         while (!fetchDone) {
+            console.log('not done');
             const data = yield call([api, api[call_name]], ...args);
 
             endOfData = data.length < constants.FETCH_DATA_BATCH_SIZE;

@@ -147,7 +147,10 @@ class PostsIndex extends React.Component {
                 );
             }
         } else {
-            posts = this.getPosts(order, category);
+            console.log('order: ' + order);
+            if (order === 'recommended')
+                posts = this.props.accounts.getIn(['cn-curation', 'feed']);
+            else posts = this.getPosts(order, category);
             if (posts && posts.size === 0) {
                 emptyText = (
                     <div>
@@ -163,7 +166,9 @@ class PostsIndex extends React.Component {
         const status = this.props.status
             ? this.props.status.getIn([category || '', order])
             : null;
+        console.log('status:' + status);
         const fetching = (status && status.fetching) || this.props.loading;
+        console.log('fetching: ' + fetching);
         const { showSpam } = this.state;
 
         // If we're at one of the four sort order routes without a tag filter,
@@ -196,6 +201,9 @@ class PostsIndex extends React.Component {
                     break;
                 case 'promoted':
                     page_title = tt('g.promoted');
+                    break;
+                case 'recommended':
+                    page_title = tt('main_menu.recommended');
                     break;
             }
             if (typeof category !== 'undefined') {
