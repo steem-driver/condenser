@@ -288,7 +288,8 @@
         "zzan": "Steemzzang",
         "busy": "Busy",
         "esteem": "Esteem",
-        "steemcn": "SteemCN(抽取5%%STEEM收益)"
+        "steemcn": "SteemCN(抽取5%%STEEM收益)",
+        "krwp": "KRWP"
     },
     "category_selector_jsx": {
         "tag_your_story": "标签(最多25个标签)，第一个标签是您文章的主要类别。",

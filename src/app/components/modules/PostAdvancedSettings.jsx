@@ -143,8 +143,11 @@ class PostAdvancedSettings extends Component {
                             <option value="busy/2.5.4">
                                 {tt('app_selections.busy')}
                             </option>
-                            <option value="esteem/1.6.0">
+                            <option value="esteem/2.2.1-mobile">
                                 {tt('app_selections.esteem')}
+                            </option>
+                            <option value="krwp">
+                                {tt('app_selections.krwp')}
                             </option>
                         </select>
                     </div>
