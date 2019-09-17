@@ -44,7 +44,7 @@ export const SCOT_TAGS = List([
     'photography:摄影',
     'build-it:DIY',
     'naturalproducts:养生',
-    'steemleo ctp:投资',
+    'steemleo:投资',
     'creativecoin:艺术',
     'steemace battle iv:游戏',
     'spt battle steemace iv:Steemmonsters',
