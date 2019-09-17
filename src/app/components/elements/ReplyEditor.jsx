@@ -17,7 +17,7 @@ import { OrderedSet } from 'immutable';
 import Remarkable from 'remarkable';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
-import { DEFAULT_TAGS, APP_MAX_TAG, RECOMMEND_TAGS } from 'app/client_config';
+import { DEFAULT_TAGS, APP_MAX_TAG, SCOT_TAGS } from 'app/client_config';
 
 const remarkable = new Remarkable({ html: true, linkify: false, breaks: true });
 
@@ -578,7 +578,7 @@ class ReplyEditor extends React.Component {
                                         disabled={loading}
                                         isEdit={isEdit}
                                         tabIndex={3}
-                                        trending={RECOMMEND_TAGS}
+                                        trending={SCOT_TAGS}
                                     />
                                     <div className="error">
                                         {(category.touched || category.value) &&
@@ -629,8 +629,10 @@ class ReplyEditor extends React.Component {
                                                     'steemzzang/0.1' &&
                                                     tt('app_selections.zzan')}
                                                 {this.props.appType ==
-                                                    'esteem/1.6.0' &&
+                                                    'esteem/2.2.1-mobile' &&
                                                     tt('app_selections.esteem')}
+                                                {this.props.appType == 'krwp' &&
+                                                    tt('app_selections.krwp')}
                                             </div>
                                             <a
                                                 href="#"
@@ -712,37 +714,37 @@ class ReplyEditor extends React.Component {
                                     </div>
                                 )}
                         </div>
-                        {!loading &&
-                            !rte &&
-                            body.value && (
-                                <div
-                                    className={
-                                        'Preview ' + vframe_section_shrink_class
-                                    }
-                                >
-                                    {!isHtml && (
-                                        <div className="float-right">
-                                            <a
-                                                target="_blank"
-                                                href="https://guides.github.com/features/mastering-markdown/"
-                                                rel="noopener noreferrer"
-                                            >
-                                                {tt(
-                                                    'reply_editor.markdown_styling_guide'
-                                                )}
-                                            </a>
-                                        </div>
-                                    )}
-                                    <h6>{tt('g.preview')}</h6>
-                                    <MarkdownViewer
-                                        text={body.value}
-                                        jsonMetadata={jsonMetadata}
-                                        large={isStory}
-                                        noImage={noImage}
-                                    />
-                                </div>
-                            )}
                     </form>
+                    {!loading &&
+                        !rte &&
+                        body.value && (
+                            <div
+                                className={
+                                    'Preview ' + vframe_section_shrink_class
+                                }
+                            >
+                                {!isHtml && (
+                                    <div className="float-right">
+                                        <a
+                                            target="_blank"
+                                            href="https://guides.github.com/features/mastering-markdown/"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {tt(
+                                                'reply_editor.markdown_styling_guide'
+                                            )}
+                                        </a>
+                                    </div>
+                                )}
+                                <h6>{tt('g.preview')}</h6>
+                                <MarkdownViewer
+                                    text={body.value}
+                                    jsonMetadata={jsonMetadata}
+                                    large={isStory}
+                                    noImage={noImage}
+                                />
+                            </div>
+                        )}
                 </div>
             </div>
         );
@@ -912,7 +914,7 @@ export default formId =>
 
                 const isEdit = type === 'edit';
                 const isNew = /^submit_/.test(type);
-
+                let selection = appType;
                 // Wire up the current and parent props for either an Edit or a Submit (new post)
                 //'submit_story', 'submit_comment', 'edit'
                 const linkProps = isNew
@@ -983,9 +985,13 @@ export default formId =>
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-                if (appType == 'esteem/1.6.0') {
+                if (appType == 'esteem/2.2.1-mobile') {
                     allCategories = allCategories.add('esteem');
                     allCategories = allCategories.add('esteem-cn');
+                }
+                if (appType == 'krwp') {
+                    appType = 'steemcoinpan/0.1';
+                    selection = 'krwp';
                 }
                 for (var i in DEFAULT_TAGS) {
                     allCategories = allCategories.add(DEFAULT_TAGS[i]);
@@ -1056,8 +1062,8 @@ export default formId =>
                     if (!__config.comment_options) {
                         __config.comment_options = {};
                     }
-                    switch (appType) {
-                        case 'esteem/1.6.0':
+                    switch (selection) {
+                        case 'esteem/2.2.1-mobile':
                             meta.community = 'esteemapp';
                             __config.comment_options.extensions = [
                                 [
@@ -1082,6 +1088,21 @@ export default formId =>
                                             {
                                                 account: 'steem-drivers',
                                                 weight: 500,
+                                            },
+                                        ],
+                                    },
+                                ],
+                            ];
+                            break;
+                        case 'krwp':
+                            __config.comment_options.extensions = [
+                                [
+                                    0,
+                                    {
+                                        beneficiaries: [
+                                            {
+                                                account: 'sct.krwp',
+                                                weight: 10000,
                                             },
                                         ],
                                     },

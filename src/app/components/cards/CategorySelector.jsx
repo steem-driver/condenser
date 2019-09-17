@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import shouldComponentUpdate from 'app/utils/shouldComponentUpdate';
 import { cleanReduxInput } from 'app/utils/ReduxForms';
 import tt from 'counterpart';
-import { APP_MAX_TAG } from 'app/client_config';
+import {
+    APP_MAX_TAG,
+    SCOT_TAGS,
+    NORMAL_TAGS,
+    LANGUAGE_TAGS,
+} from 'app/client_config';
 
 const MAX_TAG = APP_MAX_TAG || 10;
 
@@ -54,11 +59,37 @@ class CategorySelector extends React.Component {
                 }, 300);
             } else this.props.onChange(e);
         };
+        this.categoryTag = (categories, impProps) => {
+            return categories.map((c, idx) => {
+                return (
+                    <span>
+                        <a
+                            key={idx}
+                            values={c.split(':')[0]}
+                            onClick={() => {
+                                const values = c.split(':')[0].split(' ');
+                                let tags = '';
+                                values.forEach(value => {
+                                    if (!impProps.value.includes(value)) {
+                                        tags = (tags + ' ' + value).trim();
+                                    }
+                                });
+                                impProps.onChange(
+                                    `${impProps.value} ${tags}`.trim()
+                                );
+                            }}
+                        >
+                            #{c.split(':')[1]}
+                        </a>{' '}
+                        &nbsp;
+                    </span>
+                );
+            });
+        };
     }
     render() {
         const { trending, tabIndex, disabled } = this.props;
-        const categories = trending.slice(0, 20)
-        .filterNot(c => validateCategory(c));
+        const categories = trending.filterNot(c => validateCategory(c));
         const { createCategory } = this.state;
 
         const categoryOptions = categories.map((c, idx) => (
@@ -69,42 +100,30 @@ class CategorySelector extends React.Component {
 
         const impProps = { ...this.props };
         const categoryInput = (
-            <span>
-                <input
-                    type="text"
-                    {...cleanReduxInput(impProps)}
-                    ref="categoryRef"
-                    tabIndex={tabIndex}
-                    disabled={disabled}
-                    autoCapitalize="none"
-                />
-                {categories.map((c, idx) => {
-                    return (
-                        <span>
-                            <a
-                                key={idx}
-                                values={c.split(':')[0]}
-                                onClick={() => {	
-								const  values=c.split(':')[0].split(" ");
-								let tags ='';
-									values.forEach((value) =>{
-										  if (!impProps.value.includes(value)) {
-											  tags=(tags+" "+value).trim();                                      
-                                    }
-									});
-									  impProps.onChange(
-                                            `${impProps.value} ${tags}`.trim()
-                                        );
-                                  
-                                }}
-                            >
-                                #{c.split(':')[1]}
-                            </a>{' '}
-                            &nbsp;
-                        </span>
-                    );
-                })}
-            </span>
+            <div>
+                <span>
+                    <input
+                        type="text"
+                        {...cleanReduxInput(impProps)}
+                        ref="categoryRef"
+                        tabIndex={tabIndex}
+                        disabled={disabled}
+                        autoCapitalize="none"
+                    />
+                </span>
+                {tt('category_selector_jsx.language_tags')}
+                <br />
+                {this.categoryTag(LANGUAGE_TAGS, impProps)}
+                <br />
+                {tt('category_selector_jsx.normal_tags')}
+                <br />
+                {this.categoryTag(NORMAL_TAGS, impProps)}
+                <br />
+                {tt('category_selector_jsx.scot_tags')}
+                <br />
+                {this.categoryTag(SCOT_TAGS, impProps)}
+                <br />
+            </div>
         );
 
         const categorySelect = (
