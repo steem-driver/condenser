@@ -629,7 +629,7 @@ class ReplyEditor extends React.Component {
                                                     'steemzzang/0.1' &&
                                                     tt('app_selections.zzan')}
                                                 {this.props.appType ==
-                                                    'esteem/2.2.1-mobile' &&
+                                                    'esteem/2.2.2-mobile' &&
                                                     tt('app_selections.esteem')}
                                                 {this.props.appType == 'krwp' &&
                                                     tt('app_selections.krwp')}
@@ -985,7 +985,7 @@ export default formId =>
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-                if (appType == 'esteem/2.2.1-mobile') {
+                if (appType == 'esteem/2.2.2-mobile') {
                     allCategories = allCategories.add('esteem');
                     allCategories = allCategories.add('esteem-cn');
                 }
@@ -1063,7 +1063,7 @@ export default formId =>
                         __config.comment_options = {};
                     }
                     switch (selection) {
-                        case 'esteem/2.2.1-mobile':
+                        case 'esteem/2.2.2-mobile':
                             meta.community = 'esteemapp';
                             __config.comment_options.extensions = [
                                 [
