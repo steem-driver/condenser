@@ -1072,7 +1072,7 @@ export default formId =>
                                         beneficiaries: [
                                             {
                                                 account: 'esteemapp',
-                                                weight: 1000,
+                                                weight: 300,
                                             },
                                         ],
                                     },
