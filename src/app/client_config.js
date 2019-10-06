@@ -28,6 +28,7 @@ export const DEFAULT_TAGS = [
     'cn',
     'palnet',
     'zzan',
+    'dblog',
     'mediaofficials',
     'actnearn',
     'marlians',
