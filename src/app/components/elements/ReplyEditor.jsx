@@ -218,7 +218,7 @@ class ReplyEditor extends React.Component {
             });
             this.setState({ progress: {} });
             this.props.setPayoutType(formId, defaultPayoutType);
-            this.props.setAppType(formId, 'steemcn/0.1');
+            this.props.setAppType(formId, 'steemcoinpan/0.1');
             if (onCancel) onCancel(e);
         }
     };
@@ -356,7 +356,7 @@ class ReplyEditor extends React.Component {
         const successCallbackWrapper = (...args) => {
             this.setState({ loading: false });
             this.props.setPayoutType(formId, defaultPayoutType);
-            this.props.setAppType(formId, 'steemcn/0.1');
+            this.props.setAppType(formId, 'steemcoinpan/0.1');
             if (successCallback) successCallback(args);
         };
         const isEdit = type === 'edit';
@@ -615,16 +615,13 @@ class ReplyEditor extends React.Component {
                                                 {tt('g.app')}
                                                 {': '}
                                                 {this.props.appType ==
-                                                    'steemcn/0.1' &&
+                                                    'steemcoinpan/0.1' &&
                                                     tt(
                                                         'app_selections.steemcn'
                                                     )}
                                                 {this.props.appType ==
                                                     'busy/2.5.4' &&
                                                     tt('app_selections.busy')}
-                                                {this.props.appType ==
-                                                    'steemcoinpan/0.1' &&
-                                                    tt('app_selections.sct')}
                                                 {this.props.appType ==
                                                     'steemzzang/0.1' &&
                                                     tt('app_selections.zzan')}
@@ -839,7 +836,7 @@ export default formId =>
                 'appType',
             ]);
             if (!appType) {
-                appType = 'steemcn/0.1';
+                appType = 'steemcoinpan/0.1';
             }
 
             const ret = {
@@ -902,7 +899,7 @@ export default formId =>
                 type,
                 originalPost,
                 payoutType = '50%',
-                appType = 'steemcn/0.1',
+                appType = 'steemcoinpan/0.1',
                 state,
                 jsonMetadata,
                 successCallback,
@@ -993,6 +990,11 @@ export default formId =>
                     appType = 'steemcoinpan/0.1';
                     selection = 'krwp';
                 }
+                if (appType == 'steemcoinpan/0.1') {
+                    allCategories = allCategories.add('sct');
+                    allCategories = allCategories.add('sct-cn');
+                    allCategories = allCategories.add('sct-freeboard');
+                }
                 for (var i in DEFAULT_TAGS) {
                     allCategories = allCategories.add(DEFAULT_TAGS[i]);
                 }
@@ -1001,6 +1003,9 @@ export default formId =>
                 }
                 if (appType == 'busy/2.5.4') {
                     allCategories = allCategories.add('busy');
+                    allCategories = allCategories.add('sct');
+                    allCategories = allCategories.add('sct-cn');
+                    allCategories = allCategories.add('sct-freeboard');
                 }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
@@ -1079,7 +1084,7 @@ export default formId =>
                                 ],
                             ];
                             break;
-                        case 'steemcn/0.1':
+                        case 'steemcoinpan/0.1':
                             __config.comment_options.extensions = [
                                 [
                                     0,
@@ -1087,7 +1092,7 @@ export default formId =>
                                         beneficiaries: [
                                             {
                                                 account: 'steem-drivers',
-                                                weight: 500,
+                                                weight: 300,
                                             },
                                         ],
                                     },

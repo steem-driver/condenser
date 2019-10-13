@@ -35,9 +35,6 @@ export const DEFAULT_TAGS = [
     'neoxian',
     'lassecash',
     'upfundme',
-    'sct',
-    'sct-cn',
-    'sct-freeboard',
 ];
 export const LANGUAGE_TAGS = List(['cn:中文']);
 export const SCOT_TAGS = List([
