@@ -1003,9 +1003,9 @@ export default formId =>
                 }
                 if (appType == 'busy/2.5.4') {
                     allCategories = allCategories.add('busy');
-                    allCategories = allCategories.add('sct');
-                    allCategories = allCategories.add('sct-cn');
-                    allCategories = allCategories.add('sct-freeboard');
+                }
+                if (!allCategories.includes('iv')) {
+                    allCategories = allCategories.add('actnearn');
                 }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};

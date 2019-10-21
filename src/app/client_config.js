@@ -25,12 +25,10 @@ export const TAG_LIST = List([
     'teamcn-homework',
 ]);
 export const DEFAULT_TAGS = [
-    'cn',
     'palnet',
     'zzan',
     'dblog',
     'mediaofficials',
-    'actnearn',
     'marlians',
     'neoxian',
     'lassecash',
