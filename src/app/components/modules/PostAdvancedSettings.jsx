@@ -137,6 +137,9 @@ class PostAdvancedSettings extends Component {
                             <option value="steemzzang/0.1">
                                 {tt('app_selections.zzan')}
                             </option>
+                            <option value="steemleo/0.1">
+                                {tt('app_selections.leo')}
+                            </option>
                             <option value="busy/2.5.4">
                                 {tt('app_selections.busy')}
                             </option>

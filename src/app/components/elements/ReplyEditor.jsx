@@ -626,6 +626,9 @@ class ReplyEditor extends React.Component {
                                                     'steemzzang/0.1' &&
                                                     tt('app_selections.zzan')}
                                                 {this.props.appType ==
+                                                    'steemleo/0.1' &&
+                                                    tt('app_selections.leo')}    
+                                                {this.props.appType ==
                                                     'esteem/2.2.2-mobile' &&
                                                     tt('app_selections.esteem')}
                                                 {this.props.appType == 'krwp' &&
@@ -985,6 +988,9 @@ export default formId =>
                 if (appType == 'esteem/2.2.2-mobile') {
                     allCategories = allCategories.add('esteem');
                     allCategories = allCategories.add('esteem-cn');
+                }
+                if (appType == 'steemleo/0.1') {
+                    allCategories = allCategories.add('steemleo');
                 }
                 if (appType == 'krwp') {
                     appType = 'steemcoinpan/0.1';
