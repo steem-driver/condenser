@@ -28,7 +28,7 @@ const SidebarLinks = ({ username }) => (
                     </a>
                 </li>
                 <li className="c-sidebar__list-item">
-                    <a className="c-sidebar__link" href="/@steemitblog">
+                    <a className="c-sidebar__link" href="/@steem-drivers">
                         {tt('g.read_offical_blog')}
                     </a>
                 </li>
