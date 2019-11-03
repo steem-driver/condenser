@@ -543,7 +543,7 @@ export default class UserProfile extends React.Component {
             };
         }
         let title='';
-        if(rep < 55){
+        if(rep >=25 && rep < 55){
             title=tt('user_profile.elementary');
         }else if(rep >=55 && rep < 60 ){
             title=tt('user_profile.middle_school');
@@ -554,7 +554,11 @@ export default class UserProfile extends React.Component {
         }else if(rep >=65 && rep <70){
             title=tt('user_profile.college');
     
-        }else{
+        }else if(rep<25){
+            title = tt('user_profile.kindergarden')
+        }
+        
+        else{
             title=tt('user_profile.graduated');
     
         }
