@@ -16,7 +16,7 @@ import Follow from 'app/components/elements/Follow';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import PostsList from 'app/components/cards/PostsList';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
-import { repLog10 } from 'app/utils/ParsersAndFormatters.js';
+import { repLog10,repLog10Fixed } from 'app/utils/ParsersAndFormatters.js';
 import Tooltip from 'app/components/elements/Tooltip';
 import DateJoinWrapper from 'app/components/elements/DateJoinWrapper';
 import tt from 'counterpart';
@@ -195,9 +195,7 @@ export default class UserProfile extends React.Component {
                 followingCount = totalCounts.following_count;
             }
         }
-
-        const rep = repLog10(account.reputation);
-
+        const rep = repLog10Fixed(account.reputation);
         const isMyAccount = username === account.name;
         let tab_content = null;
 
