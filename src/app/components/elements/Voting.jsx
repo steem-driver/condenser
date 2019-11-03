@@ -560,6 +560,12 @@ class Voting extends React.Component {
         let voters_list = null;
         if (showList && total_votes > 0 && active_votes) {
             const avotes = active_votes.toJS();
+            let total_rshares = 0;
+            // sum of rshares
+            for (let v = 0; v < avotes.length; ++v) {
+                const { rshares } = avotes[v];
+                total_rshares += Number(rshares);
+            }
             avotes.sort(
                 (a, b) =>
                     Math.abs(parseInt(a.rshares)) >
@@ -573,14 +579,20 @@ class Voting extends React.Component {
                 v < avotes.length && voters.length < MAX_VOTES_DISPLAY;
                 ++v
             ) {
-                const { percent, voter } = avotes[v];
+                const { percent, voter, rshares } = avotes[v];
                 const sign = Math.sign(percent);
                 if (sign === 0) continue;
                 voters.push({
-                    value: (sign > 0 ? '+ ' : '- ') + voter,
+                    value:
+                        (sign > 0 ? '+ ' : '- ') +
+                        voter +
+                        ': $' +(payout * rshares / total_rshares).toFixed(3)+' ('+
+                        percent / 100  +'%)',
                     link: '/@' + voter,
                 });
+    
             }
+           
             if (total_votes > voters.length) {
                 voters.push({
                     value: (
