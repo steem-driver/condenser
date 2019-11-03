@@ -359,7 +359,12 @@
             "other": "%(count)s个帖子"
         },
         "hide_resteems": "Hide Resteems",
-        "show_all": "Show All"
+        "show_all": "Show All",
+        "elementary":"小学生",
+        "middle_school":"中学生",
+        "high_school":"高中生",
+        "college":"大学生",
+        "graduated":"社会青年"
     },
     "post_jsx": {
         "now_showing_comments_with_low_ratings": "正在显示低评级的评论",

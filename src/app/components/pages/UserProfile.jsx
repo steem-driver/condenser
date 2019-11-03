@@ -544,6 +544,22 @@ export default class UserProfile extends React.Component {
                     'url(' + proxifyImageUrl(cover_image, '2048x512') + ')',
             };
         }
+        let title='';
+        if(rep < 55){
+            title=tt('user_profile.elementary');
+        }else if(rep >=55 && rep < 60 ){
+            title=tt('user_profile.middle_school');
+    
+        }else if(rep >=60 && rep <65){
+            title=tt('user_profile.high_school');
+    
+        }else if(rep >=65 && rep <70){
+            title=tt('user_profile.college');
+    
+        }else{
+            title=tt('user_profile.graduated');
+    
+        }
 
         return (
             <div className="UserProfile">
@@ -567,7 +583,7 @@ export default class UserProfile extends React.Component {
                                 )}
                             >
                                 <span className="UserProfile__rep">
-                                    ({rep})
+                                    ({rep} {title})
                                 </span>
                             </Tooltip>
                             {AffiliationMap[accountname] ? (

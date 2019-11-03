@@ -7,7 +7,7 @@ export default ({ value }) => {
         return null;
     }
     return (
-        <span className="Reputation" title={tt('g.reputation')}>
+        <span className="Reputation" title={tt('g.reputation')} >        
             ({value})
         </span>
     );

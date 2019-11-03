@@ -407,7 +407,12 @@
             "other": "%(count)s posts"
         },
         "hide_resteems": "Hide Resteems",
-        "show_all": "Show All"
+        "show_all": "Show All",
+        "elementary":"Elementary",
+        "middle_school":"Middle School",
+        "high_school":"High School",
+        "college":"College",
+        "graduated":"Graduated"
     },
     "post_jsx": {
         "now_showing_comments_with_low_ratings":
