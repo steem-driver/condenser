@@ -57,6 +57,7 @@ class Voting extends React.Component {
         active_votes: PropTypes.object,
         loggedin: PropTypes.bool,
         post_obj: PropTypes.object,
+        current_account: PropTypes.object,
         enable_slider: PropTypes.bool,
         voting: PropTypes.bool,
         price_per_steem: PropTypes.number,
@@ -224,11 +225,47 @@ class Voting extends React.Component {
             enable_slider,
             is_comment,
             post_obj,
+            current_account,
             price_per_steem,
             sbd_print_rate,
             username,
         } = this.props;
 
+        const voting_manabar = current_account
+        ? current_account.get('voting_manabar')
+        : 0;
+        const current_mana = voting_manabar?voting_manabar.get('current_mana'):0;
+        const last_update_time = voting_manabar
+        ? voting_manabar.get('last_update_time')
+        : 0;
+        const vesting_shares = current_account
+            ? current_account.get('vesting_shares')
+            : 0.0;
+
+        const delegated_vesting_shares = current_account
+            ? current_account.get('delegated_vesting_shares')
+            : 0.0;
+
+        const vesting_withdraw_rate = current_account
+            ? current_account.get('vesting_withdraw_rate')
+            : 0.0;
+
+        const received_vesting_shares = current_account
+            ? current_account.get('received_vesting_shares')
+            : 0.0;
+
+
+        const net_vesting_shares =
+            vesting_shares - delegated_vesting_shares + received_vesting_shares;
+
+
+        let elapsed = (new Date())/1000 - last_update_time;
+        let maxMana = net_vesting_shares * 1000000;
+        let currentMana = parseFloat(current_mana)+elapsed*maxMana/432000;
+        if (currentMana > maxMana) {
+            currentMana = maxMana;
+        }
+        let currentVp = currentMana * 100 / maxMana;
         const {
             votingUp,
             votingDown,
@@ -236,7 +273,6 @@ class Voting extends React.Component {
             showWeightDir,
             myVote,
         } = this.state;
-
         const votingUpActive = voting && votingUp;
         const votingDownActive = voting && votingDown;
 
@@ -294,6 +330,14 @@ class Voting extends React.Component {
                         onChangeComplete={this.storeSliderWeight(up)}
                         tooltip={false}
                     />
+                     {currentVp ? (
+                        <div className="voting-power-display">
+                             {tt('voting_jsx.voting_power')}:{' '}
+                            {currentVp.toFixed(1)}%
+                        </div>
+                    ) : (
+                        ''
+                    )}
                 </span>
             );
         };
@@ -736,6 +780,7 @@ export default connect(
             enable_slider,
             is_comment,
             post_obj: post,
+            current_account,
             loggedin: username != null,
             voting,
             price_per_steem,
