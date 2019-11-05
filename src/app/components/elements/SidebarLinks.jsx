@@ -32,6 +32,11 @@ const SidebarLinks = ({ username }) => (
                         {tt('g.read_offical_blog')}
                     </a>
                 </li>
+                <li className="c-sidebar__list-item">
+                    <a className="c-sidebar__link" href="https://steem-guides.github.io/links/zh">
+                        {tt('g.useful_links')}
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

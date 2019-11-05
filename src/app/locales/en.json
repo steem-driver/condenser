@@ -251,7 +251,9 @@
             "warning":
                 "Legitimate users, including employees of Steemit Inc., will never ask you for a private key or master password.",
             "checkbox": "I understand"
-        }
+        },
+        "useful_links":"Useful Links"
+
     },
     "navigation": {
         "about": "About Steemit, Inc.",

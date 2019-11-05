@@ -226,7 +226,8 @@
             "zero": "没有回复",
             "one": "%(count)s回复",
             "other": "%(count)s个回复"
-        }
+        },
+        "useful_links":"常用链接"
     },
     "navigation": {
         "about": "关于",
