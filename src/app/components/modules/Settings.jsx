@@ -18,8 +18,9 @@ class Settings extends React.Component {
             successMessage: '',
             progress: {},
         };
+		this.initForm(props);
         this.onNsfwPrefChange = this.onNsfwPrefChange.bind(this);
-        this.initForm(props);
+        
     }
     onNsfwPrefChange(e) {
         this.props.setUserPreferences({
@@ -229,7 +230,6 @@ class Settings extends React.Component {
         } = this.state;
 
         const {  
-            walletUrl,
             follow,
             account,
             isOwnAccount,
@@ -242,23 +242,6 @@ class Settings extends React.Component {
             <div className="Settings">
                 {isOwnAccount && (
                     <div className="row">
-                        <div className="small-12 columns">
-                            <p>
-                                To update your public profile, visit{' '}
-                                <a
-                                    href={
-                                        walletUrl +
-                                        '/@' +
-                                        account.name +
-                                        '/settings'
-                                    }
-                                >
-                                    Steemitwallet.com
-                                </a>.
-                            </p>
-                        </div>
-                        <hr />
-                        <br />
                         <div className="small-12 medium-4 large-4 columns">
                             <h4>{tt('settings_jsx.preferences')}</h4>
 
@@ -368,9 +351,6 @@ class Settings extends React.Component {
                             </div>
                         </div>
                     )}
-                <br />
-                <br />
-
                 <div className="row">
                     <form
                         onSubmit={this.handleSubmitForm}
@@ -531,12 +511,11 @@ export default connect(
             account:state.global.getIn(['accounts', accountname]).toJS(),
             metaData,
             isOwnAccount:
-                state.user.getIn(['current', 'username'], '') == accountname,
+            state.user.getIn(['current', 'username'], '') == accountname,
             accountname,
             profile,
             follow: state.global.get('follow'),
             user_preferences: state.app.get('user_preferences').toJS(),
-            walletUrl: state.app.get('walletUrl'),
             ...ownProps,
         };
     },
