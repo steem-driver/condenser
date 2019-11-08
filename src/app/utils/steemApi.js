@@ -8,7 +8,33 @@ export async function getStateAsync(url) {
 
     const raw = await api.getStateAsync(path);
 
-    const cleansed = stateCleaner(raw);
+    if (!raw.accounts) {
+        raw.accounts = {};
+    }
+    const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
+    if (urlParts) {
+        const account = urlParts[1];
+        if (!raw.accounts[account]) {
+            raw.accounts[account] = await getAccount(account);
+        }
+        if (!raw.props) {
+            raw.props = await getGlobalProps();
+        }
+        if (!raw.content) {
+            raw.content = {};
+        }
+    }
 
-    return cleansed;
+    //const cleansed = stateCleaner(raw);
+
+    return raw;
+}
+
+async function getAccount(account) {
+    const accounts = await api.getAccountsAsync([account]);
+    return accounts && accounts.length > 0 ? accounts[0] : {};
+}
+async function getGlobalProps() {
+    const gprops = await api.getDynamicGlobalPropertiesAsync();
+    return gprops;
 }
