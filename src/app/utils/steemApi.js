@@ -23,8 +23,11 @@ export async function getStateAsync(url) {
         if (!raw.content) {
             raw.content = {};
         }
+        if(!raw.accounts[account].transfer_history.length){
+            raw.accounts[account].transfer_history = await getAccountHistory(account);
+        }
+    
     }
-
     const cleansed = stateCleaner(raw);
 
     return cleansed;
@@ -37,4 +40,9 @@ async function getAccount(account) {
 async function getGlobalProps() {
     const gprops = await api.getDynamicGlobalPropertiesAsync();
     return gprops;
+}
+async function getAccountHistory(account){
+    const history = await api.getAccountHistoryAsync(account,-1,1000);
+    let transfers = history.filter( tx => tx[1].op[0] === 'transfer' )
+    return transfers && transfers.length > 0 ? transfers : {};
 }
