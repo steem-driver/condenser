@@ -25,9 +25,9 @@ export async function getStateAsync(url) {
         }
     }
 
-    //const cleansed = stateCleaner(raw);
+    const cleansed = stateCleaner(raw);
 
-    return raw;
+    return cleansed;
 }
 
 async function getAccount(account) {
