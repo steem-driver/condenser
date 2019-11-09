@@ -80,7 +80,7 @@
         "re": "RE",
         "re_to": "RE: %(topic)s",
         "read_offical_blog": "SteemCN Blog",
-        "new_user":"New to steemCN?",
+        "new_user": "New to steemCN?",
         "recent_password": "Recent Password",
         "receive": "Receive ",
         "remove": "Remove",
@@ -252,8 +252,7 @@
                 "Legitimate users, including employees of Steemit Inc., will never ask you for a private key or master password.",
             "checkbox": "I understand"
         },
-        "useful_links":"Useful Links"
-
+        "useful_links": "Useful Links"
     },
     "navigation": {
         "about": "About Steemit, Inc.",
@@ -411,12 +410,12 @@
         },
         "hide_resteems": "Hide Resteems",
         "show_all": "Show All",
-        "kindergarden":"Kindergarden",
-        "elementary":"Elementary",
-        "middle_school":"Middle School",
-        "high_school":"High School",
-        "college":"College",
-        "graduated":"Graduated"
+        "kindergarden": "Kindergarden",
+        "elementary": "Elementary",
+        "middle_school": "Middle School",
+        "high_school": "High School",
+        "college": "College",
+        "graduated": "Graduated"
     },
     "post_jsx": {
         "now_showing_comments_with_low_ratings":
@@ -431,7 +430,7 @@
             "reputation": "Reputation"
         }
     },
-	 "market_jsx": {
+    "market_jsx": {
         "action": "Action",
         "date_created": "Date Created",
         "last_price": "Last price",
@@ -556,7 +555,9 @@
         "converted_VESTING_TOKEN_can_be_sent_to_yourself_but_can_not_transfer_again":
             "Converted %(VESTING_TOKEN)s can be sent to yourself or someone else but can not transfer again without converting back to %(LIQUID_TOKEN)s.",
         "part_of_your_steem_power_is_currently_delegated":
-            "Part of %(user_name)s's STEEM POWER is currently delegated. Delegation is donated for influence or to help new users perform actions on steemit. Your delegation amount can fluctuate."
+            "Part of %(user_name)s's STEEM POWER is currently delegated. Delegation is donated for influence or to help new users perform actions on steemit. Your delegation amount can fluctuate.",
+        "steem_engine_tokens":
+            "<a href='https://steem-engine.com' class='external-link' target='_blank'>Steem Engine</a> is a smart contracts side-chain platform for the Steem blockchain."
     },
     "promote_post_jsx": {
         "promote_post": "Promote Post",

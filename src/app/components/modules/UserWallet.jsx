@@ -27,8 +27,11 @@ import {
 import * as transactionActions from 'app/redux/TransactionReducer';
 import * as globalActions from 'app/redux/GlobalReducer';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
+import classNames from 'classnames';
+import FormattedAssetTokens from 'app/components/elements/FormattedAssetTokens';
 
 const assetPrecision = 1000;
+const LIQUID_TOKEN_UPPERCASE = 'SCT';
 
 class UserWallet extends React.Component {
     constructor() {
@@ -102,9 +105,18 @@ class UserWallet extends React.Component {
         const gprops = this.props.gprops.toJS();
 
         if (!account) return null;
+        const allTokenBalances = account.has('token_balances')
+            ? account.get('token_balances').toJS()
+            : [
+                  {
+                      balance: '0',
+                      stake: '0',
+                      pendingUnstake: '0',
+                  },
+              ];
+
         let vesting_steem = vestingSteem(account.toJS(), gprops);
         let delegated_steem = delegatedSteem(account.toJS(), gprops);
-
         let isMyAccount =
             current_user &&
             current_user.get('username') === account.get('name');
@@ -688,6 +700,25 @@ class UserWallet extends React.Component {
                         {estimate_output}
                     </div>
                 </div>
+                {/* Steem Engine Tokens */}
+                {allTokenBalances && allTokenBalances.length ? (
+                    <div className="UserWallet__balance row">
+                        <div className="column small-12">
+                            Steem Engine Token
+                            <FormattedHTMLMessage
+                                className="secondary"
+                                id="tips_js.steem_engine_tokens"
+                            />
+                        </div>
+                        <div className="column small-12">
+                            <FormattedAssetTokens
+                                items={allTokenBalances}
+                                isMyAccount={isMyAccount}
+                            />
+                        </div>
+                    </div>
+                ) : null}
+
                 <div className="UserWallet__balance row">
                     <div className="column small-12">
                         {isWithdrawScheduled && (
