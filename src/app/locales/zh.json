@@ -72,7 +72,7 @@
         "promoted": "推广",
         "re": "回复",
         "read_offical_blog": "SteemCN博客",
-        "new_user":"新手吗?",
+        "new_user": "新手吗?",
         "re_to": "回复%(topic)s",
         "recent_password": "最近的密码",
         "receive": "收到",
@@ -227,7 +227,7 @@
             "one": "%(count)s回复",
             "other": "%(count)s个回复"
         },
-        "useful_links":"常用链接"
+        "useful_links": "常用链接"
     },
     "navigation": {
         "about": "关于",
@@ -331,7 +331,7 @@
         "you_are_viewing_a_single_comments_thread_from":
             "你正在查看单个评论的主题"
     },
-	"market_jsx": {
+    "market_jsx": {
         "action": "功能",
         "date_created": "创建日期",
         "last_price": "上一个成交价格",
@@ -391,12 +391,12 @@
         },
         "hide_resteems": "Hide Resteems",
         "show_all": "Show All",
-        "kindergarden":"幼儿园",
-        "elementary":"小学生",
-        "middle_school":"中学生",
-        "high_school":"高中生",
-        "college":"大学生",
-        "graduated":"社会青年"
+        "kindergarden": "幼儿园",
+        "elementary": "小学生",
+        "middle_school": "中学生",
+        "high_school": "高中生",
+        "college": "大学生",
+        "graduated": "社会青年"
     },
     "post_jsx": {
         "now_showing_comments_with_low_ratings": "正在显示低评级的评论",
@@ -487,7 +487,9 @@
         "converted_VESTING_TOKEN_can_be_sent_to_yourself_but_can_not_transfer_again":
             "%(VESTING_TOKEN)s可以转给你自己或其他人，但是只有转回%(LIQUID_TOKEN)s后，才可以进行下一次转账。",
         "part_of_your_steem_power_is_currently_delegated":
-            "有一部分STEEM POWER是代理给你使用的。代理的STEEM POWER是为了帮助新用户在steemit上进行操作。你被代理的数量可能会有波动。"
+            "有一部分STEEM POWER是代理给你使用的。代理的STEEM POWER是为了帮助新用户在steemit上进行操作。你被代理的数量可能会有波动。",
+        "steem_engine_tokens":
+            "<a href='https://steem-engine.netlify.com' class='external-link' target='_blank'>Steem Engine</a> 是基于STEEM侧链的智能合约平台"
     },
     "promote_post_jsx": {
         "promote_post": "推广帖子",
