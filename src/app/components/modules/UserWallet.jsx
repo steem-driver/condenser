@@ -31,7 +31,6 @@ import classNames from 'classnames';
 import FormattedAssetTokens from 'app/components/elements/FormattedAssetTokens';
 
 const assetPrecision = 1000;
-const LIQUID_TOKEN_UPPERCASE = 'SCT';
 
 class UserWallet extends React.Component {
     constructor() {
@@ -105,7 +104,7 @@ class UserWallet extends React.Component {
         const gprops = this.props.gprops.toJS();
 
         if (!account) return null;
-        const allTokenBalances = account.has('token_balances')
+        let allTokenBalances = account.has('token_balances')
             ? account.get('token_balances').toJS()
             : [
                   {
@@ -114,7 +113,9 @@ class UserWallet extends React.Component {
                       pendingUnstake: '0',
                   },
               ];
-
+        allTokenBalances = allTokenBalances.filter(
+            token => token.balance > 0 || token.stake > 0
+        );
         let vesting_steem = vestingSteem(account.toJS(), gprops);
         let delegated_steem = delegatedSteem(account.toJS(), gprops);
         let isMyAccount =
