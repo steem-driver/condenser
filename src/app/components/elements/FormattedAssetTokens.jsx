@@ -45,7 +45,7 @@ const FormattedAssetToken = ({ item, isMyAccount }) => {
     return (
         <Tooltip
             className={classNames('label', {
-                reward: isMyAccount && pendingToken,
+                reward: isMyAccount,
             })}
             t={tooltip.join(', ')}
         >
