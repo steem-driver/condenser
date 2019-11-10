@@ -80,9 +80,20 @@ class UserWallet extends React.Component {
         this.shouldComponentUpdate = shouldComponentUpdate(this, 'UserWallet');
     }
 
-    handleClaimRewards = account => {
+    handleClaimRewards = (account,rewards_str,pendingTokenSymbols) => {
         this.setState({ claimInProgress: true }); // disable the claim button
+        if(rewards_str){
         this.props.claimRewards(account);
+        }
+        if(pendingTokenSymbols){
+        this.props.claimAllTokensRewards(account,pendingTokenSymbols);
+        }
+    };
+
+    handleClaimAllTokensRewards = (account,pendingTokenSymbols) => {
+        this.setState({ claimInProgress: true }); // disable the claim button
+
+        this.props.claimAllTokensRewards(account, pendingTokenSymbols);
     };
 
     render() {
@@ -116,6 +127,26 @@ class UserWallet extends React.Component {
         allTokenBalances = allTokenBalances.filter(
             token => token.balance > 0 || token.stake > 0
         );
+        const allTokenStatus = account.get('all_token_status').toJS();
+        const pendingTokens = Object.values(allTokenStatus)
+            .filter(e => parseFloat(e.pending_token));
+        const pendingTokenSymbols = pendingTokens
+            .map(({ symbol }) => symbol);
+        let pendingTokenString ='';
+        if(pendingTokens){
+        pendingTokens.forEach(pendingToken=>{
+            let symbol = pendingToken.symbol;
+            let precision = pendingToken.precision;
+            let token = pendingToken.pending_token/Math.pow(10, precision);
+            pendingTokenString +=`${token} ${symbol} `;
+        })
+        //console.log(pendingTokens);
+    }
+        //console.log(pendingTokenSymbols);
+
+
+
+
         let vesting_steem = vestingSteem(account.toJS(), gprops);
         let delegated_steem = delegatedSteem(account.toJS(), gprops);
         let isMyAccount =
@@ -489,19 +520,25 @@ class UserWallet extends React.Component {
         }
 
         let claimbox;
-        if (current_user && rewards_str && isMyAccount) {
+        if (current_user && (rewards_str || pendingTokenString) && isMyAccount) {
             claimbox = (
                 <div className="row">
                     <div className="columns small-12">
                         <div className="UserWallet__claimbox">
-                            <span className="UserWallet__claimbox-text">
-                                Your current rewards: {rewards_str}
-                            </span>
+                        {rewards_str && (<span className="UserWallet__claimbox-text">
+                                Your current rewards: {rewards_str} 
+                            </span>)}
+                            {pendingTokenString && (<span className="UserWallet__claimbox-text">
+                                Steem Engine Tokens: {pendingTokenString}
+                               
+                            </span>)}
                             <button
                                 disabled={this.state.claimInProgress}
                                 className="button"
                                 onClick={e => {
+                                    this.handleClaimAllTokensRewards(account,pendingTokenSymbols);
                                     this.handleClaimRewards(account);
+                                    
                                 }}
                             >
                                 {tt('userwallet_jsx.redeem_rewards')}
@@ -835,6 +872,27 @@ export default connect(
             const name = 'changePassword';
             dispatch(globalActions.remove({ key: name }));
             dispatch(globalActions.showDialog({ name, params: { username } }));
+        },
+        claimAllTokensRewards: (account, symbols) => {
+            const username = account.get('name');
+            const successCallback = () => {
+                dispatch(
+                    globalActions.getState({ url: `@${username}/transfers` })
+                );
+            };
+            const json = symbols.map(symbol => ({ symbol }));
+            const operation = {
+                id: 'scot_claim_token',
+                required_posting_auths: [username],
+                json: JSON.stringify(json),
+            };
+            dispatch(
+                transactionActions.broadcastOperation({
+                    type: 'custom_json',
+                    operation,
+                    successCallback,
+                })
+            );
         },
     })
 )(UserWallet);
