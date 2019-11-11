@@ -37,6 +37,7 @@ class UserWallet extends React.Component {
         super();
         this.state = {
             claimInProgress: false,
+            claimTokensInProgress: false,
         };
         this.onShowDepositSteem = e => {
             if (e && e.preventDefault) e.preventDefault();
@@ -80,22 +81,15 @@ class UserWallet extends React.Component {
         this.shouldComponentUpdate = shouldComponentUpdate(this, 'UserWallet');
     }
 
-    handleClaimRewards = (account,rewards_str,pendingTokenSymbols) => {
+    handleClaimRewards = (account) => {
         this.setState({ claimInProgress: true }); // disable the claim button
-        if(rewards_str){
         this.props.claimRewards(account);
-        }
-        if(pendingTokenSymbols){
-        this.props.claimAllTokensRewards(account,pendingTokenSymbols);
-        }
+        
     };
-
     handleClaimAllTokensRewards = (account,pendingTokenSymbols) => {
-        this.setState({ claimInProgress: true }); // disable the claim button
-
-        this.props.claimAllTokensRewards(account, pendingTokenSymbols);
+        this.setState({ claimTokensInProgress: true }); // disable the claim button
+        this.props.claimAllTokensRewards(account,pendingTokenSymbols);
     };
-
     render() {
         const {
             onShowDepositSteem,
@@ -138,7 +132,7 @@ class UserWallet extends React.Component {
             let symbol = pendingToken.symbol;
             let precision = pendingToken.precision;
             let token = pendingToken.pending_token/Math.pow(10, precision);
-            pendingTokenString +=`${token} ${symbol} `;
+            pendingTokenString +=`${token} ${symbol} | `;
         })
         //console.log(pendingTokens);
     }
@@ -520,25 +514,43 @@ class UserWallet extends React.Component {
         }
 
         let claimbox;
-        if (current_user && (rewards_str || pendingTokenString) && isMyAccount) {
+        if (current_user && (rewards_str) && isMyAccount) {
             claimbox = (
                 <div className="row">
                     <div className="columns small-12">
                         <div className="UserWallet__claimbox">
-                        {rewards_str && (<span className="UserWallet__claimbox-text">
+                        <span className="UserWallet__claimbox-text">
                                 Your current rewards: {rewards_str} 
-                            </span>)}
-                            {pendingTokenString && (<span className="UserWallet__claimbox-text">
-                                Steem Engine Tokens: {pendingTokenString}
-                               
-                            </span>)}
+                            </span>
+                    
                             <button
                                 disabled={this.state.claimInProgress}
                                 className="button"
                                 onClick={e => {
-                                    this.handleClaimAllTokensRewards(account,pendingTokenSymbols);
-                                    this.handleClaimRewards(account);
-                                    
+                                    this.handleClaimRewards(account);                                    
+                                }}
+                            >
+                                {tt('userwallet_jsx.redeem_rewards')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        let claimAllTokens;
+        if (current_user && (pendingTokenString) && isMyAccount) {
+            claimAllTokens = (
+                <div className="row">
+                    <div className="columns small-12">
+                        <div className="UserWallet__claimbox">
+                        <span className="UserWallet__claimbox-text">
+                        Your current SCOT rewards: {pendingTokenString}
+                            </span>
+                            <button
+                                disabled={this.state.claimTokensInProgress}
+                                className="button"
+                                onClick={e => {
+                                    this.handleClaimAllTokensRewards(account,pendingTokenSymbols);                                    
                                 }}
                             >
                                 {tt('userwallet_jsx.redeem_rewards')}
@@ -549,9 +561,11 @@ class UserWallet extends React.Component {
             );
         }
 
+
         return (
             <div className="UserWallet">
                 {claimbox}
+                {claimAllTokens}
                 <div className="row">
                     <div className="columns small-10 medium-12 medium-expand">
                         {/*isMyAccount ? (
