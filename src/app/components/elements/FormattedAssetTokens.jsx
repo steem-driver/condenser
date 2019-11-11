@@ -5,7 +5,9 @@ import {
     parsePayoutAmount,
 } from 'app/utils/ParsersAndFormatters';
 import Tooltip from 'app/components/elements/Tooltip';
+import DropdownMenu from 'app/components/elements/DropdownMenu';
 import classNames from 'classnames';
+import tt from 'counterpart';
 
 const FormattedAssetToken = ({ item, isMyAccount }) => {
     const tooltip = [];
@@ -41,8 +43,42 @@ const FormattedAssetToken = ({ item, isMyAccount }) => {
     if (parseFloat(pendingUnstake)) {
         tooltip.push(`PendingUnstake: ${pendingUnstake}`);
     }
+    let steem_menu = [
+        {
+            value: tt('userwallet_jsx.transfer'),
+            link: '#',
+           
+        },
+        {
+            value: 'Stake',
+            link: '#',
+           
+        },
+        {
+            value: 'Delegate',
+            link: '#',
+           
+        },
+        {
+            value: 'Undelegate',
+            link: '#',
+           
+        },
+        {
+            value: 'Buy',
+            link: '#',
+           
+        },
+        {
+            value: 'Sell',
+            link: '#',
+           
+        },
+    ];
+    let balanceString = `${balance} (${stake}) ${symbol}`;
 
     return (
+
         <Tooltip
             className={classNames('label', {
                 reward: isMyAccount,
@@ -50,7 +86,13 @@ const FormattedAssetToken = ({ item, isMyAccount }) => {
             t={tooltip.join(', ')}
         >
             <span role="button" tabIndex="0">
-                <span className="integer">{balance[0]}</span>
+            <DropdownMenu
+                className="Wallet_dropdown"
+                                items={steem_menu}
+                                el="li"
+                                selected={balanceString}
+                            />
+                {/* <span className="integer">{balance[0]}</span>
                 {parseFloat(balance[1]) ? (
                     <span className="decimal">{balance[1]}</span>
                 ) : null}
@@ -62,7 +104,7 @@ const FormattedAssetToken = ({ item, isMyAccount }) => {
                         ) : null})
                     </span>
                 ) : null}{' '}
-                <span className="asset">{symbol}</span>
+                <span className="asset">{symbol}</span> */}
             </span>
         </Tooltip>
     );

@@ -26,3 +26,4 @@ const FormattedAsset = ({ amount, asset, classname }) => {
 };
 
 export default FormattedAsset;
+
