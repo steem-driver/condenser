@@ -32,19 +32,32 @@ export async function getStateAsync(url) {
                 account
             );
         }
-        const [tokenBalances] = await Promise.all([
+        const [tokenBalances,tokenStatuses] = await Promise.all([
             // modified to get all tokens. - by anpigon
             ssc.find('tokens', 'balances', {
                 account,
             }),
+            getScotAccountDataAsync(account),
         ]);
         if (tokenBalances) {
             raw.accounts[account].token_balances = tokenBalances;
         }
+        if (tokenStatuses) {
+            raw.accounts[account].all_token_status = tokenStatuses;
+        }
     }
+    console.log(raw);
     const cleansed = stateCleaner(raw);
 
     return cleansed;
+}
+
+export async function getScotDataAsync(path, params) {
+    return callApi(`https://scot-api.steem-engine.com/${path}`, params);
+}
+
+export async function getScotAccountDataAsync(account) {
+    return getScotDataAsync(`@${account}`, { v: new Date().getTime() });
 }
 
 async function getAccount(account) {
@@ -59,4 +72,18 @@ async function getAccountHistory(account) {
     const history = await api.getAccountHistoryAsync(account, -1, 1000);
     let transfers = history.filter(tx => tx[1].op[0] === 'transfer');
     return transfers && transfers.length > 0 ? transfers : {};
+}
+async function callApi(url, params) {
+    return await axios({
+        url,
+        method: 'GET',
+        params,
+    })
+        .then(response => {
+            return response.data;
+        })
+        .catch(err => {
+            console.error(`Could not fetch data, url: ${url}`);
+            return {};
+        });
 }
