@@ -26,18 +26,14 @@ export const TAG_LIST = List([
     'teamcn-homework',
 ]);
 export const DEFAULT_TAGS = [
-    'cn',
     'palnet',
     'zzan',
+    'dblog',
     'mediaofficials',
-    'actnearn',
     'marlians',
     'neoxian',
     'lassecash',
     'upfundme',
-    'sct',
-    'sct-cn',
-    'sct-freeboard',
 ];
 export const LANGUAGE_TAGS = List(['cn:中文']);
 export const SCOT_TAGS = List([
@@ -45,7 +41,7 @@ export const SCOT_TAGS = List([
     'photography:摄影',
     'build-it:DIY',
     'naturalproducts:养生',
-    'steemleo ctp:投资',
+    'steemleo:投资',
     'creativecoin:艺术',
     'steemace battle iv:游戏',
     'spt battle steemace iv:Steemmonsters',
@@ -91,6 +87,8 @@ export const DEBT_TOKEN_SHORT = 'SBD';
 export const DEFAULT_LANGUAGE = 'en'; // used on application internationalization bootstrap
 export const DEFAULT_CURRENCY = 'USD';
 export const ALLOWED_CURRENCIES = ['USD'];
+export const FRACTION_DIGITS = 2; // default amount of decimal digits
+export const FRACTION_DIGITS_MARKET = 3; // accurate amount of deciaml digits (example: used in market)
 
 // meta info
 export const TWITTER_HANDLE = '@steemit';

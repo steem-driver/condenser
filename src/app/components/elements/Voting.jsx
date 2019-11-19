@@ -57,6 +57,7 @@ class Voting extends React.Component {
         active_votes: PropTypes.object,
         loggedin: PropTypes.bool,
         post_obj: PropTypes.object,
+        current_account: PropTypes.object,
         enable_slider: PropTypes.bool,
         voting: PropTypes.bool,
         price_per_steem: PropTypes.number,
@@ -224,11 +225,47 @@ class Voting extends React.Component {
             enable_slider,
             is_comment,
             post_obj,
+            current_account,
             price_per_steem,
             sbd_print_rate,
             username,
         } = this.props;
 
+        const voting_manabar = current_account
+        ? current_account.get('voting_manabar')
+        : 0;
+        const current_mana = voting_manabar?voting_manabar.get('current_mana'):0;
+        const last_update_time = voting_manabar
+        ? voting_manabar.get('last_update_time')
+        : 0;
+        const vesting_shares = current_account
+            ? current_account.get('vesting_shares')
+            : 0.0;
+
+        const delegated_vesting_shares = current_account
+            ? current_account.get('delegated_vesting_shares')
+            : 0.0;
+
+        const vesting_withdraw_rate = current_account
+            ? current_account.get('vesting_withdraw_rate')
+            : 0.0;
+
+        const received_vesting_shares = current_account
+            ? current_account.get('received_vesting_shares')
+            : 0.0;
+
+
+        const net_vesting_shares =
+            vesting_shares - delegated_vesting_shares + received_vesting_shares;
+
+
+        let elapsed = (new Date())/1000 - last_update_time;
+        let maxMana = net_vesting_shares * 1000000;
+        let currentMana = parseFloat(current_mana)+elapsed*maxMana/432000;
+        if (currentMana > maxMana) {
+            currentMana = maxMana;
+        }
+        let currentVp = currentMana * 100 / maxMana;
         const {
             votingUp,
             votingDown,
@@ -236,7 +273,6 @@ class Voting extends React.Component {
             showWeightDir,
             myVote,
         } = this.state;
-
         const votingUpActive = voting && votingUp;
         const votingDownActive = voting && votingDown;
 
@@ -248,6 +284,43 @@ class Voting extends React.Component {
             return (
                 <span>
                     <div className="weight-display">{s + b / 100}%</div>
+                    <div id="btn_group">
+                    <button
+                            id="weight-left"
+                            onClick={this.handleButtonWeightChange(up, 1000)}
+                        >
+                             {' '}
+                            10%{' '}
+                        </button>
+                        <button
+                            id="weight-center"
+                            onClick={this.handleButtonWeightChange(up, 2500)}
+                        >
+                             {' '}
+                            25%{' '}
+                        </button>
+                        <button
+                            id="weight-center"
+                            onClick={this.handleButtonWeightChange(up, 5000)}
+                        >
+                              {' '}
+                            50%{' '}
+                        </button>
+                        <button
+                            id="weight-center"
+                            onClick={this.handleButtonWeightChange(up, 7500)}
+                        >
+                            {' '}
+                            75%{' '}
+                        </button>
+                        <button
+                            id="weight-right"
+                            onClick={this.handleButtonWeightChange(up, 10000)}
+                        >
+                             {' '}
+                            100%{' '}
+                        </button>
+                    </div>
                     <Slider
                         min={100}
                         max={MAX_WEIGHT}
@@ -257,7 +330,43 @@ class Voting extends React.Component {
                         onChangeComplete={this.storeSliderWeight(up)}
                         tooltip={false}
                     />
+                     {currentVp ? (
+                        <div className="voting-power-display">
+                             {tt('voting_jsx.voting_power')}:{' '}
+                            {currentVp.toFixed(1)}%
+                        </div>
+                    ) : (
+                        ''
+                    )}
                 </span>
+            );
+        };
+
+        this.handleButtonWeightChange = (up, weight) => e => {
+            let w;
+            if (up) {
+                w = {
+                    up: weight,
+                    down: this.state.sliderWeight.down,
+                };
+            } else {
+                w = {
+                    up: this.state.sliderWeight.up,
+                    down: weight,
+                };
+            }
+            this.setState({ sliderWeight: w });
+
+            const { username, is_comment } = this.props;
+            console.log(username);
+
+            localStorage.setItem(
+                'voteWeight' +
+                    (up ? '' : 'Down') +
+                    '-' +
+                    username +
+                    (is_comment ? '-comment' : ''),
+                weight
             );
         };
 
@@ -495,6 +604,12 @@ class Voting extends React.Component {
         let voters_list = null;
         if (showList && total_votes > 0 && active_votes) {
             const avotes = active_votes.toJS();
+            let total_rshares = 0;
+            // sum of rshares
+            for (let v = 0; v < avotes.length; ++v) {
+                const { rshares } = avotes[v];
+                total_rshares += Number(rshares);
+            }
             avotes.sort(
                 (a, b) =>
                     Math.abs(parseInt(a.rshares)) >
@@ -508,14 +623,20 @@ class Voting extends React.Component {
                 v < avotes.length && voters.length < MAX_VOTES_DISPLAY;
                 ++v
             ) {
-                const { percent, voter } = avotes[v];
+                const { percent, voter, rshares } = avotes[v];
                 const sign = Math.sign(percent);
                 if (sign === 0) continue;
                 voters.push({
-                    value: (sign > 0 ? '+ ' : '- ') + voter,
+                    value:
+                        (sign > 0 ? '+ ' : '- ') +
+                        voter +
+                        ': $' +(payout * rshares / total_rshares).toFixed(3)+' ('+
+                        percent / 100  +'%)',
                     link: '/@' + voter,
                 });
+    
             }
+           
             if (total_votes > voters.length) {
                 voters.push({
                     value: (
@@ -659,6 +780,7 @@ export default connect(
             enable_slider,
             is_comment,
             post_obj: post,
+            current_account,
             loggedin: username != null,
             voting,
             price_per_steem,

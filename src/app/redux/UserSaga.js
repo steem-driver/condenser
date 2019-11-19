@@ -215,6 +215,8 @@ function* usernamePasswordLogin2({
                 delegated_vesting_shares: account.get(
                     'delegated_vesting_shares'
                 ),
+                vesting_withdraw_rate: account.get('vesting_withdraw_rate'),
+                voting_manabar: account.get('voting_manabar'),
             })
         );
         return;
@@ -379,6 +381,8 @@ function* usernamePasswordLogin2({
                     delegated_vesting_shares: account.get(
                         'delegated_vesting_shares'
                     ),
+                    vesting_withdraw_rate: account.get('vesting_withdraw_rate'),
+                    voting_manabar: account.get('voting_manabar'),
                 })
             );
         } else {
@@ -393,6 +397,8 @@ function* usernamePasswordLogin2({
                     delegated_vesting_shares: account.get(
                         'delegated_vesting_shares'
                     ),
+                    vesting_withdraw_rate: account.get('vesting_withdraw_rate'),
+                    voting_manabar: account.get('voting_manabar'),
                 })
             );
         }
@@ -441,6 +447,8 @@ function* usernamePasswordLogin2({
                         delegated_vesting_shares: account.get(
                             'delegated_vesting_shares'
                         ),
+                        vesting_withdraw_rate: account.get('vesting_withdraw_rate'),
+                        voting_manabar: account.get('voting_manabar'),
                     })
                 );
             } else {
