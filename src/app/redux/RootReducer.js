@@ -12,7 +12,6 @@ import offchainReducer from './OffchainReducer';
 
 function initReducer(reducer, type) {
     return (state, action) => {
-        console.log('rootreducer:', type);
         if (!state) return reducer(state, action);
 
         // @@redux/INIT server and client init
@@ -38,7 +37,6 @@ function initReducer(reducer, type) {
 
         if (action.type === '@@router/LOCATION_CHANGE' && type === 'global') {
             state = state.set('pathname', action.payload.pathname);
-            // console.log(action.type, type, action, state.toJS())
         }
 
         return reducer(state, action);

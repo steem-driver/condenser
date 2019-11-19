@@ -78,8 +78,6 @@ export default function reducer(state = defaultState, action = {}) {
             state = state.set('postCategory', postCategory);
         }
     }
-    console.log('action type:' + action.type);
-
     switch (action.type) {
         case SET_COLLAPSED: {
             return state.withMutations(map => {
@@ -90,7 +88,6 @@ export default function reducer(state = defaultState, action = {}) {
         }
 
         case RECEIVE_STATE: {
-            console.log('payload:' + payload);
             let new_state = fromJS(payload);
             if (new_state.has('content')) {
                 const content = new_state.get('content').withMutations(c => {
@@ -291,7 +288,6 @@ export default function reducer(state = defaultState, action = {}) {
                 }
                 // category is either "blog", "feed", "comments", or "recent_replies" (respectively) -- and all posts are keyed under current profile
                 const key = ['accounts', account, newCategory];
-                console.log(key);
                 new_state = state.updateIn(key, List(), list => {
                     return list.withMutations(posts => {
                         data.forEach(value => {
@@ -331,8 +327,6 @@ export default function reducer(state = defaultState, action = {}) {
                 newOrder = 'by_feed';
                 newCategory = 'feed';
             }
-            console.log(newCategory);
-            console.log(newOrder);
             new_state = new_state.updateIn(
                 ['status', newCategory || '', newOrder],
                 () => {

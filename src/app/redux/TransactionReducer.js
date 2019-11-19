@@ -20,7 +20,6 @@ const defaultState = fromJS({
 
 export default function reducer(state = defaultState, action) {
     const payload = action.payload;
-    console.log('TransactionReducer action type:', action.type);
     switch (action.type) {
         case CONFIRM_OPERATION: {
             const operation = fromJS(payload.operation);

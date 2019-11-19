@@ -62,7 +62,6 @@ const defaultState = fromJS({
 
 export default function reducer(state = defaultState, action) {
     const payload = action.payload;
-    console.log('userReducer:', action.type);
     switch (action.type) {
         case SHOW_LOGIN: {
             let operation, loginDefault;

@@ -10,8 +10,9 @@ export async function getStateAsync(url) {
     // strip off query string
     const path = url.split('?')[0];
     let raw = await api.getStateAsync(path);
-    if (path === '/recommended/')
+    if (path === '/recommended/' || path === '/recommended'){
         raw = await api.getStateAsync('/@cn-curation/feed');
+    }
     if (!raw.accounts) {
         raw.accounts = {};
     }

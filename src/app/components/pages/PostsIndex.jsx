@@ -69,9 +69,15 @@ class PostsIndex extends React.Component {
             category,
             order = constants.DEFAULT_SORT_ORDER,
         } = this.props.routeParams;
+        
         if (category === 'feed') {
             accountname = order.slice(1);
             order = 'by_feed';
+        }
+        if(order==='recommended'){
+            accountname = 'cn-curation';
+            order = 'by_feed';
+            category='feed';
         }
         if (isFetchingOrRecentlyUpdated(this.props.status, order, category))
             return;
@@ -147,7 +153,6 @@ class PostsIndex extends React.Component {
                 );
             }
         } else {
-            console.log('order: ' + order);
             if (order === 'recommended')
                 posts = this.props.accounts.getIn(['cn-curation', 'feed']);
             else posts = this.getPosts(order, category);
@@ -166,9 +171,7 @@ class PostsIndex extends React.Component {
         const status = this.props.status
             ? this.props.status.getIn([category || '', order])
             : null;
-        console.log('status:' + status);
         const fetching = (status && status.fetching) || this.props.loading;
-        console.log('fetching: ' + fetching);
         const { showSpam } = this.state;
 
         // If we're at one of the four sort order routes without a tag filter,

@@ -328,7 +328,6 @@ export async function serverRender(
                 `${promotedPost.author}/${promotedPost.permlink}`
             ] = promotedPost;
         });
-        console.log('UniversalRender');
         server_store = createStore(rootReducer, {
             app: initialState.app,
             global: onchain,
