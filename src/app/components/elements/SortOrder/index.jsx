@@ -51,9 +51,9 @@ const SortOrder = ({ topic, sortOrder, horizontal, pathname }) => {
                 link: `/hot/${tag}`,
             },
             {
-                value: 'promoted',
-                label: tt('g.promoted'),
-                link: `/promoted/${tag}`,
+                value: 'recommended',
+                label: tt('main_menu.recommended'),
+                link: `/recommended/${tag}`,
             },
         ];
     };

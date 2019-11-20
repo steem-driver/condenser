@@ -328,7 +328,6 @@ export async function serverRender(
                 `${promotedPost.author}/${promotedPost.permlink}`
             ] = promotedPost;
         });
-
         server_store = createStore(rootReducer, {
             app: initialState.app,
             global: onchain,
@@ -399,6 +398,7 @@ export async function serverRender(
  * @param {*} initialState
  */
 export function clientRender(initialState) {
+    console.log('Universal client render');
     const sagaMiddleware = createSagaMiddleware();
     const store = createStore(
         rootReducer,

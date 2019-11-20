@@ -12,6 +12,7 @@ export const APP_MAX_TAG = 25;
 // vars. client should read $STM_Config, server should read config package.
 export const APP_URL = 'https://www.steemcn.org';
 export const APP_DOMAIN = 'steemcn.org';
+export const CURATION_ACCOUNT = 'cn-curators';
 export const TAG_LIST = List([
     'cn',
     'cn-activity',

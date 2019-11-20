@@ -14,6 +14,9 @@ import * as appActions from './AppReducer';
 import constants from './constants';
 import { fromJS, Map, Set } from 'immutable';
 import { getStateAsync } from 'app/utils/steemApi';
+import {CURATION_ACCOUNT } from 'app/client_config';
+
+
 
 const REQUEST_DATA = 'fetchDataSaga/REQUEST_DATA';
 const GET_CONTENT = 'fetchDataSaga/GET_CONTENT';
@@ -71,7 +74,6 @@ export function* fetchState(location_change_action) {
         console.error('~~ Saga fetchState error ~~>', url, error);
         yield put(appActions.steemApiError(error.message));
     }
-
     yield put(appActions.fetchDataEnd());
 }
 
@@ -231,6 +233,16 @@ export function* fetchData(action) {
         call_name = 'getDiscussionsByCommentsAsync';
         args = [
             {
+                limit: constants.FETCH_DATA_BATCH_SIZE,
+                start_author: author,
+                start_permlink: permlink,
+            },
+        ];
+    } else if (order === 'recommended') {
+        call_name = 'getDiscussionsByFeedAsync';
+        args = [
+            {
+                tag: CURATION_ACCOUNT,
                 limit: constants.FETCH_DATA_BATCH_SIZE,
                 start_author: author,
                 start_permlink: permlink,

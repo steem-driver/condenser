@@ -358,8 +358,6 @@ class Voting extends React.Component {
             this.setState({ sliderWeight: w });
 
             const { username, is_comment } = this.props;
-            console.log(username);
-
             localStorage.setItem(
                 'voteWeight' +
                     (up ? '' : 'Down') +
