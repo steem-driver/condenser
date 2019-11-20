@@ -14,6 +14,9 @@ import * as appActions from './AppReducer';
 import constants from './constants';
 import { fromJS, Map, Set } from 'immutable';
 import { getStateAsync } from 'app/utils/steemApi';
+import {CURATION_ACCOUNT } from 'app/client_config';
+
+
 
 const REQUEST_DATA = 'fetchDataSaga/REQUEST_DATA';
 const GET_CONTENT = 'fetchDataSaga/GET_CONTENT';
@@ -239,7 +242,7 @@ export function* fetchData(action) {
         call_name = 'getDiscussionsByFeedAsync';
         args = [
             {
-                tag: 'cn-curation',
+                tag: CURATION_ACCOUNT,
                 limit: constants.FETCH_DATA_BATCH_SIZE,
                 start_author: author,
                 start_permlink: permlink,

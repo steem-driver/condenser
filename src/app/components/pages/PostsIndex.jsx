@@ -20,7 +20,8 @@ import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
-import { TAG_LIST } from 'app/client_config';
+import { TAG_LIST,CURATION_ACCOUNT } from 'app/client_config';
+
 
 class PostsIndex extends React.Component {
     static propTypes = {
@@ -75,7 +76,7 @@ class PostsIndex extends React.Component {
             order = 'by_feed';
         }
         if(order==='recommended'){
-            accountname = 'cn-curation';
+            accountname = CURATION_ACCOUNT;
             order = 'by_feed';
             category='feed';
         }
@@ -154,7 +155,7 @@ class PostsIndex extends React.Component {
             }
         } else {
             if (order === 'recommended')
-                posts = this.props.accounts.getIn(['cn-curation', 'feed']);
+                posts = this.props.accounts.getIn([CURATION_ACCOUNT, 'feed']);
             else posts = this.getPosts(order, category);
             if (posts && posts.size === 0) {
                 emptyText = (

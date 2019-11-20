@@ -3,6 +3,8 @@ import resolveRoute from 'app/ResolveRoute';
 import { emptyContent } from 'app/redux/EmptyState';
 import { contentStats } from 'app/utils/StateFunctions';
 import constants from './constants';
+import { CURATION_ACCOUNT } from 'app/client_config';
+
 
 export const emptyContentMap = Map(emptyContent);
 
@@ -283,7 +285,7 @@ export default function reducer(state = defaultState, action = {}) {
                 var account = accountname;
                 var newCategory = category;
                 if (order === 'recommended') {
-                    account = 'cn-curation';
+                    account = CURATION_ACCOUNT;
                     newCategory = 'feed';
                 }
                 // category is either "blog", "feed", "comments", or "recent_replies" (respectively) -- and all posts are keyed under current profile

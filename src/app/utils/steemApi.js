@@ -3,6 +3,8 @@ import { api } from '@steemit/steem-js';
 import stateCleaner from 'app/redux/stateCleaner';
 import axios from 'axios';
 import SSC from 'sscjs';
+import {CURATION_ACCOUNT } from 'app/client_config';
+
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
 
@@ -11,7 +13,7 @@ export async function getStateAsync(url) {
     const path = url.split('?')[0];
     let raw = await api.getStateAsync(path);
     if (path === '/recommended/' || path === '/recommended'){
-        raw = await api.getStateAsync('/@cn-curation/feed');
+        raw = await api.getStateAsync('/@'+CURATION_ACCOUNT+'/feed');
     }
     if (!raw.accounts) {
         raw.accounts = {};
