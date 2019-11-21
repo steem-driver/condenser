@@ -526,8 +526,7 @@ class Voting extends React.Component {
             if (max_payout > 0) {
                 payoutItems.push({
                     value:
-                        tt('voting_jsx.breakdown') +
-                        ': ' +
+                        '(' +
                         formatDecimal(pending_payout_printed_sbd).join('') +
                         ' ' +
                         DEBT_TOKEN_SHORT +
@@ -542,7 +541,7 @@ class Voting extends React.Component {
                             : '') +
                         formatDecimal(pending_payout_sp).join('') +
                         ' ' +
-                        INVEST_TOKEN_SHORT,
+                        INVEST_TOKEN_SHORT+')',
                 });
             }
             payoutItems.push({ value: payoutDate });
