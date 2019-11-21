@@ -306,17 +306,6 @@ class PostsIndex extends React.Component {
                         username={this.props.username}
                         categories={categories}
                     />
-                    <small>
-                        <a
-                            className="c-sidebar__more-link"
-                            onClick={this.onShowSpam}
-                        >
-                            {showSpam
-                                ? tt('g.next_3_strings_together.show_less')
-                                : tt('g.next_3_strings_together.show_more')}
-                        </a>
-                        {' ' + tt('g.next_3_strings_together.value_posts')}
-                    </small>
                     {this.props.gptEnabled && allowAdsOnContent ? (
                         <div>
                             <div className="sidebar-ad">
