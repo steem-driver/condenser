@@ -344,22 +344,29 @@ class ReplyEditor extends React.Component {
             payoutType,
             appType,
         } = this.props;
-        const { submitting, valid, handleSubmit } = this.state.replyForm;
+        const {
+            submitting,
+            valid,
+            handleSubmit,
+            resetForm,
+        } = this.state.replyForm;
         const { postError, titleWarn, rte } = this.state;
         const { progress, noClipboardData } = this.state;
         const disabled = submitting || !valid;
         const loading = submitting || this.state.loading;
-
+        const isEdit = type === 'edit';
         const errorCallback = estr => {
             this.setState({ postError: estr, loading: false });
         };
         const successCallbackWrapper = (...args) => {
+            if (!isEdit) {
+                resetForm();
+            }
             this.setState({ loading: false });
             this.props.setPayoutType(formId, defaultPayoutType);
             this.props.setAppType(formId, 'steemcoinpan/0.1');
             if (successCallback) successCallback(args);
         };
-        const isEdit = type === 'edit';
         const isHtml = rte || isHtmlTest(body.value);
         const replyParams = {
             author,
