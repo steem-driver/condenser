@@ -544,6 +544,20 @@ class Voting extends React.Component {
                         INVEST_TOKEN_SHORT+')',
                 });
             }
+            // add beneficiary info. 
+            const beneficiaries = post_obj.get('beneficiaries');
+            if (beneficiaries) {
+                beneficiaries.forEach(function(key) {
+                    payoutItems.push({
+                        value:
+                            key.get('account') +
+                            ': ' +
+                            (parseFloat(key.get('weight')) / 100).toFixed(2) +
+                            '%',
+                        link: '/@' + key.get('account'),
+                    });
+                });
+            }
             payoutItems.push({ value: payoutDate });
             if (warnZeroPayout !== '') {
                 payoutItems.push({ value: warnZeroPayout });
