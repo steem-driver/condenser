@@ -637,6 +637,7 @@
         "profile_website": "网站",
         "upload_thumbnail":"上传封面",
         "thumbnail_url":"帖子封面的网址",
+        "thumbnail_description":"选择这篇帖子的封面. 如果没有选择，帖子的第一个图片将默认为帖子封面",
         "saved": "已保存!"
     },
     "transfer_jsx": {

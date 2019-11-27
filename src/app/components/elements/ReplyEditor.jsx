@@ -615,6 +615,7 @@ class ReplyEditor extends React.Component {
                             <input
                                 type="url"
                                 {...thumbnail.props}
+                                placeholder={tt('settings_jsx.thumbnail_description')}
                                 autoComplete="off"
                             />
                             <a onClick={() => this.onOpenClick('thumbnail')}>
