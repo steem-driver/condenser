@@ -610,18 +610,18 @@ class ReplyEditor extends React.Component {
                             className={vframe_section_shrink_class}
                             style={{ marginTop: '0.5rem' }}
                         >
-                        {isStory &&(<label>
-                            {tt('settings_jsx.thumbnail_url')}
-                            <input
-                                type="url"
-                                {...thumbnail.props}
-                                placeholder={tt('settings_jsx.thumbnail_description')}
-                                autoComplete="off"
-                            />
-                            <a onClick={() => this.onOpenClick('thumbnail')}>
-                                {tt('settings_jsx.upload_thumbnail')}
-                            </a>
-                        </label>)}
+                            {isStory && (<label>
+                                {tt('settings_jsx.thumbnail_url')}
+                                <input
+                                    type="url"
+                                    {...thumbnail.props}
+                                    placeholder={tt('settings_jsx.thumbnail_description')}
+                                    autoComplete="off"
+                                />
+                                <a onClick={() => this.onOpenClick('thumbnail')}>
+                                    {tt('settings_jsx.upload_thumbnail')}
+                                </a>
+                            </label>)}
                         </div>
                         <div className={vframe_section_shrink_class}>
                             {isStory &&
@@ -1056,13 +1056,15 @@ export default formId =>
                 }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
-                if (allCategories.size) meta.tags = allCategories.toJS();
-                else delete meta.tags;
+                if (isStory) {
+                    if (allCategories.size) meta.tags = allCategories.toJS();
+                    else delete meta.tags;
+                }
                 if (rtags.usertags.size) meta.users = rtags.usertags;
                 else delete meta.users;
-                if(thumbnail){
-                    meta.image=thumbnail;
-                }else{
+                if (thumbnail) {
+                    meta.image = thumbnail;
+                } else {
                     if (rtags.images.size) meta.image = rtags.images;
                     else delete meta.image;
                 }
@@ -1080,20 +1082,21 @@ export default formId =>
                     errorCallback(sanitizeErrors.join('.  '));
                     return;
                 }
-
-                if (meta.tags.length > MAX_TAG) {
-                    const includingCategory = isEdit
-                        ? tt('reply_editor.including_the_category', {
-                            rootCategory,
-                        })
-                        : '';
-                    errorCallback(
-                        tt('reply_editor.use_limited_amount_of_tags', {
-                            tagsLength: meta.tags.length,
-                            includingCategory,
-                        })
-                    );
-                    return;
+                if (isStory) {
+                    if (meta.tags.length > MAX_TAG) {
+                        const includingCategory = isEdit
+                            ? tt('reply_editor.including_the_category', {
+                                rootCategory,
+                            })
+                            : '';
+                        errorCallback(
+                            tt('reply_editor.use_limited_amount_of_tags', {
+                                tagsLength: meta.tags.length,
+                                includingCategory,
+                            })
+                        );
+                        return;
+                    }
                 }
 
                 startLoadingIndicator();
