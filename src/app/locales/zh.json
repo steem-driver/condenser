@@ -635,6 +635,8 @@
         "profile_about": "关于",
         "profile_location": "位置",
         "profile_website": "网站",
+        "upload_thumbnail":"上传封面",
+        "thumbnail_url":"帖子封面的网址",
         "saved": "已保存!"
     },
     "transfer_jsx": {

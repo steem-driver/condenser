@@ -789,6 +789,8 @@
         "profile_about": "About",
         "profile_location": "Location",
         "profile_website": "Website",
+        "upload_thumbnail":"Upload a thumbnail",
+        "thumbnail_url":"Thumbnail url",
         "saved": "Saved!"
     },
     "transfer_jsx": {
