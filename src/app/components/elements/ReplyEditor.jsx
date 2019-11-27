@@ -511,7 +511,7 @@ class ReplyEditor extends React.Component {
                                                 : 'none'
                                         }
                                         disableClick
-                                        multiple={false}
+                                        multiple={true}
                                         accept="image/*"
                                         ref={node => {
                                             this.dropzone = node;
@@ -634,7 +634,7 @@ class ReplyEditor extends React.Component {
                                                     tt('app_selections.zzan')}
                                                 {this.props.appType ==
                                                     'steemleo/0.1' &&
-                                                    tt('app_selections.leo')}    
+                                                    tt('app_selections.leo')}
                                                 {this.props.appType ==
                                                     'esteem/2.2.2-mobile' &&
                                                     tt('app_selections.esteem')}
