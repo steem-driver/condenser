@@ -39,6 +39,7 @@ export const LANGUAGE_TAGS = List(['cn:中文']);
 export const SCOT_TAGS = List([
     'lifestyle:生活',
     'photography:摄影',
+    'food:美食',
     'build-it:DIY',
     'naturalproducts:养生',
     'steemleo:投资',
