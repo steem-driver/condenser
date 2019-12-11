@@ -4,7 +4,12 @@ ARG SOURCE_COMMIT
 ENV SOURCE_COMMIT ${SOURCE_COMMIT}
 ARG DOCKER_TAG
 ENV DOCKER_TAG ${DOCKER_TAG}
-
+ENV SDC_CLIENT_STEEMD_URL https://anyx.io
+ENV SDC_GOOGLE_ANALYTICS_ID UA-145303936-1
+ENV SDC_IMAGE_PROXY_PREFIX https://steemitimages.com/
+ENV SDC_SERVER_STEEMD_URL https://anyx.io
+ENV SDC_UPLOAD_IMAGE_URL https://steemitimages.com
+ENV WALLET_URL https://steemwallet.herokuapp.com
 # yarn > npm
 #RUN npm install --global yarn
 
