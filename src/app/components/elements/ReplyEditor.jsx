@@ -651,7 +651,7 @@ class ReplyEditor extends React.Component {
                                                 {tt('g.app')}
                                                 {': '}
                                                 {this.props.appType ==
-                                                    'steemcoinpan/0.1' &&
+                                                    'busy/2.5.4' &&
                                                     tt(
                                                         'app_selections.steemcn'
                                                     )}
@@ -879,7 +879,7 @@ export default formId =>
                 'appType',
             ]);
             if (!appType) {
-                appType = 'steemcoinpan/0.1';
+                appType = 'busy/2.5.4';
             }
 
             const ret = {
@@ -942,7 +942,7 @@ export default formId =>
                 type,
                 originalPost,
                 payoutType = '50%',
-                appType = 'steemcoinpan/0.1',
+                appType = 'busy/2.5.4',
                 state,
                 jsonMetadata,
                 successCallback,
