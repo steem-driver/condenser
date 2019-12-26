@@ -879,7 +879,7 @@ export default formId =>
                 'appType',
             ]);
             if (!appType) {
-                appType = 'busy/2.5.4';
+                appType = 'steemcn';
             }
 
             const ret = {
@@ -1052,7 +1052,7 @@ export default formId =>
                 if (isEdit) {
                     appType = 'busy/2.5.4';
                 }
-                if (appType == 'busy/2.5.4') {
+                if (appType == 'busy/2.5.4' || appType=='steemcn') {
                     allCategories = allCategories.add('busy');
                 }
                 if (!allCategories.includes('iv')) {
