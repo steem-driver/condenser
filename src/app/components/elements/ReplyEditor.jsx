@@ -651,7 +651,7 @@ class ReplyEditor extends React.Component {
                                                 {tt('g.app')}
                                                 {': '}
                                                 {this.props.appType ==
-                                                    'busy/2.5.4' &&
+                                                    'steemcn' &&
                                                     tt(
                                                         'app_selections.steemcn'
                                                     )}
@@ -942,7 +942,7 @@ export default formId =>
                 type,
                 originalPost,
                 payoutType = '50%',
-                appType = 'busy/2.5.4',
+                appType = 'steemcn',
                 state,
                 jsonMetadata,
                 successCallback,
@@ -1036,6 +1036,10 @@ export default formId =>
                 if (appType == 'krwp') {
                     appType = 'steemcoinpan/0.1';
                     selection = 'krwp';
+                }
+                if(appType == 'steemcn'){
+                    appType = 'busy/2.5.4';
+                    selection='steemcn';
                 }
                 if (appType == 'steemcoinpan/0.1') {
                     allCategories = allCategories.add('sct');
@@ -1138,7 +1142,7 @@ export default formId =>
                                 ],
                             ];
                             break;
-                        case 'steemcoinpan/0.1':
+                        case 'steemcn':
                             __config.comment_options.extensions = [
                                 [
                                     0,
