@@ -1009,10 +1009,7 @@ export default formId =>
                             .split(/ +/)
                         : []
                 );
-                const rootCategory =
-                    originalPost && originalPost.category
-                        ? originalPost.category
-                        : formCategories.first();
+                const rootCategory ="hive-180932";
                 let allCategories = OrderedSet([...formCategories.toJS()]);
                 if (/^[-a-z\d]+$/.test(rootCategory))
                     allCategories = allCategories.add(rootCategory);
