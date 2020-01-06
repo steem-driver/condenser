@@ -1011,8 +1011,6 @@ export default formId =>
                 );
                 const rootCategory ="hive-180932";
                 let allCategories = OrderedSet([...formCategories.toJS()]);
-                if (/^[-a-z\d]+$/.test(rootCategory))
-                    allCategories = allCategories.add(rootCategory);
 
                 let postHashtags = [...rtags.hashtags];
                 while (
@@ -1023,6 +1021,8 @@ export default formId =>
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
+                if (/^[-a-z\d]+$/.test(rootCategory))
+                    allCategories = allCategories.add(rootCategory);
                 if (appType == 'esteem/2.2.2-mobile') {
                     allCategories = allCategories.add('esteem');
                     allCategories = allCategories.add('esteem-cn');
