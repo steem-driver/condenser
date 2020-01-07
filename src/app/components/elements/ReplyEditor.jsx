@@ -1021,8 +1021,6 @@ export default formId =>
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-                if (/^[-a-z\d]+$/.test(rootCategory))
-                    allCategories = allCategories.add(rootCategory);
                 if (appType == 'esteem/2.2.2-mobile') {
                     allCategories = allCategories.add('esteem');
                     allCategories = allCategories.add('esteem-cn');
