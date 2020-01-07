@@ -336,6 +336,7 @@ class PostsList extends React.Component {
 export default connect(
     (state, props) => {
         const pathname = state.app.get('location').pathname;
+        console.log('pathname:', pathname);
         const current = state.user.get('current');
         const username = current
             ? current.get('username')

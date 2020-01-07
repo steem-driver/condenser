@@ -31,7 +31,6 @@ class ReplyEditor extends React.Component {
         type: PropTypes.oneOf(['submit_story', 'submit_comment', 'edit']),
         successCallback: PropTypes.func, // indicator that the editor is done and can be hidden
         onCancel: PropTypes.func, // hide editor when cancel button clicked
-
         author: PropTypes.string, // empty or string for top-level post
         permlink: PropTypes.string, // new or existing category (default calculated from title)
         parent_author: PropTypes.string, // empty or string for top-level post
@@ -43,6 +42,7 @@ class ReplyEditor extends React.Component {
         richTextEditor: PropTypes.func,
         defaultPayoutType: PropTypes.string,
         payoutType: PropTypes.string,
+        thumbnail: PropTypes.string,
     };
 
     static defaultProps = {
@@ -177,14 +177,14 @@ class ReplyEditor extends React.Component {
                     (!values.title || values.title.trim() === ''
                         ? tt('g.required')
                         : values.title.length > 255
-                          ? tt('reply_editor.shorten_title')
-                          : null),
+                            ? tt('reply_editor.shorten_title')
+                            : null),
                 category: isStory && validateCategory(values.category, !isEdit),
                 body: !values.body
                     ? tt('g.required')
                     : values.body.length > maxKb * 1024
-                      ? tt('reply_editor.exceeds_maximum_length', { maxKb })
-                      : null,
+                        ? tt('reply_editor.exceeds_maximum_length', { maxKb })
+                        : null,
             }),
         });
     }
@@ -270,7 +270,10 @@ class ReplyEditor extends React.Component {
         this.upload(file, file.name);
     };
 
-    onOpenClick = () => {
+    onOpenClick = imageName => {
+        this.setState({
+            imageInProgress: imageName,
+        });
         this.dropzone.open();
     };
 
@@ -303,13 +306,21 @@ class ReplyEditor extends React.Component {
                 this.setState({ progress: {} });
                 const { url } = progress;
                 const image_md = `![${name}](${url})`;
-                const { body } = this.state;
-                const { selectionStart, selectionEnd } = this.refs.postRef;
-                body.props.onChange(
-                    body.value.substring(0, selectionStart) +
+                const image_url = `${url}`;
+                let field;
+                if (this.state.imageInProgress === 'thumbnail') {
+                    field = this.state.thumbnail;
+                    field.props.onChange(image_url);
+                } else {
+
+                    const { body } = this.state;
+                    const { selectionStart, selectionEnd } = this.refs.postRef;
+                    body.props.onChange(
+                        body.value.substring(0, selectionStart) +
                         image_md +
                         body.value.substring(selectionEnd, body.value.length)
-                );
+                    );
+                }
             } else {
                 this.setState({ progress });
             }
@@ -325,7 +336,7 @@ class ReplyEditor extends React.Component {
             body: this.props.body,
         };
         const { onCancel, onTitleChange } = this;
-        const { title, category, body } = this.state;
+        const { title, category, body, thumbnail } = this.state;
         const {
             reply,
             username,
@@ -344,22 +355,29 @@ class ReplyEditor extends React.Component {
             payoutType,
             appType,
         } = this.props;
-        const { submitting, valid, handleSubmit } = this.state.replyForm;
+        const {
+            submitting,
+            valid,
+            handleSubmit,
+            resetForm,
+        } = this.state.replyForm;
         const { postError, titleWarn, rte } = this.state;
         const { progress, noClipboardData } = this.state;
         const disabled = submitting || !valid;
         const loading = submitting || this.state.loading;
-
+        const isEdit = type === 'edit';
         const errorCallback = estr => {
             this.setState({ postError: estr, loading: false });
         };
         const successCallbackWrapper = (...args) => {
+            if (!isEdit) {
+                resetForm();
+            }
             this.setState({ loading: false });
             this.props.setPayoutType(formId, defaultPayoutType);
             this.props.setAppType(formId, 'steemcoinpan/0.1');
             if (successCallback) successCallback(args);
         };
-        const isEdit = type === 'edit';
         const isHtml = rte || isHtmlTest(body.value);
         const replyParams = {
             author,
@@ -382,8 +400,8 @@ class ReplyEditor extends React.Component {
                 {tt('g.post')}
             </Tooltip>
         ) : (
-            tt('g.post')
-        );
+                tt('g.post')
+            );
         const hasTitleError = title && title.touched && title.error;
         let titleError = null;
         // The Required title error (triggered onBlur) can shift the form making it hard to click on things..
@@ -495,69 +513,70 @@ class ReplyEditor extends React.Component {
                                     tabIndex={2}
                                 />
                             ) : (
-                                <span>
-                                    <Dropzone
-                                        onDrop={this.onDrop}
-                                        className={
-                                            type === 'submit_story'
-                                                ? 'dropzone'
-                                                : 'none'
-                                        }
-                                        disableClick
-                                        multiple={false}
-                                        accept="image/*"
-                                        ref={node => {
-                                            this.dropzone = node;
-                                        }}
-                                    >
-                                        <textarea
-                                            {...body.props}
-                                            ref="postRef"
-                                            onPasteCapture={this.onPasteCapture}
+                                    <span>
+                                        <Dropzone
+                                            onDrop={this.onDrop}
                                             className={
                                                 type === 'submit_story'
-                                                    ? 'upload-enabled'
-                                                    : ''
+                                                    ? 'dropzone'
+                                                    : 'none'
                                             }
-                                            disabled={loading}
-                                            rows={isStory ? 10 : 3}
-                                            placeholder={
-                                                isStory
-                                                    ? tt('g.write_your_story')
-                                                    : tt('g.reply')
-                                            }
-                                            autoComplete="off"
-                                            tabIndex={2}
-                                        />
-                                    </Dropzone>
-                                    <p className="drag-and-drop">
-                                        {tt(
-                                            'reply_editor.insert_images_by_dragging_dropping'
-                                        )}
-                                        {noClipboardData
-                                            ? ''
-                                            : tt(
-                                                  'reply_editor.pasting_from_the_clipboard'
-                                              )}
-                                        {tt('reply_editor.or_by')}{' '}
-                                        <a onClick={this.onOpenClick}>
-                                            {tt('reply_editor.selecting_them')}
-                                        </a>.
+                                            disableClick
+                                            multiple={false}
+                                            accept="image/*"
+                                            ref={node => {
+                                                this.dropzone = node;
+                                            }}
+                                        >
+                                            <textarea
+                                                {...body.props}
+                                                ref="postRef"
+                                                onPasteCapture={this.onPasteCapture}
+                                                className={
+                                                    type === 'submit_story'
+                                                        ? 'upload-enabled'
+                                                        : ''
+                                                }
+                                                disabled={loading}
+                                                rows={isStory ? 10 : 3}
+                                                placeholder={
+                                                    isStory
+                                                        ? tt('g.write_your_story')
+                                                        : tt('g.reply')
+                                                }
+                                                autoComplete="off"
+                                                tabIndex={2}
+                                            />
+                                        </Dropzone>
+                                        <p className="drag-and-drop">
+                                            {tt(
+                                                'reply_editor.insert_images_by_dragging_dropping'
+                                            )}
+                                            {noClipboardData
+                                                ? ''
+                                                : tt(
+                                                    'reply_editor.pasting_from_the_clipboard'
+                                                )}
+                                            {tt('reply_editor.or_by')}{' '}
+                                            <a onClick={this.onOpenClick}>
+                                                {tt('reply_editor.selecting_them')}
+                                            </a>.
                                     </p>
-                                    {progress.message && (
-                                        <div className="info">
-                                            {progress.message}
-                                        </div>
-                                    )}
-                                    {progress.error && (
-                                        <div className="error">
-                                            {tt('reply_editor.image_upload')} :{' '}
-                                            {progress.error}
-                                        </div>
-                                    )}
-                                </span>
-                            )}
+                                        {progress.message && (
+                                            <div className="info">
+                                                {progress.message}
+                                            </div>
+                                        )}
+                                        {progress.error && (
+                                            <div className="error">
+                                                {tt('reply_editor.image_upload')} :{' '}
+                                                {progress.error}
+                                            </div>
+                                        )}
+                                    </span>
+                                )}
                         </div>
+
                         <div className={vframe_section_shrink_class}>
                             <div className="error">
                                 {body.touched &&
@@ -587,6 +606,23 @@ class ReplyEditor extends React.Component {
                                 </span>
                             )}
                         </div>
+                        <div
+                            className={vframe_section_shrink_class}
+                            style={{ marginTop: '0.5rem' }}
+                        >
+                            {isStory && (<label>
+                                {tt('settings_jsx.thumbnail_url')}
+                                <input
+                                    type="url"
+                                    {...thumbnail.props}
+                                    placeholder={tt('settings_jsx.thumbnail_description')}
+                                    autoComplete="off"
+                                />
+                                <a onClick={() => this.onOpenClick('thumbnail')}>
+                                    {tt('settings_jsx.upload_thumbnail')}
+                                </a>
+                            </label>)}
+                        </div>
                         <div className={vframe_section_shrink_class}>
                             {isStory &&
                                 !isEdit && (
@@ -615,7 +651,7 @@ class ReplyEditor extends React.Component {
                                                 {tt('g.app')}
                                                 {': '}
                                                 {this.props.appType ==
-                                                    'steemcoinpan/0.1' &&
+                                                    'steemcn' &&
                                                     tt(
                                                         'app_selections.steemcn'
                                                     )}
@@ -625,6 +661,9 @@ class ReplyEditor extends React.Component {
                                                 {this.props.appType ==
                                                     'steemzzang/0.1' &&
                                                     tt('app_selections.zzan')}
+                                                {this.props.appType ==
+                                                    'steemleo/0.1' &&
+                                                    tt('app_selections.leo')}
                                                 {this.props.appType ==
                                                     'esteem/2.2.2-mobile' &&
                                                     tt('app_selections.esteem')}
@@ -804,13 +843,17 @@ export default formId =>
                 /submit_story/.test(type) || (isEdit && parent_author === '');
             if (isStory) fields.push('title');
             if (isStory) fields.push('category');
+            if (isStory) fields.push('thumbnail');
 
-            let { category, title, body } = ownProps;
+            let { category, title, body, thumbnail } = ownProps;
             if (/submit_/.test(type)) title = body = '';
             if (isStory && jsonMetadata && jsonMetadata.tags) {
                 category = OrderedSet([category, ...jsonMetadata.tags]).join(
                     ' '
                 );
+            }
+            if (isStory && jsonMetadata && jsonMetadata.image) {
+                thumbnail = jsonMetadata.image[0];
             }
 
             const defaultPayoutType = state.app.getIn(
@@ -836,7 +879,7 @@ export default formId =>
                 'appType',
             ]);
             if (!appType) {
-                appType = 'steemcoinpan/0.1';
+                appType = 'steemcn';
             }
 
             const ret = {
@@ -847,7 +890,7 @@ export default formId =>
                 defaultPayoutType,
                 payoutType,
                 appType,
-                initialValues: { title, body, category },
+                initialValues: { title, body, category, thumbnail },
                 state,
                 formId,
                 richTextEditor,
@@ -899,12 +942,13 @@ export default formId =>
                 type,
                 originalPost,
                 payoutType = '50%',
-                appType = 'steemcoinpan/0.1',
+                appType = 'steemcn',
                 state,
                 jsonMetadata,
                 successCallback,
                 errorCallback,
                 startLoadingIndicator,
+                thumbnail,
             }) => {
                 // const post = state.global.getIn(['content', author + '/' + permlink])
                 const username = state.user.getIn(['current', 'username']);
@@ -916,16 +960,16 @@ export default formId =>
                 //'submit_story', 'submit_comment', 'edit'
                 const linkProps = isNew
                     ? {
-                          // submit new
-                          parent_author: author,
-                          parent_permlink: permlink,
-                          author: username,
-                          // permlink,  assigned in TransactionSaga
-                      }
+                        // submit new
+                        parent_author: author,
+                        parent_permlink: permlink,
+                        author: username,
+                        // permlink,  assigned in TransactionSaga
+                    }
                     : // edit existing
-                      isEdit
-                      ? { author, permlink, parent_author, parent_permlink }
-                      : null;
+                    isEdit
+                        ? { author, permlink, parent_author, parent_permlink }
+                        : null;
 
                 if (!linkProps) throw new Error('Unknown type: ' + type);
 
@@ -950,9 +994,9 @@ export default formId =>
                 if (rtags.htmltags.size) {
                     errorCallback(
                         'Please remove the following HTML elements from your post: ' +
-                            Array(...rtags.htmltags)
-                                .map(tag => `<${tag}>`)
-                                .join(', ')
+                        Array(...rtags.htmltags)
+                            .map(tag => `<${tag}>`)
+                            .join(', ')
                     );
                     return;
                 }
@@ -960,23 +1004,18 @@ export default formId =>
                 const formCategories = OrderedSet(
                     category
                         ? category
-                              .trim()
-                              .replace(/#/g, '')
-                              .split(/ +/)
+                            .trim()
+                            .replace(/#/g, '')
+                            .split(/ +/)
                         : []
                 );
-                const rootCategory =
-                    originalPost && originalPost.category
-                        ? originalPost.category
-                        : formCategories.first();
+                const rootCategory ="hive-180932";
                 let allCategories = OrderedSet([...formCategories.toJS()]);
-                if (/^[-a-z\d]+$/.test(rootCategory))
-                    allCategories = allCategories.add(rootCategory);
 
                 let postHashtags = [...rtags.hashtags];
                 while (
                     allCategories.size <
-                    MAX_TAG - allCategories.includes(DEFAULT_TAGS)
+                        MAX_TAG - allCategories.includes(DEFAULT_TAGS)
                         ? 0
                         : 1 && postHashtags.length > 0
                 ) {
@@ -986,9 +1025,16 @@ export default formId =>
                     allCategories = allCategories.add('esteem');
                     allCategories = allCategories.add('esteem-cn');
                 }
+                if (appType == 'steemleo/0.1') {
+                    allCategories = allCategories.add('steemleo');
+                }
                 if (appType == 'krwp') {
                     appType = 'steemcoinpan/0.1';
                     selection = 'krwp';
+                }
+                if(appType == 'steemcn'){
+                    appType = 'busy/2.5.4';
+                    selection='steemcn';
                 }
                 if (appType == 'steemcoinpan/0.1') {
                     allCategories = allCategories.add('sct');
@@ -1001,20 +1047,26 @@ export default formId =>
                 if (isEdit) {
                     appType = 'busy/2.5.4';
                 }
-                if (appType == 'busy/2.5.4') {
+                if (appType == 'busy/2.5.4' || appType=='steemcn') {
                     allCategories = allCategories.add('busy');
-                    allCategories = allCategories.add('sct');
-                    allCategories = allCategories.add('sct-cn');
-                    allCategories = allCategories.add('sct-freeboard');
+                }
+                if (!allCategories.includes('iv')) {
+                    allCategories = allCategories.add('actnearn');
                 }
                 // merge
                 const meta = isEdit ? jsonMetadata : {};
-                if (allCategories.size) meta.tags = allCategories.toJS();
-                else delete meta.tags;
+                if (isStory) {
+                    if (allCategories.size) meta.tags = allCategories.toJS();
+                    else delete meta.tags;
+                }
                 if (rtags.usertags.size) meta.users = rtags.usertags;
                 else delete meta.users;
-                if (rtags.images.size) meta.image = rtags.images;
-                else delete meta.image;
+                if (thumbnail) {
+                    meta.image = thumbnail;
+                } else {
+                    if (rtags.images.size) meta.image = rtags.images;
+                    else delete meta.image;
+                }
                 if (rtags.links.size) meta.links = rtags.links;
                 else delete meta.links;
                 meta.app = appType;
@@ -1029,20 +1081,21 @@ export default formId =>
                     errorCallback(sanitizeErrors.join('.  '));
                     return;
                 }
-
-                if (meta.tags.length > MAX_TAG) {
-                    const includingCategory = isEdit
-                        ? tt('reply_editor.including_the_category', {
-                              rootCategory,
-                          })
-                        : '';
-                    errorCallback(
-                        tt('reply_editor.use_limited_amount_of_tags', {
-                            tagsLength: meta.tags.length,
-                            includingCategory,
-                        })
-                    );
-                    return;
+                if (isStory) {
+                    if (meta.tags.length > MAX_TAG) {
+                        const includingCategory = isEdit
+                            ? tt('reply_editor.including_the_category', {
+                                rootCategory,
+                            })
+                            : '';
+                        errorCallback(
+                            tt('reply_editor.use_limited_amount_of_tags', {
+                                tagsLength: meta.tags.length,
+                                includingCategory,
+                            })
+                        );
+                        return;
+                    }
                 }
 
                 startLoadingIndicator();
@@ -1084,7 +1137,7 @@ export default formId =>
                                 ],
                             ];
                             break;
-                        case 'steemcoinpan/0.1':
+                        case 'steemcn':
                             __config.comment_options.extensions = [
                                 [
                                     0,

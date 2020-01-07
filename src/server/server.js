@@ -28,6 +28,7 @@ import koaLocale from 'koa-locale';
 import { getSupportedLocales } from './utils/misc';
 import { specialPosts } from './utils/SpecialPosts';
 import fs from 'fs';
+import { APP_DOMAIN } from 'app/client_config';
 
 if (cluster.isMaster) console.log('application server starting, please wait.');
 
@@ -149,7 +150,7 @@ function convertEntriesToArrays(obj) {
 // Fetch cached currency data for homepage
 //const steemMarket = new SteemMarket();
 app.use(function*(next) {
-    this.steemMarketData = {};//yield steemMarket.get();
+    this.steemMarketData = {}; //yield steemMarket.get();
     yield next;
 });
 
@@ -297,6 +298,15 @@ if (env === 'production') {
         delete helmetConfig.directives.reportUri;
     }
     app.use(helmet.contentSecurityPolicy(helmetConfig));
+
+    // For heroku, redirect SSL
+    app.use(function*(next) {
+        if (this.request.headers['x-forwarded-proto'] == 'http') {
+            this.response.redirect(`https://${APP_DOMAIN}${this.request.url}`);
+            return;
+        }
+        yield next;
+    });
 }
 
 if (env !== 'test') {

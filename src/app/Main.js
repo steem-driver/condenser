@@ -37,7 +37,6 @@ function runApp(initial_state) {
     };
     const buff = konami.code.split('');
     const cmd = command => {
-        console.log('got command:' + command);
         switch (command) {
             case CMD_LOG_O:
                 konami.enabled = false;

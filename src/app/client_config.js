@@ -11,7 +11,8 @@ export const APP_MAX_TAG = 25;
 // FIXME figure out best way to do this on both client and server from env
 // vars. client should read $STM_Config, server should read config package.
 export const APP_URL = 'https://www.steemcn.org';
-export const APP_DOMAIN = 'steemcn.org';
+export const APP_DOMAIN = 'www.steemcn.org';
+export const CURATION_ACCOUNT = 'cn-curators';
 export const TAG_LIST = List([
     'cn',
     'cn-activity',
@@ -25,12 +26,10 @@ export const TAG_LIST = List([
     'teamcn-homework',
 ]);
 export const DEFAULT_TAGS = [
-    'cn',
     'palnet',
     'zzan',
     'dblog',
     'mediaofficials',
-    'actnearn',
     'marlians',
     'neoxian',
     'lassecash',
@@ -40,6 +39,7 @@ export const LANGUAGE_TAGS = List(['cn:中文']);
 export const SCOT_TAGS = List([
     'lifestyle:生活',
     'photography:摄影',
+    'food:美食',
     'build-it:DIY',
     'naturalproducts:养生',
     'steemleo:投资',
@@ -88,6 +88,8 @@ export const DEBT_TOKEN_SHORT = 'SBD';
 export const DEFAULT_LANGUAGE = 'en'; // used on application internationalization bootstrap
 export const DEFAULT_CURRENCY = 'USD';
 export const ALLOWED_CURRENCIES = ['USD'];
+export const FRACTION_DIGITS = 2; // default amount of decimal digits
+export const FRACTION_DIGITS_MARKET = 3; // accurate amount of deciaml digits (example: used in market)
 
 // meta info
 export const TWITTER_HANDLE = '@steemit';

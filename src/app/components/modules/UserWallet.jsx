@@ -27,6 +27,8 @@ import {
 import * as transactionActions from 'app/redux/TransactionReducer';
 import * as globalActions from 'app/redux/GlobalReducer';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
+import classNames from 'classnames';
+import FormattedAssetTokens from 'app/components/elements/FormattedAssetTokens';
 
 const assetPrecision = 1000;
 
@@ -35,6 +37,7 @@ class UserWallet extends React.Component {
         super();
         this.state = {
             claimInProgress: false,
+            claimTokensInProgress: false,
         };
         this.onShowDepositSteem = e => {
             if (e && e.preventDefault) e.preventDefault();
@@ -78,11 +81,15 @@ class UserWallet extends React.Component {
         this.shouldComponentUpdate = shouldComponentUpdate(this, 'UserWallet');
     }
 
-    handleClaimRewards = account => {
+    handleClaimRewards = (account) => {
         this.setState({ claimInProgress: true }); // disable the claim button
         this.props.claimRewards(account);
+        
     };
-
+    handleClaimAllTokensRewards = (account,pendingTokenSymbols) => {
+        this.setState({ claimTokensInProgress: true }); // disable the claim button
+        this.props.claimAllTokensRewards(account,pendingTokenSymbols);
+    };
     render() {
         const {
             onShowDepositSteem,
@@ -102,9 +109,40 @@ class UserWallet extends React.Component {
         const gprops = this.props.gprops.toJS();
 
         if (!account) return null;
+        let allTokenBalances = account.has('token_balances')
+            ? account.get('token_balances').toJS()
+            : [
+                  {
+                      balance: '0',
+                      stake: '0',
+                      pendingUnstake: '0',
+                  },
+              ];
+        allTokenBalances = allTokenBalances.filter(
+            token => token.balance > 0 || token.stake > 0
+        );
+        const allTokenStatus = account.get('all_token_status').toJS();
+        const pendingTokens = Object.values(allTokenStatus)
+            .filter(e => parseFloat(e.pending_token));
+        const pendingTokenSymbols = pendingTokens
+            .map(({ symbol }) => symbol);
+        let pendingTokenString ='';
+        if(pendingTokens){
+        pendingTokens.forEach(pendingToken=>{
+            let symbol = pendingToken.symbol;
+            let precision = pendingToken.precision;
+            let token = pendingToken.pending_token/Math.pow(10, precision);
+            pendingTokenString +=`${token} ${symbol} | `;
+        })
+        //console.log(pendingTokens);
+    }
+        //console.log(pendingTokenSymbols);
+
+
+
+
         let vesting_steem = vestingSteem(account.toJS(), gprops);
         let delegated_steem = delegatedSteem(account.toJS(), gprops);
-
         let isMyAccount =
             current_user &&
             current_user.get('username') === account.get('name');
@@ -476,19 +514,43 @@ class UserWallet extends React.Component {
         }
 
         let claimbox;
-        if (current_user && rewards_str && isMyAccount) {
+        if (current_user && (rewards_str) && isMyAccount) {
             claimbox = (
                 <div className="row">
                     <div className="columns small-12">
                         <div className="UserWallet__claimbox">
-                            <span className="UserWallet__claimbox-text">
-                                Your current rewards: {rewards_str}
+                        <span className="UserWallet__claimbox-text">
+                                Your current rewards: {rewards_str} 
                             </span>
+                    
                             <button
                                 disabled={this.state.claimInProgress}
                                 className="button"
                                 onClick={e => {
-                                    this.handleClaimRewards(account);
+                                    this.handleClaimRewards(account);                                    
+                                }}
+                            >
+                                {tt('userwallet_jsx.redeem_rewards')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        let claimAllTokens;
+        if (current_user && (pendingTokenString) && isMyAccount) {
+            claimAllTokens = (
+                <div className="row">
+                    <div className="columns small-12">
+                        <div className="UserWallet__claimbox">
+                        <span className="UserWallet__claimbox-text">
+                        Your current SCOT rewards: {pendingTokenString}
+                            </span>
+                            <button
+                                disabled={this.state.claimTokensInProgress}
+                                className="button"
+                                onClick={e => {
+                                    this.handleClaimAllTokensRewards(account,pendingTokenSymbols);                                    
                                 }}
                             >
                                 {tt('userwallet_jsx.redeem_rewards')}
@@ -499,9 +561,11 @@ class UserWallet extends React.Component {
             );
         }
 
+
         return (
             <div className="UserWallet">
                 {claimbox}
+                {claimAllTokens}
                 <div className="row">
                     <div className="columns small-10 medium-12 medium-expand">
                         {/*isMyAccount ? (
@@ -688,6 +752,25 @@ class UserWallet extends React.Component {
                         {estimate_output}
                     </div>
                 </div>
+                {/* Steem Engine Tokens */}
+                {allTokenBalances && allTokenBalances.length ? (
+                    <div className="UserWallet__balance row">
+                        <div className="column small-12">
+                            Steem Engine Token
+                            <FormattedHTMLMessage
+                                className="secondary"
+                                id="tips_js.steem_engine_tokens"
+                            />
+                        </div>
+                        <div className="column small-12">
+                            <FormattedAssetTokens
+                                items={allTokenBalances}
+                                isMyAccount={isMyAccount}
+                            />
+                        </div>
+                    </div>
+                ) : null}
+
                 <div className="UserWallet__balance row">
                     <div className="column small-12">
                         {isWithdrawScheduled && (
@@ -803,6 +886,27 @@ export default connect(
             const name = 'changePassword';
             dispatch(globalActions.remove({ key: name }));
             dispatch(globalActions.showDialog({ name, params: { username } }));
+        },
+        claimAllTokensRewards: (account, symbols) => {
+            const username = account.get('name');
+            const successCallback = () => {
+                dispatch(
+                    globalActions.getState({ url: `@${username}/transfers` })
+                );
+            };
+            const json = symbols.map(symbol => ({ symbol }));
+            const operation = {
+                id: 'scot_claim_token',
+                required_posting_auths: [username],
+                json: JSON.stringify(json),
+            };
+            dispatch(
+                transactionActions.broadcastOperation({
+                    type: 'custom_json',
+                    operation,
+                    successCallback,
+                })
+            );
         },
     })
 )(UserWallet);

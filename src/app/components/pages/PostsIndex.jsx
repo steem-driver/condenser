@@ -20,7 +20,8 @@ import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
-import { TAG_LIST } from 'app/client_config';
+import { TAG_LIST,CURATION_ACCOUNT } from 'app/client_config';
+
 
 class PostsIndex extends React.Component {
     static propTypes = {
@@ -69,9 +70,15 @@ class PostsIndex extends React.Component {
             category,
             order = constants.DEFAULT_SORT_ORDER,
         } = this.props.routeParams;
+        
         if (category === 'feed') {
             accountname = order.slice(1);
             order = 'by_feed';
+        }
+        if(order==='recommended'){
+            accountname = CURATION_ACCOUNT;
+            order = 'by_feed';
+            category='feed';
         }
         if (isFetchingOrRecentlyUpdated(this.props.status, order, category))
             return;
@@ -147,7 +154,9 @@ class PostsIndex extends React.Component {
                 );
             }
         } else {
-            posts = this.getPosts(order, category);
+            if (order === 'recommended')
+                posts = this.props.accounts.getIn([CURATION_ACCOUNT, 'feed']);
+            else posts = this.getPosts(order, category);
             if (posts && posts.size === 0) {
                 emptyText = (
                     <div>
@@ -196,6 +205,9 @@ class PostsIndex extends React.Component {
                     break;
                 case 'promoted':
                     page_title = tt('g.promoted');
+                    break;
+                case 'recommended':
+                    page_title = tt('main_menu.recommended');
                     break;
             }
             if (typeof category !== 'undefined') {
@@ -294,17 +306,6 @@ class PostsIndex extends React.Component {
                         username={this.props.username}
                         categories={categories}
                     />
-                    <small>
-                        <a
-                            className="c-sidebar__more-link"
-                            onClick={this.onShowSpam}
-                        >
-                            {showSpam
-                                ? tt('g.next_3_strings_together.show_less')
-                                : tt('g.next_3_strings_together.show_more')}
-                        </a>
-                        {' ' + tt('g.next_3_strings_together.value_posts')}
-                    </small>
                     {this.props.gptEnabled && allowAdsOnContent ? (
                         <div>
                             <div className="sidebar-ad">

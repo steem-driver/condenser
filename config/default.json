@@ -48,7 +48,7 @@
     "account_sid": false,
     "auth_token": false
   },
-  "upload_image": false,
+  "upload_image": "https://steemitimages.com",
   "steemd_connection_client": "https://anyx.io",
   "steemd_connection_server": "https://anyx.io",
   "steemd_use_appbase": false,

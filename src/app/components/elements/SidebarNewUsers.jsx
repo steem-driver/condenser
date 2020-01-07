@@ -5,18 +5,18 @@ import { SIGNUP_URL } from 'shared/constants';
 const SidebarNewUsers = () => (
     <div className="c-sidebar__module">
         <div className="c-sidebar__header">
-            <h3 className="c-sidebar__h3">New to Steemit?</h3>
+            <h3 className="c-sidebar__h3">{tt('g.new_user')}</h3>
         </div>
         <div className="c-sidebar__content">
             <ul className="c-sidebar__list">
                 <li className="c-sidebar__list-item">
-                    <a className="c-sidebar__link" href="/welcome">
-                        Quick start guide
+                    <a className="c-sidebar__link" href="https://steemh.org">
+                        Steem 指南
                     </a>
                 </li>
                 <li className="c-sidebar__list-item">
-                    <a className="c-sidebar__link" href="https://steem.io">
-                        The blockchain
+                    <a className="c-sidebar__link" href="https://steem-engine.steemh.org">
+                        Steem-Engine手册
                     </a>
                 </li>
                 <li className="c-sidebar__list-item">
@@ -26,11 +26,11 @@ const SidebarNewUsers = () => (
                 </li>
                 <li className="c-sidebar__list-item">
                     <a className="c-sidebar__link" href={SIGNUP_URL}>
-                        Sign up
+                    {tt('g.sign_up')}
                     </a>
                 </li>
                 <li className="c-sidebar__list-item">
-                    <a className="c-sidebar__link" href="/@steemitblog">
+                    <a className="c-sidebar__link" href="/@steem-drivers">
                         {tt('g.read_offical_blog')}
                     </a>
                 </li>

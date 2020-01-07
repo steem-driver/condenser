@@ -89,7 +89,7 @@ class CategorySelector extends React.Component {
     }
     render() {
         const { trending, tabIndex, disabled } = this.props;
-        const categories = trending.filterNot(c => validateCategory(c));
+        const categories = trending? trending.slice(0, 11).filterNot(c => validateCategory(c)): [];
         const { createCategory } = this.state;
 
         const categoryOptions = categories.map((c, idx) => (

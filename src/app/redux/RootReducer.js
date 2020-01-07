@@ -37,7 +37,6 @@ function initReducer(reducer, type) {
 
         if (action.type === '@@router/LOCATION_CHANGE' && type === 'global') {
             state = state.set('pathname', action.payload.pathname);
-            // console.log(action.type, type, action, state.toJS())
         }
 
         return reducer(state, action);

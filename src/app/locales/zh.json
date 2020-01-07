@@ -71,7 +71,8 @@
         "promote": "推广",
         "promoted": "推广",
         "re": "回复",
-        "read_offical_blog": "官方博客",
+        "read_offical_blog": "SteemCN博客",
+        "new_user": "新手吗?",
         "re_to": "回复%(topic)s",
         "recent_password": "最近的密码",
         "receive": "收到",
@@ -225,7 +226,8 @@
             "zero": "没有回复",
             "one": "%(count)s回复",
             "other": "%(count)s个回复"
-        }
+        },
+        "useful_links": "常用链接"
     },
     "navigation": {
         "about": "关于",
@@ -257,7 +259,8 @@
     },
     "main_menu": {
         "hot": "热门",
-        "trending": "流行"
+        "trending": "流行",
+        "recommended": "好文推荐"
     },
     "reply_editor": {
         "shorten_title": "缩短标题",
@@ -286,6 +289,7 @@
     "app_selections": {
         "sct": "Steemcoinpan",
         "zzan": "Steemzzang",
+        "leo": "SteemLeo",
         "busy": "Busy",
         "esteem": "Esteem",
         "steemcn": "SteemCN(抽取3%%STEEM收益)",
@@ -328,6 +332,35 @@
         "you_are_viewing_a_single_comments_thread_from":
             "你正在查看单个评论的主题"
     },
+    "market_jsx": {
+        "action": "功能",
+        "date_created": "创建日期",
+        "last_price": "上一个成交价格",
+        "24h_volume": "24小时交易量",
+        "spread": "波动",
+        "total": "总量",
+        "available": "有效的",
+        "lowest_ask": "最低卖价",
+        "highest_bid": "最高买价",
+        "buy_orders": "买单",
+        "sell_orders": "卖单",
+        "trade_history": "交易历史",
+        "open_orders": "订单",
+        "sell_amount_for_atleast":
+            "出售%(amount_to_sell)s至少为%(min_to_receive)s(%(effectivePrice)s)",
+        "buy_atleast_amount_for":
+            "购买%(min_to_receive)s在%(amount_to_sell)s(%(effectivePrice)s)",
+        "price_warning_above":
+            "这个价格远高于目前的市场价%(marketPrice)s，您确定吗?",
+        "price_warning_below":
+            "这个价格远低于目前的市场价%(marketPrice)s，您确定吗?",
+        "order_cancel_confirm": "从%(user)s中取消订单%(order_id)s ?",
+        "order_cancelled": "订单%(order_id)s取消了。",
+        "higher": "更高的",
+        "lower": "更低的",
+        "total_DEBT_TOKEN_SHORT_CURRENCY_SIGN":
+            "总共%(DEBT_TOKEN_SHORT)s (%(CURRENCY_SIGN)s)"
+    },
     "recoveraccountstep1_jsx": {
         "recover_account_intro":
             "有时候，Steemit 的拥有者钥匙可能会被盗用。被盗帐户恢复给予合法的帐户所有者30天，从小偷更改其所有者密钥的时候恢复其帐户。盗用帐户恢复只能在%(APP_URL)s上使用，如果帐户所有者已经明确列出 %(APP_NAME)s作为其帐户受信任者，并遵守了 %(APP_NAME)s 的服务条款。"
@@ -358,7 +391,13 @@
             "other": "%(count)s个帖子"
         },
         "hide_resteems": "Hide Resteems",
-        "show_all": "Show All"
+        "show_all": "Show All",
+        "kindergarden": "幼儿园",
+        "elementary": "小学生",
+        "middle_school": "中学生",
+        "high_school": "高中生",
+        "college": "大学生",
+        "graduated": "社会青年"
     },
     "post_jsx": {
         "now_showing_comments_with_low_ratings": "正在显示低评级的评论",
@@ -390,7 +429,8 @@
         "votes_plural": {
             "one": "%(count)s个投票",
             "other": "%(count)s个投票"
-        }
+        },
+        "voting_power": "点赞能量"
     },
     "votesandcomments_jsx": {
         "no_responses_yet_click_to_respond": "暂无回复。点击回复。",
@@ -448,7 +488,9 @@
         "converted_VESTING_TOKEN_can_be_sent_to_yourself_but_can_not_transfer_again":
             "%(VESTING_TOKEN)s可以转给你自己或其他人，但是只有转回%(LIQUID_TOKEN)s后，才可以进行下一次转账。",
         "part_of_your_steem_power_is_currently_delegated":
-            "有一部分STEEM POWER是代理给你使用的。代理的STEEM POWER是为了帮助新用户在steemit上进行操作。你被代理的数量可能会有波动。"
+            "有一部分STEEM POWER是代理给你使用的。代理的STEEM POWER是为了帮助新用户在steemit上进行操作。你被代理的数量可能会有波动。",
+        "steem_engine_tokens":
+            "<a href='https://steem-engine.netlify.com' class='external-link' target='_blank'>Steem Engine</a> 是基于STEEM侧链的智能合约平台"
     },
     "promote_post_jsx": {
         "promote_post": "推广帖子",
@@ -593,6 +635,9 @@
         "profile_about": "关于",
         "profile_location": "位置",
         "profile_website": "网站",
+        "upload_thumbnail":"上传封面",
+        "thumbnail_url":"帖子封面的网址",
+        "thumbnail_description":"选择这篇帖子的封面. 如果没有选择，帖子的第一个图片将默认为帖子封面",
         "saved": "已保存!"
     },
     "transfer_jsx": {

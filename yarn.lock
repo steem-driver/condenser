@@ -18,6 +18,14 @@
     libsodium "^0.4.8"
     libsodium-wrappers "^0.4.8"
 
+sscjs@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/sscjs/-/sscjs-0.0.7.tgz#da872795dc40bd671440a4d580f7b37b8f368387"
+  integrity sha512-PzwFRbpfbYcGpf37h/ixJ2GWPcPK+Vu6GQ8geIXL8IxgD1u2lxfQdMcXER/ZcgnbvHOYWK/cHnEoH2dvCwlk2g==
+  dependencies:
+    axios "^0.18.0"
+
+
 "@steemit/libcrypto@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@steemit/libcrypto/-/libcrypto-1.0.1.tgz#c31ab3e5deb667628169b3d54d746b015de31a79"

@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects';
 import { fetchDataWatches } from 'app/redux/FetchDataSaga';
 import { sharedWatches } from 'app/redux/SagaShared';
+import { marketWatches } from 'app/redux/MarketSaga';
 import { userWatches } from 'app/redux/UserSaga';
 import { authWatches } from 'app/redux/AuthSaga';
 import { transactionWatches } from 'app/redux/TransactionSaga';
@@ -11,6 +12,7 @@ export default function* rootSaga() {
         ...fetchDataWatches,
         ...sharedWatches,
         ...authWatches,
+		...marketWatches,
         ...transactionWatches,
     ]);
 }
