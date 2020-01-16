@@ -45,6 +45,7 @@
         "memo": "备注",
         "mute": "屏蔽",
         "my_blog": "我的文章",
+        "notifications": "消息提醒",
         "my_comments": "我的评论",
         "my_feed": "我的订阅",
         "my_replies": "给我的回复",
@@ -635,9 +636,10 @@
         "profile_about": "关于",
         "profile_location": "位置",
         "profile_website": "网站",
-        "upload_thumbnail":"上传封面",
-        "thumbnail_url":"帖子封面的网址",
-        "thumbnail_description":"选择这篇帖子的封面. 如果没有选择，帖子的第一个图片将默认为帖子封面",
+        "upload_thumbnail": "上传封面",
+        "thumbnail_url": "帖子封面的网址",
+        "thumbnail_description":
+            "选择这篇帖子的封面. 如果没有选择，帖子的第一个图片将默认为帖子封面",
         "saved": "已保存!"
     },
     "transfer_jsx": {

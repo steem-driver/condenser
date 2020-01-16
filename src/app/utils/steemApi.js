@@ -1,31 +1,41 @@
 import { api } from '@steemit/steem-js';
-
+import { Client } from '@busyorg/busyjs';
 import stateCleaner from 'app/redux/stateCleaner';
 import axios from 'axios';
 import SSC from 'sscjs';
-import {CURATION_ACCOUNT } from 'app/client_config';
-
+import { CURATION_ACCOUNT } from 'app/client_config';
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
+
+async function createBusyAPI() {
+    return new Promise((resolve, reject) => {
+        const client = new Client('wss://api.busy.org');
+        client.call('get_notifications', ['ericet'], (err, result) => {
+            if (err !== null) reject(err);
+            resolve(result);
+        });
+    });
+}
 
 export async function getStateAsync(url) {
     // strip off query string
     const path = url.split('?')[0];
     let raw = await api.getStateAsync(path);
-    if (path === '/recommended/' || path === '/recommended'){
-        raw = await api.getStateAsync('/@'+CURATION_ACCOUNT+'/feed');
+    if (path === '/recommended/' || path === '/recommended') {
+        raw = await api.getStateAsync('/@' + CURATION_ACCOUNT + '/feed');
     }
     if (!raw.accounts) {
         raw.accounts = {};
     }
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
+    raw.notifications = await createBusyAPI();
     if (urlParts) {
         const account = urlParts[1];
         if (!raw.accounts[account]) {
             raw.accounts[account] = await getAccount(account);
         }
         if (!raw.props) {
-            raw.props = await getGlobalProps();
+            raw.props = await Promise.all(getGlobalProps());
         }
         if (!raw.content) {
             raw.content = {};
@@ -35,7 +45,8 @@ export async function getStateAsync(url) {
                 account
             );
         }
-        const [tokenBalances,tokenStatuses] = await Promise.all([
+
+        const [tokenBalances, tokenStatuses] = await Promise.all([
             // modified to get all tokens. - by anpigon
             ssc.find('tokens', 'balances', {
                 account,
