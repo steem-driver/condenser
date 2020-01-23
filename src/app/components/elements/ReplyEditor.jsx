@@ -669,6 +669,8 @@ class ReplyEditor extends React.Component {
                                                     tt('app_selections.esteem')}
                                                 {this.props.appType == 'krwp' &&
                                                     tt('app_selections.krwp')}
+                                                {this.props.appType == 'likwid' &&
+                                                    tt('app_selections.likwid')}
                                             </div>
                                             <a
                                                 href="#"
@@ -1009,7 +1011,7 @@ export default formId =>
                             .split(/ +/)
                         : []
                 );
-                const rootCategory ="hive-180932";
+                const rootCategory = "hive-180932";
                 let allCategories = OrderedSet([...formCategories.toJS()]);
 
                 let postHashtags = [...rtags.hashtags];
@@ -1032,9 +1034,14 @@ export default formId =>
                     appType = 'steemcoinpan/0.1';
                     selection = 'krwp';
                 }
-                if(appType == 'steemcn'){
+                if (appType == 'steemcn') {
                     appType = 'busy/2.5.4';
-                    selection='steemcn';
+                    selection = 'steemcn';
+                }
+                if(appType=='likwid'){
+                    appType = 'busy/2.5.4';
+                    selection = 'likwid';
+
                 }
                 if (appType == 'steemcoinpan/0.1') {
                     allCategories = allCategories.add('sct');
@@ -1047,7 +1054,7 @@ export default formId =>
                 if (isEdit) {
                     appType = 'busy/2.5.4';
                 }
-                if (appType == 'busy/2.5.4' || appType=='steemcn') {
+                if (appType == 'busy/2.5.4' || appType == 'steemcn') {
                     allCategories = allCategories.add('busy');
                 }
                 if (!allCategories.includes('iv')) {
@@ -1162,6 +1169,25 @@ export default formId =>
                                                 account: 'sct.krwp',
                                                 weight: 10000,
                                             },
+                                        ],
+                                    },
+                                ],
+                            ];
+                            break;
+                        case 'likwid':
+                            __config.comment_options.extensions = [
+                                [
+                                    0,
+                                    {
+                                        beneficiaries: [
+                                            {
+                                                account: 'likwid',
+                                                weight: 9900,
+                                            },
+                                            {
+                                                account: 'steem-drivers',
+                                                weight: 100,
+                                            }
                                         ],
                                     },
                                 ],

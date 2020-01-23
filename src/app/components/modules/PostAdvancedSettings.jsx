@@ -149,6 +149,9 @@ class PostAdvancedSettings extends Component {
                             <option value="krwp">
                                 {tt('app_selections.krwp')}
                             </option>
+                            <option value="likwid">
+                                {tt('app_selections.likwid')}
+                            </option>
                         </select>
                     </div>
                 </div>
