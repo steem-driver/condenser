@@ -28,6 +28,7 @@ import ImageUserBlockList from 'app/utils/ImageUserBlockList';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { GoogleAd } from 'app/components/elements/GoogleAd';
 import ContentEditedWrapper from '../elements/ContentEditedWrapper';
+import LikeButton from '../elements/LikeButton';
 
 function TimeAuthorCategory({ content, authorRepLog10, showTags }) {
     return (
@@ -467,17 +468,12 @@ class PostFull extends React.Component {
                         </div>
                         <div className="PostFull__body entry-content">
                             {contentBody}
+                            <LikeButton post={content}/>
                         </div>
-                    </span>
-                )}
 
-                {showPromote && (
-                    <button
-                        className="Promote__button float-right button hollow tiny"
-                        onClick={this.showPromotePost}
-                    >
-                        {tt('g.promote')}
-                    </button>
+                        
+                       
+                    </span>
                 )}
                 <TagList post={content} horizontal />
                 <div className="PostFull__footer row">
