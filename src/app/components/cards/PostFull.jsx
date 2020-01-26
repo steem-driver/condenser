@@ -29,6 +29,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { GoogleAd } from 'app/components/elements/GoogleAd';
 import ContentEditedWrapper from '../elements/ContentEditedWrapper';
 import LikeButton from '../elements/LikeButton';
+import LikeIcon from '../elements/LikeIcon';
 
 function TimeAuthorCategory({ content, authorRepLog10, showTags }) {
     return (
@@ -47,6 +48,7 @@ function TimeAuthorCategory({ content, authorRepLog10, showTags }) {
                     {tt('g.in')} <TagList post={content} single />
                 </span>
             )}
+           
         </span>
     );
 }
@@ -71,6 +73,7 @@ function TimeAuthorCategoryLarge({ content, authorRepLog10 }) {
                     createDate={content.created}
                     updateDate={content.last_update}
                 />
+            
             </div>
         </span>
     );
@@ -379,6 +382,7 @@ class PostFull extends React.Component {
                         <Icon name="steempower" />
                     </span>
                 )}
+                 <LikeIcon author={content.author}/>
             </h1>
         );
         if (content.depth > 0) {
