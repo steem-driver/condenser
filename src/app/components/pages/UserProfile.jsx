@@ -16,7 +16,7 @@ import Follow from 'app/components/elements/Follow';
 import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import PostsList from 'app/components/cards/PostsList';
 import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
-import { repLog10,repLog10Fixed } from 'app/utils/ParsersAndFormatters.js';
+import { repLog10, repLog10Fixed } from 'app/utils/ParsersAndFormatters.js';
 import Tooltip from 'app/components/elements/Tooltip';
 import DateJoinWrapper from 'app/components/elements/DateJoinWrapper';
 import tt from 'counterpart';
@@ -30,6 +30,7 @@ import proxifyImageUrl from 'app/utils/ProxifyUrl';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import SanitizedLink from 'app/components/elements/SanitizedLink';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
+import LikeIcon from '../elements/LikeIcon';
 
 export default class UserProfile extends React.Component {
     constructor() {
@@ -542,25 +543,19 @@ export default class UserProfile extends React.Component {
                     'url(' + proxifyImageUrl(cover_image, '2048x512') + ')',
             };
         }
-        let title='';
-        if(rep >=25 && rep < 55){
-            title=tt('user_profile.elementary');
-        }else if(rep >=55 && rep < 60 ){
-            title=tt('user_profile.middle_school');
-    
-        }else if(rep >=60 && rep <65){
-            title=tt('user_profile.high_school');
-    
-        }else if(rep >=65 && rep <70){
-            title=tt('user_profile.college');
-    
-        }else if(rep<25){
-            title = tt('user_profile.kindergarden')
-        }
-        
-        else{
-            title=tt('user_profile.graduated');
-    
+        let title = '';
+        if (rep >= 25 && rep < 55) {
+            title = tt('user_profile.elementary');
+        } else if (rep >= 55 && rep < 60) {
+            title = tt('user_profile.middle_school');
+        } else if (rep >= 60 && rep < 65) {
+            title = tt('user_profile.high_school');
+        } else if (rep >= 65 && rep < 70) {
+            title = tt('user_profile.college');
+        } else if (rep < 25) {
+            title = tt('user_profile.kindergarden');
+        } else {
+            title = tt('user_profile.graduated');
         }
 
         return (
@@ -587,6 +582,7 @@ export default class UserProfile extends React.Component {
                                 <span className="UserProfile__rep">
                                     ({rep} {title})
                                 </span>
+                                <LikeIcon author={accountname} />
                             </Tooltip>
                             {AffiliationMap[accountname] ? (
                                 <span className="affiliation">

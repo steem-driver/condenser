@@ -5,39 +5,36 @@ import Icon from './Icon';
 
 class LikeIcon extends Component {
     render() {
-        const { profile } = this.props;//redux
+        const { profile } = this.props; //redux
+        console.log('profile');
+        console.log(profile);
         if (profile.location == undefined) {
-            return (
-                <div></div>
-            )
+            return <div />;
         } else {
-            const liker_id = profile.location.split(":")[0] == 'likerid' ? profile.location.split(":")[1] : '';
+            const liker_id =
+                profile.location.split(':')[0] == 'likerid'
+                    ? profile.location.split(':')[1]
+                    : '';
             if (liker_id != '') {
                 return (
-                    <span title = "LikeCoin">
-                        <Icon name="like"/>
+                    <span title="LikeCoin">
+                        <Icon name="like" />
                     </span>
-                  
-
                 );
             } else {
-                return (
-                   <span></span>
-                )
+                return <span />;
             }
         }
     }
-
 }
-
-
 
 export default connect((state, ownProps) => {
     const { author } = ownProps;
-    const account = state.global.getIn(['accounts', author]) == undefined ? undefined : state.global.getIn(['accounts', author]).toJS();
-    let metaData = account
-        ? o2j.ifStringParseJSON(account.json_metadata)
-        : {};
+    const account =
+        state.global.getIn(['accounts', author]) == undefined
+            ? undefined
+            : state.global.getIn(['accounts', author]).toJS();
+    let metaData = account ? o2j.ifStringParseJSON(account.json_metadata) : {};
     const profile = metaData && metaData.profile ? metaData.profile : {};
     return {
         profile,
