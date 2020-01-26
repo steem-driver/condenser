@@ -22,7 +22,8 @@ import SteemLogo from 'app/components/elements/SteemLogo';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import Announcement from 'app/components/elements/Announcement';
 import GptAd from 'app/components/elements/GptAd';
-import { GptUtils } from 'app/utils/GptUtils';import SvgImage from 'app/components/elements/SvgImage';
+import { GptUtils } from 'app/utils/GptUtils';
+import SvgImage from 'app/components/elements/SvgImage';
 class Header extends React.Component {
     static propTypes = {
         current_account_name: PropTypes.string,
@@ -404,13 +405,6 @@ class Header extends React.Component {
                                     </li>
                                 </DropdownMenu>
                             )}
-                            {/*HAMBURGER*/}
-                            <span
-                                onClick={showSidePanel}
-                                className="toggle-menu Header__hamburger"
-                            >
-                                <span className="hamburger" />
-                            </span>
                         </div>
                     </nav>
                 </header>
