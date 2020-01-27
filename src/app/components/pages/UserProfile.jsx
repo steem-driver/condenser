@@ -31,6 +31,7 @@ import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector'
 import SanitizedLink from 'app/components/elements/SanitizedLink';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
 import LikeIcon from '../elements/LikeIcon';
+import NotificationsList from '../cards/NotificationsList';
 
 export default class UserProfile extends React.Component {
     constructor() {
@@ -43,7 +44,7 @@ export default class UserProfile extends React.Component {
     }
 
     shouldComponentUpdate(np, ns) {
-        const { follow, follow_count, account, accountname } = this.props;
+        const { follow, follow_count, account, accountname,notifications } = this.props;
 
         let followersLoading = false,
             npFollowersLoading = false;
@@ -81,7 +82,7 @@ export default class UserProfile extends React.Component {
             np.location.pathname !== this.props.location.pathname ||
             np.follow_count !== this.props.follow_count ||
             np.blogmode !== this.props.blogmode ||
-            ns.showResteem !== this.state.showResteem
+            ns.showResteem !== this.state.showResteem || np.notifications !==this.props.notifications
         );
     }
 
@@ -153,6 +154,8 @@ export default class UserProfile extends React.Component {
         const username = current_user ? current_user.get('username') : null;
 
         let { section } = this.props.routeParams;
+        console.log('section')
+        console.log(section)
         if (!section) section = 'blog';
 
         // Loading status
@@ -371,7 +374,12 @@ export default class UserProfile extends React.Component {
                     </center>
                 );
             }
-        } else {
+        }
+        else if (section === 'notifications') {
+           const notifications = this.props.notifications;
+           <NotificationsList notifications={notifications}/>
+        }
+        else {
             //    console.log( "no matches" );
         }
 
@@ -490,6 +498,14 @@ export default class UserProfile extends React.Component {
                                 activeClassName="active"
                             >
                                 {tt('g.replies')}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to={`/@${accountname}/notifications`}
+                                activeClassName="active"
+                            >
+                                {tt('g.notifications')}
                             </Link>
                         </li>
                         <DropdownMenu
@@ -672,6 +688,7 @@ module.exports = {
                 global_status: state.global.get('status'),
                 accountname: accountname,
                 account: state.global.getIn(['accounts', accountname]),
+                notifications:state.global.get('notifications'),
                 follow: state.global.get('follow'),
                 follow_count: state.global.get('follow_count'),
                 blogmode: state.app.getIn(['user_preferences', 'blogmode']),

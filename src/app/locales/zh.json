@@ -554,7 +554,8 @@
         "curation_rewards_by": "审查收入 by",
         "author_rewards_by": "作者收入 by",
         "replies_to": "回复",
-        "comments_by": "评论"
+        "comments_by": "评论",
+        "notifications":"消息提醒"
     },
     "loginform_jsx": {
         "you_need_a_private_password_or_key":
