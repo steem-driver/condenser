@@ -176,8 +176,6 @@ class App extends React.Component {
                 })}
                 ref="App_root"
             >
-                <ConnectedSidePanel alignment="right" />
-
                 {headerHidden ? null : (
                     <Header
                         pathname={pathname}
