@@ -282,6 +282,11 @@ class Header extends React.Component {
                 value: tt('g.feed'),
             },
             { link: account_link, icon: 'profile', value: tt('g.blog') },
+            {
+                link: account_link,
+                icon: 'notification',
+                value: tt('g.notifications'),
+            },
             { link: comments_link, icon: 'replies', value: tt('g.comments') },
             {
                 link: replies_link,
