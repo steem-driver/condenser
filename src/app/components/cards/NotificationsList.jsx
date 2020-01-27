@@ -2,30 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
+import _ from 'lodash';
+import NotificationReply from './NotificationReply';
 
 class NotificationsList extends React.Component {
-    static propTypes = {
-        notifications: PropTypes.object.isRequired,
-    };
-
-
-    constructor() {
-        super();
-        this.shouldComponentUpdate = shouldComponentUpdate(
-            this,
-            'NotificationsList'
-        );
-    }
 
     render() {
         const { notifications } = this.props;
-        console.log('notifications')
-        console.log(notifications)
+       
+            let content;
+            notifications.map(notification => {
+                let notificationJs = notification.toJS();
+                content +=` <span>${notificationJs.type}</span>`
+            
+            })
+            return(
+            <div>{content}</div>
+            );
     }
 }
 
-export default connect((state, props) => {
+export default connect((state, ownProps) => {
+    const { notifications } = ownProps;
+
     return {
-        ...props,
+        notifications,
     };
 })(NotificationsList);

@@ -376,8 +376,9 @@ export default class UserProfile extends React.Component {
             }
         }
         else if (section === 'notifications') {
-           const notifications = this.props.notifications;
-           <NotificationsList notifications={notifications}/>
+            tab_content = (
+           <NotificationsList notifications={this.props.notifications} />
+            );
         }
         else {
             //    console.log( "no matches" );

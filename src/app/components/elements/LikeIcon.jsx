@@ -6,8 +6,6 @@ import Icon from './Icon';
 class LikeIcon extends Component {
     render() {
         const { profile } = this.props; //redux
-        console.log('profile');
-        console.log(profile);
         if (profile.location == undefined) {
             return <div />;
         } else {
