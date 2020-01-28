@@ -1,23 +1,25 @@
 const map = {
-    //steemit
-    ned: 'steemit',
-    justinw: 'steemit',
-    elipowell: 'steemit',
-    vandeberg: 'steemit',
-    birdinc: 'steemit',
-    gerbino: 'steemit',
-    andrarchy: 'steemit',
-    roadscape: 'steemit',
-    steemitblog: 'steemit',
-    steemitdev: 'steemit',
-
-    /*
-    //steem monsters
-    steemmonsters: 'sm',
-    'steem.monsters': 'sm',
-    aggroed: 'sm',
-    yabapmatt: 'sm',
-*/
+    ericet: 'like',
+    honoru: 'like',
+    softmetal: 'like',
+    annepink: 'like',
+    annzhao: 'like',
+    cnfund: 'like',
+    aellly: 'like',
+    cherryzz: 'like',
+    mrspointm: 'like',
+    shenchensucc: 'like',
+    lnakuma: 'like',
+    abcallen: 'like',
+    aaronli: 'like',
+    nuagnorab: 'like',
+    sunai: 'like',
+    tsomur: 'like',
+    liumei: 'like',
+    cloudblade: 'like',
+    caishin: 'like',
+    jianan: 'like',
+    'kevin.zhangkq': 'like',
 };
 
 export default map;

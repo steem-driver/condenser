@@ -582,14 +582,10 @@ export default class UserProfile extends React.Component {
                                 <span className="UserProfile__rep">
                                     ({rep} {title})
                                 </span>
-                                <LikeIcon author={accountname} />
                             </Tooltip>
-                            {AffiliationMap[accountname] ? (
-                                <span className="affiliation">
-                                    {tt(
-                                        'g.affiliation_' +
-                                            AffiliationMap[accountname]
-                                    )}
+                            {AffiliationMap[accountname] && AffiliationMap[accountname]=='like'? (
+                                    <span title="LikeCoin">
+                                    <Icon name="like" />
                                 </span>
                             ) : null}
                         </h1>
