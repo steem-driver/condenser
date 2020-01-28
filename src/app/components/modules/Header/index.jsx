@@ -239,8 +239,8 @@ class Header extends React.Component {
 
         const logo_link =
             resolveRoute(pathname).params &&
-            resolveRoute(pathname).params.length > 1 &&
-            this.last_sort_order
+                resolveRoute(pathname).params.length > 1 &&
+                this.last_sort_order
                 ? '/' + this.last_sort_order
                 : current_account_name ? `/@${current_account_name}/feed` : '/';
 
@@ -303,11 +303,11 @@ class Header extends React.Component {
             { link: settings_link, icon: 'cog', value: tt('g.settings') },
             loggedIn
                 ? {
-                      link: '#',
-                      icon: 'enter',
-                      onClick: logout,
-                      value: tt('g.logout'),
-                  }
+                    link: '#',
+                    icon: 'enter',
+                    onClick: logout,
+                    value: tt('g.logout'),
+                }
                 : { link: '#', onClick: showLogin, value: tt('g.login') },
         ];
         return (
@@ -377,17 +377,30 @@ class Header extends React.Component {
                             )}
 
                             {/*CUSTOM SEARCH*/}
-                            <span className="Header__search--desktop">
-                                <SearchInput />
-                            </span>
-                            <span className="Header__search">
-                                <a href="/static/search.html">
-                                    <IconButton icon="magnifyingGlass" />
-                                </a>
-                            </span>
+                            {loggedIn && (
+
+                                <span className="Header__search--desktop">
+                                    <SearchInput />
+                                </span>
+                            )}
+
+                            {loggedIn && (
+                                <span className="Header__search">
+                                    <a href="/static/search.html">
+                                        <IconButton icon="magnifyingGlass" />
+                                    </a>
+                                </span>
+                            )}
+
+
 
                             {/*SUBMIT STORY*/}
-                            {submit_story}
+                            {loggedIn && (
+                                <Link to="/submit.html">
+                                    <IconButton />
+                                </Link>
+                            )
+                            }
                             {/*USER AVATAR */}
                             {loggedIn && (
                                 <DropdownMenu
