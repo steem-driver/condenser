@@ -74,6 +74,9 @@ class App extends React.Component {
     setShowBannerFalse = () => {
         this.setState({ showBanner: false });
     };
+    digitalOceanAd = () => {
+        window.open('https://m.do.co/c/3136a668a3ea');
+    };
 
     render() {
         const {
@@ -176,6 +179,9 @@ class App extends React.Component {
                 })}
                 ref="App_root"
             >
+                 <div className="ad" onClick={this.digitalOceanAd}>
+                    [AD]Try DigitalOcean for free with a $100, 60-day Credit
+                </div>
                 {headerHidden ? null : (
                     <Header
                         pathname={pathname}
