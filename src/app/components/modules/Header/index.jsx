@@ -359,7 +359,7 @@ class Header extends React.Component {
                         <div className="small-7 large-4 columns Header__buttons">
                             {/*NOT LOGGED IN SIGN IN AND SIGN UP LINKS*/}
                             {!loggedIn && (
-                                <span className="Header__user-signup show-for-medium">
+                                <span className="Header__user-signup">
                                     <a
                                         className="Header__login-link"
                                         href="/login.html"
