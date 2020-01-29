@@ -179,9 +179,6 @@ class App extends React.Component {
                 })}
                 ref="App_root"
             >
-                 <div className="ad" onClick={this.digitalOceanAd}>
-                    [AD]Try DigitalOcean for free with a $100, 60-day Credit
-                </div>
                 {headerHidden ? null : (
                     <Header
                         pathname={pathname}
