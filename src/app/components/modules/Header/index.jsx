@@ -316,10 +316,14 @@ class Header extends React.Component {
                 onUnfix={e => this.headroomOnUnfix(e)}
             >
                 <header className="Header">
-                    {showAnnouncement && (
-                        <Announcement onClose={e => this.hideAnnouncement(e)} />
-                    )}
+                    {
+                        this.props.showAnnouncement && shouldShowAnnouncement() && (
+                            <Announcement onClose={this.props.hideAnnouncement} />
+                        )}
+
                     {/* If announcement is shown, ad will not render unless it's in a parent div! */}
+
+
                     <div
                         style={
                             showAd && allowAdsOnContent
@@ -498,4 +502,17 @@ const mapDispatchToProps = dispatch => ({
 
 const connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
 
+
+function shouldShowAnnouncement() {
+    if (
+        typeof sessionStorage === 'undefined' ||
+        (typeof sessionStorage !== 'undefined' &&
+            sessionStorage.getItem('hideAnnouncement') !== 'true')
+    )
+        return true;
+    else return false;
+}
+
 export default connectedHeader;
+
+
