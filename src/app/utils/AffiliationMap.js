@@ -1,4 +1,5 @@
 const map = {
+    'annepink': 'like',
     'aaronli': 'like',
     'abcallen': 'like',
     'aellly': 'like',
@@ -9,6 +10,7 @@ const map = {
     'cherryzz': 'like',
     'cloudblade': 'like',
     'cnfund': 'like',
+    'elizacheng': 'like',
     'ericet': 'like',
     'honoru': 'like',
     'jianan': 'like',
@@ -18,15 +20,22 @@ const map = {
     'lnakuma': 'like',
     'minloulou': 'like',
     'mrspointm': 'like',
+    'mylord1992': 'like',
     'nuagnorab': 'like',
+    'pet.society': 'like',
     'shenchensucc': 'like',
     'slientstorm': 'like',
     'softmetal': 'like',
     'sunai': 'like',
     'tanlikming': 'like',
+    'tiffany4ever': 'like',
     'tsomur': 'like',
     'ybeyond': 'like',
-    'annepink': 'like',
+    'youandme': 'like',
+    'steem-drivers':'like',
+    'cn-trail':'like',
+    'teamcn-shop':'like',
+    'cn-union':'like',
 };
 
 export default map;
