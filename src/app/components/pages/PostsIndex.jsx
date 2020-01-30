@@ -20,7 +20,7 @@ import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
-import { TAG_LIST, CURATION_ACCOUNT } from 'app/client_config';
+import { TAG_LIST, CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 
 class PostsIndex extends React.Component {
@@ -94,6 +94,11 @@ class PostsIndex extends React.Component {
         }
         if (order === 'recommended') {
             accountname = CURATION_ACCOUNT;
+            order = 'by_feed';
+            category = 'feed';
+        }
+        if (order === 'likers') {
+            accountname = LIKER_ACCOUNT;
             order = 'by_feed';
             category = 'feed';
         }
@@ -173,6 +178,8 @@ class PostsIndex extends React.Component {
         } else {
             if (order === 'recommended')
                 posts = this.props.accounts.getIn([CURATION_ACCOUNT, 'feed']);
+            else if (order === 'likers')
+                posts = this.props.accounts.getIn([LIKER_ACCOUNT, 'feed']);
             else posts = this.getPosts(order, category);
             if (posts && posts.size === 0) {
                 emptyText = (
@@ -225,6 +232,9 @@ class PostsIndex extends React.Component {
                     break;
                 case 'recommended':
                     page_title = tt('main_menu.recommended');
+                    break;
+                case 'likers':
+                    page_title = tt('main_menu.likers');
                     break;
             }
             if (typeof category !== 'undefined') {

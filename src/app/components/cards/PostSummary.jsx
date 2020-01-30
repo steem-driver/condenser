@@ -31,6 +31,7 @@ class PostSummary extends React.Component {
         onClose: PropTypes.func,
         thumbSize: PropTypes.string,
         nsfwPref: PropTypes.string,
+        isLiker: PropTypes.bool,
     };
 
     constructor() {
@@ -58,7 +59,7 @@ class PostSummary extends React.Component {
 
     render() {
         const { thumbSize, ignore } = this.props;
-        const { post, content, featured, promoted, onClose } = this.props;
+        const { post, content, featured, promoted, onClose, isLiker } = this.props;
         const { account } = this.props;
         if (!content) return null;
 
@@ -162,62 +163,70 @@ class PostSummary extends React.Component {
         );
 
         // New Post Summary heading
-        const summary_header = (
-            <div className="articles__summary-header">
-                <div className="user">
-                    {!isNsfw ? (
-                        <div className="user__col user__col--left">
-                            <a className="user__link" href={'/@' + p.author}>
-                                <Userpic
-                                    account={p.author}
-                                    size={avatarSize.small}
-                                />
-                            </a>
-                        </div>
-                    ) : null}
-                    <div className="user__col user__col--right">
-                        <span className="user__name">
-                            <Author
-                                author={p.author}
-                                authorRepLog10={authorRepLog10}
-                                follow={false}
-                                mute={false}
-                            />
-                        </span>
+        let summary_header;
 
-                        <span className="articles__tag-link">
-                            {tt('g.in')}&nbsp;<TagList post={p} single />&nbsp;•&nbsp;
-                        </span>
-                        <Link className="timestamp__link" to={post_url}>
-                            <span className="timestamp__time">
-                                <TimeAgoWrapper
-                                    date={p.created}
-                                    className="updated"
+        if (isLiker && content.get('reblogged_by') != undefined) {
+            return null;
+        } else {
+            summary_header = (
+                <div className="articles__summary-header">
+                    <div className="user">
+                        {!isNsfw ? (
+                            <div className="user__col user__col--left">
+                                <a className="user__link" href={'/@' + p.author}>
+                                    <Userpic
+                                        account={p.author}
+                                        size={avatarSize.small}
+                                    />
+                                </a>
+                            </div>
+                        ) : null}
+                        <div className="user__col user__col--right">
+                            <span className="user__name">
+                                <Author
+                                    author={p.author}
+                                    authorRepLog10={authorRepLog10}
+                                    follow={false}
+                                    mute={false}
                                 />
                             </span>
 
-                            {full_power && (
-                                <span
-                                    className="articles__icon-100"
-                                    title={tt('g.powered_up_100')}
-                                >
-                                    <Icon name="steempower" />
+                            <span className="articles__tag-link">
+                                {tt('g.in')}&nbsp;<TagList post={p} single />&nbsp;•&nbsp;
+                            </span>
+                            <Link className="timestamp__link" to={post_url}>
+                                <span className="timestamp__time">
+                                    <TimeAgoWrapper
+                                        date={p.created}
+                                        className="updated"
+                                    />
                                 </span>
-                            )}
-                        </Link>
+
+                                {full_power && (
+                                    <span
+                                        className="articles__icon-100"
+                                        title={tt('g.powered_up_100')}
+                                    >
+                                        <Icon name="steempower" />
+                                    </span>
+                                )}
+                            </Link>
+                        </div>
+                        {(featured || promoted) && (
+                            <a
+                                onClick={onClose}
+                                className="PostDismiss"
+                                title="Dismiss Post"
+                            >
+                                <Icon name="close" />
+                            </a>
+                        )}
                     </div>
-                    {(featured || promoted) && (
-                        <a
-                            onClick={onClose}
-                            className="PostDismiss"
-                            title="Dismiss Post"
-                        >
-                            <Icon name="close" />
-                        </a>
-                    )}
                 </div>
-            </div>
-        );
+            );
+        }
+
+
 
         const content_footer = (
             <div className="PostSummary__footer">
@@ -289,17 +298,17 @@ class PostSummary extends React.Component {
                                     </Link>.
                                 </span>
                             ) : (
-                                <span>
-                                    <a href={SIGNUP_URL}>
+                                    <span>
+                                        <a href={SIGNUP_URL}>
+                                            {tt(
+                                                'postsummary_jsx.create_an_account'
+                                            )}
+                                        </a>{' '}
                                         {tt(
-                                            'postsummary_jsx.create_an_account'
-                                        )}
-                                    </a>{' '}
-                                    {tt(
-                                        'postsummary_jsx.to_save_your_preferences'
-                                    )}.
+                                            'postsummary_jsx.to_save_your_preferences'
+                                        )}.
                                 </span>
-                            )}
+                                )}
                             {summary_footer}
                         </div>
                     </article>
@@ -352,7 +361,6 @@ class PostSummary extends React.Component {
         // special.
         const commentClasses = [];
         if (!special && (gray || ignore)) commentClasses.push('downvoted'); // rephide
-
         return (
             <div className="articles__summary">
                 {reblogged_by}
@@ -387,7 +395,7 @@ class PostSummary extends React.Component {
 
 export default connect(
     (state, props) => {
-        const { post } = props;
+        const { post, isLiker } = props;
         const content = state.global.get('content').get(post);
         let pending_payout = 0;
         let total_payout = 0;
@@ -397,6 +405,7 @@ export default connect(
         }
         return {
             post,
+            isLiker,
             content,
             pending_payout: pending_payout
                 ? pending_payout.toString()

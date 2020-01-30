@@ -288,7 +288,8 @@
     "main_menu": {
         "hot": "Hot",
         "trending": "Trending",
-        "recommended": "Recommended"
+        "recommended": "Recommended",
+        "likers": "Likers"
     },
     "reply_editor": {
         "shorten_title": "Shorten title",

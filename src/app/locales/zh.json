@@ -260,7 +260,8 @@
     "main_menu": {
         "hot": "热门",
         "trending": "流行",
-        "recommended": "好文推荐"
+        "recommended": "好文推荐",
+        "likers":"拍手公民"
     },
     "reply_editor": {
         "shorten_title": "缩短标题",
