@@ -3,12 +3,8 @@ import { Client } from '@busyorg/busyjs';
 import stateCleaner from 'app/redux/stateCleaner';
 import axios from 'axios';
 import SSC from 'sscjs';
-<<<<<<< HEAD
-import { CURATION_ACCOUNT } from 'app/client_config';
-=======
 import {CURATION_ACCOUNT,LIKER_ACCOUNT } from 'app/client_config';
 
->>>>>>> ff63d5100d441d0f10e206e78d62d77b99080016
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
 
