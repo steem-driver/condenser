@@ -20,7 +20,7 @@ import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
-import { TAG_LIST,CURATION_ACCOUNT } from 'app/client_config';
+import { TAG_LIST, CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 
 class PostsIndex extends React.Component {
@@ -63,6 +63,23 @@ class PostsIndex extends React.Component {
         return topic_discussions.get(order);
     }
 
+    getDate() {
+        let today = new Date();
+        let dd = today.getDate();
+
+        let mm = today.getMonth() + 1;
+        let yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = mm + '-' + dd + '-' + yyyy;
+        return today;
+    }
+
     loadMore(last_post) {
         if (!last_post) return;
         let {
@@ -70,15 +87,20 @@ class PostsIndex extends React.Component {
             category,
             order = constants.DEFAULT_SORT_ORDER,
         } = this.props.routeParams;
-        
+
         if (category === 'feed') {
             accountname = order.slice(1);
             order = 'by_feed';
         }
-        if(order==='recommended'){
+        if (order === 'recommended') {
             accountname = CURATION_ACCOUNT;
             order = 'by_feed';
-            category='feed';
+            category = 'feed';
+        }
+        if (order === 'likers') {
+            accountname = LIKER_ACCOUNT;
+            order = 'by_feed';
+            category = 'feed';
         }
         if (isFetchingOrRecentlyUpdated(this.props.status, order, category))
             return;
@@ -156,6 +178,8 @@ class PostsIndex extends React.Component {
         } else {
             if (order === 'recommended')
                 posts = this.props.accounts.getIn([CURATION_ACCOUNT, 'feed']);
+            else if (order === 'likers')
+                posts = this.props.accounts.getIn([LIKER_ACCOUNT, 'feed']);
             else posts = this.getPosts(order, category);
             if (posts && posts.size === 0) {
                 emptyText = (
@@ -209,6 +233,9 @@ class PostsIndex extends React.Component {
                 case 'recommended':
                     page_title = tt('main_menu.recommended');
                     break;
+                case 'likers':
+                    page_title = tt('main_menu.likers');
+                    break;
             }
             if (typeof category !== 'undefined') {
                 page_title = `${page_title}: ${category}`; // maybe todo: localize the colon?
@@ -219,6 +246,9 @@ class PostsIndex extends React.Component {
         const layoutClass = this.props.blogmode
             ? ' layout-block'
             : ' layout-list';
+        let date = this.getDate();
+        let src = `https://button.like.co/in/embed/steemcn/button?referrer=${date}`;
+
         return (
             <div
                 className={
@@ -256,39 +286,52 @@ class PostsIndex extends React.Component {
                     </div>
                     <hr className="articles__hr" />
                     {!fetching &&
-                    (posts && !posts.size) &&
-                    (featured && !featured.size) &&
-                    (promoted && !promoted.size) ? (
-                        <Callout>{emptyText}</Callout>
-                    ) : (
-                        <PostsList
-                            ref="list"
-                            posts={posts ? posts : List()}
-                            loading={fetching}
-                            anyPosts
-                            category={category}
-                            loadMore={this.loadMore}
-                            showFeatured
-                            showPromoted
-                            showSpam={showSpam}
-                            allowAdsOnContent={allowAdsOnContent}
-                        />
-                    )}
+                        (posts && !posts.size) &&
+                        (featured && !featured.size) &&
+                        (promoted && !promoted.size) ? (
+                            <Callout>{emptyText}</Callout>
+                        ) : (
+                            <PostsList
+                                ref="list"
+                                posts={posts ? posts : List()}
+                                loading={fetching}
+                                anyPosts
+                                category={category}
+                                loadMore={this.loadMore}
+                                showFeatured
+                                showPromoted
+                                showSpam={showSpam}
+                                allowAdsOnContent={allowAdsOnContent}
+                            />
+                        )}
                 </article>
 
                 <aside className="c-sidebar c-sidebar--right">
                     {this.props.isBrowser &&
-                    !this.props.maybeLoggedIn &&
-                    !this.props.username ? (
-                        <SidebarNewUsers />
-                    ) : (
-                        this.props.isBrowser && (
-                            <div>
-                                {/* <SidebarStats steemPower={123} followers={23} reputation={62} />  */}
-                                <SidebarLinks username={this.props.username} />
-                            </div>
-                        )
-                    )}
+                        !this.props.maybeLoggedIn &&
+                        !this.props.username ? (
+                            <SidebarNewUsers />
+                        ) : (
+                            this.props.isBrowser && (
+                                <div>
+                                    {/* <SidebarStats steemPower={123} followers={23} reputation={62} />  */}
+                                    <SidebarLinks username={this.props.username} />
+                                </div>
+                            )
+                        )}
+
+
+                    <div className="c-sidebar__content">
+                        <div>
+                            <iframe
+                                src={src}
+                                frameBorder="0"
+                                allowFullScreen="true"
+                                scrolling="no"
+                                align="middle"
+                            />
+                        </div>
+                    </div>
                     <Notices notices={this.props.notices} />
                     <SteemMarket />
                     {this.props.gptEnabled && allowAdsOnContent ? (

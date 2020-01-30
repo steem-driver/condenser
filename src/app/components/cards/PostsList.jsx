@@ -32,6 +32,7 @@ class PostsList extends React.Component {
         fetchState: PropTypes.func.isRequired,
         pathname: PropTypes.string,
         nsfwPref: PropTypes.string.isRequired,
+        isLiker: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -107,10 +108,10 @@ class PostsList extends React.Component {
             window.pageYOffset !== undefined
                 ? window.pageYOffset
                 : (
-                      document.documentElement ||
-                      document.body.parentNode ||
-                      document.body
-                  ).scrollTop;
+                    document.documentElement ||
+                    document.body.parentNode ||
+                    document.body
+                ).scrollTop;
         if (
             topPosition(el) + el.offsetHeight - scrollTop - window.innerHeight <
             10
@@ -188,7 +189,7 @@ class PostsList extends React.Component {
             (pathname === '/' ||
                 pathname === '/trending' ||
                 pathname === '/trending/');
-
+        const isLiker = pathname === '/likers' || pathname === '/likers/';
         const areFeaturedPostsVisible =
             showFeatured && (isLoggedInOnFeed || isLoggedOutOnTrending);
         const areFeaturedPostsReady = isLoggedInOnFeed
@@ -219,6 +220,7 @@ class PostsList extends React.Component {
                             thumbSize={thumbSize}
                             ignore={false}
                             nsfwPref={nsfwPref}
+                            isLiker={isLiker}
                             featured
                             onClose={close}
                         />
@@ -257,6 +259,7 @@ class PostsList extends React.Component {
                             thumbSize={thumbSize}
                             ignore={false}
                             nsfwPref={nsfwPref}
+                            isLiker={isLiker}
                             promoted
                             onClose={close}
                         />
@@ -283,6 +286,7 @@ class PostsList extends React.Component {
                                     thumbSize={thumbSize}
                                     ignore={item.ignore}
                                     nsfwPref={nsfwPref}
+                                    isLiker={isLiker}
                                 />
                             </li>
 
@@ -303,6 +307,7 @@ class PostsList extends React.Component {
                             thumbSize={thumbSize}
                             ignore={item.ignore}
                             nsfwPref={nsfwPref}
+                            isLiker={isLiker}
                         />
                     </li>
                 );
@@ -337,6 +342,7 @@ export default connect(
     (state, props) => {
         const pathname = state.app.get('location').pathname;
         console.log('pathname:', pathname);
+        const isLiker = pathname === '/likers' || pathname === '/likers/';
         const current = state.user.get('current');
         const username = current
             ? current.get('username')
@@ -368,6 +374,7 @@ export default connect(
             content,
             ignore_result,
             pathname,
+            isLiker,
             nsfwPref,
             featured,
             promoted,

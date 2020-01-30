@@ -248,7 +248,19 @@ export function* fetchData(action) {
                 start_permlink: permlink,
             },
         ];
-    } else {
+    } 
+    else if (order === 'likers') {
+        call_name = 'getDiscussionsByFeedAsync';
+        args = [
+            {
+                tag: LIKER_ACCOUNT,
+                limit: constants.FETCH_DATA_BATCH_SIZE,
+                start_author: author,
+                start_permlink: permlink,
+            },
+        ];
+    }
+    else {
         // this should never happen. undefined behavior
         call_name = 'getDiscussionsByTrendingAsync';
         args = [{ limit: constants.FETCH_DATA_BATCH_SIZE }];

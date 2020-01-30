@@ -36,7 +36,7 @@ class Author extends React.Component {
     static defaultProps = {
         follow: true,
         mute: true,
-        showAffiliation: false,
+        showAffiliation: true,
     };
 
     constructor(...args) {
@@ -115,9 +115,9 @@ class Author extends React.Component {
                         <Link to={'/@' + author}>{author}</Link>
                     </strong>{' '}
                     <Reputation value={authorRepLog10} />
-                    {showAffiliation && AffiliationMap[author] ? (
-                        <span className="affiliation">
-                            {tt('g.affiliation_' + AffiliationMap[author])}
+                    {AffiliationMap[author] && AffiliationMap[author] == 'like' ? (
+                        <span title="LikeCoin">
+                            <Icon name="like" />
                         </span>
                     ) : null}
                 </span>
@@ -140,16 +140,14 @@ class Author extends React.Component {
                             to={'/@' + author}
                         >
                             {author} <Reputation value={authorRepLog10} />
-                            {showAffiliation && AffiliationMap[author] ? (
-                                <span className="affiliation">
-                                    {tt(
-                                        'g.affiliation_' +
-                                            AffiliationMap[author]
-                                    )}
-                                </span>
-                            ) : null}
+
                             <Icon name="dropdown-arrow" />
                         </Link>
+                        {showAffiliation && AffiliationMap[author]  && AffiliationMap[author] == 'like'? (
+                            <span title="LikeCoin">
+                                <Icon name="like" />
+                            </span>
+                        ) : null}
                     </strong>
                 </span>
                 <Overlay

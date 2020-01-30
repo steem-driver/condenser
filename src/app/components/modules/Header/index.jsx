@@ -244,8 +244,8 @@ class Header extends React.Component {
 
         const logo_link =
             resolveRoute(pathname).params &&
-            resolveRoute(pathname).params.length > 1 &&
-            this.last_sort_order
+                resolveRoute(pathname).params.length > 1 &&
+                this.last_sort_order
                 ? '/' + this.last_sort_order
                 : current_account_name ? `/@${current_account_name}/feed` : '/';
 
@@ -314,11 +314,11 @@ class Header extends React.Component {
             { link: settings_link, icon: 'cog', value: tt('g.settings') },
             loggedIn
                 ? {
-                      link: '#',
-                      icon: 'enter',
-                      onClick: logout,
-                      value: tt('g.logout'),
-                  }
+                    link: '#',
+                    icon: 'enter',
+                    onClick: logout,
+                    value: tt('g.logout'),
+                }
                 : { link: '#', onClick: showLogin, value: tt('g.login') },
         ];
         return (
@@ -327,10 +327,14 @@ class Header extends React.Component {
                 onUnfix={e => this.headroomOnUnfix(e)}
             >
                 <header className="Header">
-                    {showAnnouncement && (
-                        <Announcement onClose={e => this.hideAnnouncement(e)} />
-                    )}
+                    {
+                        this.props.showAnnouncement && shouldShowAnnouncement() && (
+                            <Announcement onClose={this.props.hideAnnouncement} />
+                        )}
+
                     {/* If announcement is shown, ad will not render unless it's in a parent div! */}
+
+
                     <div
                         style={
                             showAd && allowAdsOnContent
@@ -370,7 +374,7 @@ class Header extends React.Component {
                         <div className="small-7 large-4 columns Header__buttons">
                             {/*NOT LOGGED IN SIGN IN AND SIGN UP LINKS*/}
                             {!loggedIn && (
-                                <span className="Header__user-signup show-for-medium">
+                                <span className="Header__user-signup">
                                     <a
                                         className="Header__login-link"
                                         href="/login.html"
@@ -388,17 +392,30 @@ class Header extends React.Component {
                             )}
 
                             {/*CUSTOM SEARCH*/}
-                            <span className="Header__search--desktop">
-                                <SearchInput />
-                            </span>
-                            <span className="Header__search">
-                                <a href="/static/search.html">
-                                    <IconButton icon="magnifyingGlass" />
-                                </a>
-                            </span>
+                            {loggedIn && (
+
+                                <span className="Header__search--desktop">
+                                    <SearchInput />
+                                </span>
+                            )}
+
+                            {loggedIn && (
+                                <span className="Header__search">
+                                    <a href="/static/search.html">
+                                        <IconButton icon="magnifyingGlass" />
+                                    </a>
+                                </span>
+                            )}
+
+
 
                             {/*SUBMIT STORY*/}
-                            {submit_story}
+                            {loggedIn && (
+                                <Link to="/submit.html">
+                                    <IconButton />
+                                </Link>
+                            )
+                            }
                             {/*USER AVATAR */}
                             {loggedIn && (
                                 <DropdownMenu
@@ -496,4 +513,17 @@ const mapDispatchToProps = dispatch => ({
 
 const connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
 
+
+function shouldShowAnnouncement() {
+    if (
+        typeof localStorage === 'undefined' ||
+        (typeof localStorage !== 'undefined' &&
+            localStorage.getItem('hideAnnouncement') !== 'true')
+    )
+        return true;
+    else return false;
+}
+
 export default connectedHeader;
+
+

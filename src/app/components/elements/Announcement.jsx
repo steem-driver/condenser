@@ -4,12 +4,8 @@ import React from 'react';
 export const Announcement = ({ onClose }) => (
     <div className="annoucement-banner">
         <p className="announcement-banner__text">
-            Important Changes to Steemit.com and Wallet, click{' '}
-            <a
-                className="announcement-banner__link"
-                href="https://steemit.com/steem/@steemitblog/social-condenser-is-live"
-            >
-                here.
+        <a className="announcement-banner__link" href="https://m.do.co/c/3136a668a3ea">
+        [AD]Try DigitalOcean for free with a $100 Credit
             </a>
         </p>
         <button className="close-button" type="button" onClick={onClose}>

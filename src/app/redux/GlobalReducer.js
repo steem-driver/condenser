@@ -280,12 +280,17 @@ export default function reducer(state = defaultState, action = {}) {
                 order === 'by_feed' ||
                 order === 'by_comments' ||
                 order === 'by_replies' ||
-                order === 'recommended'
+                order === 'recommended' ||
+                order === 'likers'
             ) {
                 var account = accountname;
                 var newCategory = category;
                 if (order === 'recommended') {
                     account = CURATION_ACCOUNT;
+                    newCategory = 'feed';
+                }
+                if (order === 'likers') {
+                    account = LIKER_ACCOUNT;
                     newCategory = 'feed';
                 }
                 // category is either "blog", "feed", "comments", or "recent_replies" (respectively) -- and all posts are keyed under current profile
@@ -325,7 +330,7 @@ export default function reducer(state = defaultState, action = {}) {
             });
             var newOrder = order;
             var newCategory = category;
-            if (order === 'recommended') {
+            if (order === 'recommended' || order ==='likers') {
                 newOrder = 'by_feed';
                 newCategory = 'feed';
             }

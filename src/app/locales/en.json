@@ -30,8 +30,7 @@
         "email": "Email",
         "external_link_message":
             "This link will take you away from steemit.com",
-        "affiliation_steemit": "Steemit Team",
-        "affiliation_sm": "Steem Monsters Team",
+        "affiliation_like":"LikeCoin",
         "feed": "Feed",
         "follow": "Follow",
         "for": " for ",
@@ -290,7 +289,8 @@
     "main_menu": {
         "hot": "Hot",
         "trending": "Trending",
-        "recommended": "Recommended"
+        "recommended": "Recommended",
+        "likers": "Likers"
     },
     "reply_editor": {
         "shorten_title": "Shorten title",

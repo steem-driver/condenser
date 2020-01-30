@@ -23,7 +23,7 @@ class App extends React.Component {
         // TODO: put both of these and associated toggles into Redux Store.
         this.state = {
             showCallout: true,
-            showBanner: true,
+            showBanner: false,
         };
         this.listenerActive = null;
     }
@@ -73,6 +73,9 @@ class App extends React.Component {
 
     setShowBannerFalse = () => {
         this.setState({ showBanner: false });
+    };
+    digitalOceanAd = () => {
+        window.open('https://m.do.co/c/3136a668a3ea');
     };
 
     render() {
