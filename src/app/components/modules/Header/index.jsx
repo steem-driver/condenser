@@ -505,9 +505,9 @@ const connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
 
 function shouldShowAnnouncement() {
     if (
-        typeof sessionStorage === 'undefined' ||
-        (typeof sessionStorage !== 'undefined' &&
-            sessionStorage.getItem('hideAnnouncement') !== 'true')
+        typeof localStorage === 'undefined' ||
+        (typeof localStorage !== 'undefined' &&
+            localStorage.getItem('hideAnnouncement') !== 'true')
     )
         return true;
     else return false;

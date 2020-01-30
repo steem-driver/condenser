@@ -262,13 +262,13 @@ export default function reducer(state = defaultState, action) {
             return state.set('show_post_advanced_settings_modal', '');
 
         case SHOW_ANNOUNCEMENT:
-            typeof sessionStorage !== 'undefined' &&
-                sessionStorage.setItem('hideAnnouncement', 'false');
+            typeof localStorage !== 'undefined' &&
+            localStorage.setItem('hideAnnouncement', 'false');
             return state.set('showAnnouncement', true);
 
         case HIDE_ANNOUNCEMENT:
-            typeof sessionStorage !== 'undefined' &&
-                sessionStorage.setItem('hideAnnouncement', 'true');
+            typeof localStorage !== 'undefined' &&
+            localStorage.setItem('hideAnnouncement', 'true');
             return state.set('showAnnouncement', false);
 
         default:
