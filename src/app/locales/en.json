@@ -53,6 +53,7 @@
         "my_comments": "My comments",
         "my_feed": "My feed",
         "my_replies": "Replies to me",
+        "my_notifications":"My Notifications",
         "my_wallet": "My wallet",
         "new": "New",
         "newer": "Newer",
@@ -900,5 +901,13 @@
     "sanitizedlink_jsx": {
         "phishylink_caution": "Link hidden; phishing attempt",
         "phishylink_reveal": "show link"
+    },
+    "notificationsList_jsx": {
+        "reply": "%(account)s commented on your post",
+        "mention": "%(account)s mentioned you in a post",
+        "transfer": "%(account)s transferred %(amount)s to you",
+        "vote": "%(account)s downvoted your post",
+        "follow": "%(account)s started following you",
+        "reblog": "%(account)s reblogged your post"
     }
 }

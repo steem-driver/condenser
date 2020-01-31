@@ -8,10 +8,10 @@ import {CURATION_ACCOUNT,LIKER_ACCOUNT } from 'app/client_config';
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
 
-async function createBusyAPI() {
+async function createBusyAPI(account) {
     return new Promise((resolve, reject) => {
         const client = new Client('wss://api.busy.org');
-        client.call('get_notifications', ['ericet'], (err, result) => {
+        client.call('get_notifications', [account], (err, result) => {
             if (err !== null) reject(err);
             resolve(result);
         });
@@ -31,8 +31,12 @@ export async function getStateAsync(url) {
     if (!raw.accounts) {
         raw.accounts = {};
     }
+    
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
-    raw.notifications = await createBusyAPI();
+    const username = url.match(/^[\/]?@([^\/]+)/);
+    if(username){
+    raw.notifications = await createBusyAPI(username[1]);
+    }
     if (urlParts) {
         const account = urlParts[1];
         if (!raw.accounts[account]) {

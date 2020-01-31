@@ -154,8 +154,6 @@ export default class UserProfile extends React.Component {
         const username = current_user ? current_user.get('username') : null;
 
         let { section } = this.props.routeParams;
-        console.log('section')
-        console.log(section)
         if (!section) section = 'blog';
 
         // Loading status
@@ -377,7 +375,7 @@ export default class UserProfile extends React.Component {
         }
         else if (section === 'notifications') {
             tab_content = (
-           <NotificationsList notifications={this.props.notifications} />
+           <NotificationsList notifications={this.props.notifications} accountname={accountname}/>
             );
         }
         else {
@@ -401,6 +399,8 @@ export default class UserProfile extends React.Component {
                 page_title = tt('g.my_replies');
             } else if (section === 'settings') {
                 page_title = tt('g.settings');
+            } else if(section === 'notifications'){
+                page_title = tt('g.my_notifications');
             }
         } else {
             if (section === 'blog') {
@@ -411,6 +411,8 @@ export default class UserProfile extends React.Component {
                 page_title = tt('g.replies');
             } else if (section === 'settings') {
                 page_title = tt('g.settings');
+            }else if(section === 'notifications'){
+                page_title = tt('g.notifications');
             }
         }
 
