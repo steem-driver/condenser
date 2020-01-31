@@ -43,7 +43,7 @@ export async function getStateAsync(url) {
             raw.accounts[account] = await getAccount(account);
         }
         if (!raw.props) {
-            raw.props = await Promise.all(getGlobalProps());
+            raw.props = await getGlobalProps();
         }
         if (!raw.content) {
             raw.content = {};
