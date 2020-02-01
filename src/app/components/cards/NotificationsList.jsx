@@ -15,10 +15,11 @@ const notificationsIcon = type => {
         follow: 'voters',
         set_label: 'pencil2',
         set_role: 'pencil2',
-        vote: 'chevron-up-circle',
+        vote: 'chevron-down-circle',
         error: 'cog',
         reblog: 'reblog',
         mention: 'chatboxes',
+        transfer:'transfer'
     };
     let icon = 'chain';
     if (type in types) {
