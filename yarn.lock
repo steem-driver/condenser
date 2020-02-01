@@ -10,6 +10,13 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@busyorg/busyjs@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@busyorg/busyjs/-/busyjs-1.0.1.tgz#ca8e4fcf191d0c6c802ca9de5e46906380380e87"
+  integrity sha512-CQMxMYlHqh/slNGK6INz1X9YZJOeV9XYfyrbJt5cZdmkJjVIvmMACuIMWAZT9yGPQaLHfcYB7vSvov0eq0CQEg==
+  dependencies:
+    ws "^4.0.0"
+
 "@steem/crypto-session@git+https://github.com/steemit/crypto-session.git#83a90b319ce5bc6a70362d52a15a815de7e729bb":
   version "1.0.3"
   resolved "git+https://github.com/steemit/crypto-session.git#83a90b319ce5bc6a70362d52a15a815de7e729bb"
@@ -17,14 +24,6 @@
     koa-session "3"
     libsodium "^0.4.8"
     libsodium-wrappers "^0.4.8"
-
-sscjs@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/sscjs/-/sscjs-0.0.7.tgz#da872795dc40bd671440a4d580f7b37b8f368387"
-  integrity sha512-PzwFRbpfbYcGpf37h/ixJ2GWPcPK+Vu6GQ8geIXL8IxgD1u2lxfQdMcXER/ZcgnbvHOYWK/cHnEoH2dvCwlk2g==
-  dependencies:
-    axios "^0.18.0"
-
 
 "@steemit/libcrypto@^1.0.1":
   version "1.0.1"
@@ -8438,6 +8437,13 @@ sprintf-js@^1.0.3:
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
+
+sscjs@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/sscjs/-/sscjs-0.0.7.tgz#da872795dc40bd671440a4d580f7b37b8f368387"
+  integrity sha512-PzwFRbpfbYcGpf37h/ixJ2GWPcPK+Vu6GQ8geIXL8IxgD1u2lxfQdMcXER/ZcgnbvHOYWK/cHnEoH2dvCwlk2g==
+  dependencies:
+    axios "^0.18.0"
 
 sshpk@^1.7.0:
   version "1.13.1"

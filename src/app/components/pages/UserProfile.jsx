@@ -31,6 +31,7 @@ import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector'
 import SanitizedLink from 'app/components/elements/SanitizedLink';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
 import LikeIcon from '../elements/LikeIcon';
+import NotificationsList from '../cards/NotificationsList';
 
 export default class UserProfile extends React.Component {
     constructor() {
@@ -43,7 +44,7 @@ export default class UserProfile extends React.Component {
     }
 
     shouldComponentUpdate(np, ns) {
-        const { follow, follow_count, account, accountname } = this.props;
+        const { follow, follow_count, account, accountname,notifications } = this.props;
 
         let followersLoading = false,
             npFollowersLoading = false;
@@ -81,7 +82,7 @@ export default class UserProfile extends React.Component {
             np.location.pathname !== this.props.location.pathname ||
             np.follow_count !== this.props.follow_count ||
             np.blogmode !== this.props.blogmode ||
-            ns.showResteem !== this.state.showResteem
+            ns.showResteem !== this.state.showResteem || np.notifications !==this.props.notifications
         );
     }
 
@@ -371,7 +372,13 @@ export default class UserProfile extends React.Component {
                     </center>
                 );
             }
-        } else {
+        }
+        else if (section === 'notifications') {
+            tab_content = (
+           <NotificationsList notifications={this.props.notifications} accountname={accountname}/>
+            );
+        }
+        else {
             //    console.log( "no matches" );
         }
 
@@ -392,6 +399,8 @@ export default class UserProfile extends React.Component {
                 page_title = tt('g.my_replies');
             } else if (section === 'settings') {
                 page_title = tt('g.settings');
+            } else if(section === 'notifications'){
+                page_title = tt('g.my_notifications');
             }
         } else {
             if (section === 'blog') {
@@ -402,6 +411,8 @@ export default class UserProfile extends React.Component {
                 page_title = tt('g.replies');
             } else if (section === 'settings') {
                 page_title = tt('g.settings');
+            }else if(section === 'notifications'){
+                page_title = tt('g.notifications');
             }
         }
 
@@ -490,6 +501,14 @@ export default class UserProfile extends React.Component {
                                 activeClassName="active"
                             >
                                 {tt('g.replies')}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to={`/@${accountname}/notifications`}
+                                activeClassName="active"
+                            >
+                                {tt('g.notifications')}
                             </Link>
                         </li>
                         <DropdownMenu
@@ -668,6 +687,7 @@ module.exports = {
                 global_status: state.global.get('status'),
                 accountname: accountname,
                 account: state.global.getIn(['accounts', accountname]),
+                notifications:state.global.get('notifications'),
                 follow: state.global.get('follow'),
                 follow_count: state.global.get('follow_count'),
                 blogmode: state.app.getIn(['user_preferences', 'blogmode']),

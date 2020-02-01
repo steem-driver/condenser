@@ -49,9 +49,11 @@
         "memo": "Memo",
         "mute": "Mute",
         "my_blog": "My blog",
+        "notifications": "Notifications",
         "my_comments": "My comments",
         "my_feed": "My feed",
         "my_replies": "Replies to me",
+        "my_notifications":"My Notifications",
         "my_wallet": "My wallet",
         "new": "New",
         "newer": "Newer",
@@ -684,7 +686,8 @@
         "curation_rewards_by": "Curation rewards by %(username)s",
         "author_rewards_by": "Author rewards by %(username)s",
         "replies_to": "Replies to %(username)s",
-        "comments_by": "Comments by %(username)s"
+        "comments_by": "Comments by %(username)s",
+        "notifications":"Notifications"
     },
     "loginform_jsx": {
         "you_need_a_private_password_or_key":
@@ -789,9 +792,10 @@
         "profile_about": "About",
         "profile_location": "Location",
         "profile_website": "Website",
-        "upload_thumbnail":"Upload a thumbnail",
-        "thumbnail_url":"Thumbnail url",
-        "thumbnail_description":"Select the thumbnail used for this post. By default the first image will be used",
+        "upload_thumbnail": "Upload a thumbnail",
+        "thumbnail_url": "Thumbnail url",
+        "thumbnail_description":
+            "Select the thumbnail used for this post. By default the first image will be used",
         "saved": "Saved!"
     },
     "transfer_jsx": {
@@ -897,5 +901,13 @@
     "sanitizedlink_jsx": {
         "phishylink_caution": "Link hidden; phishing attempt",
         "phishylink_reveal": "show link"
+    },
+    "notificationsList_jsx": {
+        "reply": "%(account)s commented on your post",
+        "mention": "%(account)s mentioned you in a post",
+        "transfer": "%(account)s transferred %(amount)s to you",
+        "vote": "%(account)s downvoted your post",
+        "follow": "%(account)s started following you",
+        "reblog": "%(account)s reblogged your post"
     }
 }

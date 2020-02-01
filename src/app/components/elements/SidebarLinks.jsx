@@ -22,6 +22,14 @@ const SidebarLinks = ({ username }) => (
                 <li className="c-sidebar__list-item">
                     <a
                         className="c-sidebar__link"
+                        href={'/@' + username + '/notifications'}
+                    >
+                        {tt('g.notifications')}
+                    </a>
+                </li>
+                <li className="c-sidebar__list-item">
+                    <a
+                        className="c-sidebar__link"
                         href={'/@' + username + '/transfers'}
                     >
                         {tt('g.my_wallet')}
@@ -33,7 +41,10 @@ const SidebarLinks = ({ username }) => (
                     </a>
                 </li>
                 <li className="c-sidebar__list-item">
-                    <a className="c-sidebar__link" href="https://steem-guides.github.io/links/zh">
+                    <a
+                        className="c-sidebar__link"
+                        href="https://steem-guides.github.io/links/zh"
+                    >
                         {tt('g.useful_links')}
                     </a>
                 </li>

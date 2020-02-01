@@ -48,7 +48,6 @@ function TimeAuthorCategory({ content, authorRepLog10, showTags }) {
                     {tt('g.in')} <TagList post={content} single />
                 </span>
             )}
-           
         </span>
     );
 }
@@ -73,7 +72,6 @@ function TimeAuthorCategoryLarge({ content, authorRepLog10 }) {
                     createDate={content.created}
                     updateDate={content.last_update}
                 />
-            
             </div>
         </span>
     );
@@ -382,7 +380,7 @@ class PostFull extends React.Component {
                         <Icon name="steempower" />
                     </span>
                 )}
-                 <LikeIcon author={content.author}/>
+                <LikeIcon author={content.author} />
             </h1>
         );
         if (content.depth > 0) {
@@ -427,7 +425,8 @@ class PostFull extends React.Component {
         const showReblog = !_isPaidout;
         const showPromote =
             username && !_isPaidout && post_content.get('depth') == 0;
-        const showReplyOption = username !== undefined && post_content.get('depth') < 255;
+        const showReplyOption =
+            username !== undefined && post_content.get('depth') < 255;
         const showEditOption = username === author;
         const showDeleteOption =
             username === author && content.stats.allowDelete && !_isPaidout;
@@ -472,11 +471,8 @@ class PostFull extends React.Component {
                         </div>
                         <div className="PostFull__body entry-content">
                             {contentBody}
-                            <LikeButton post={content}/>
+                            <LikeButton post={content} />
                         </div>
-
-                        
-                       
                     </span>
                 )}
                 <TagList post={content} horizontal />
