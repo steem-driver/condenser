@@ -1,5 +1,5 @@
 import { api } from '@steemit/steem-js';
-
+import { Client } from '@busyorg/busyjs';
 import stateCleaner from 'app/redux/stateCleaner';
 import axios from 'axios';
 import SSC from 'sscjs';
@@ -8,12 +8,22 @@ import {CURATION_ACCOUNT,LIKER_ACCOUNT } from 'app/client_config';
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
 
+async function createBusyAPI(account) {
+    return new Promise((resolve, reject) => {
+        const client = new Client('wss://api.busy.org');
+        client.call('get_notifications', [account], (err, result) => {
+            if (err !== null) reject(err);
+            resolve(result);
+        });
+    });
+}
+
 export async function getStateAsync(url) {
     // strip off query string
     const path = url.split('?')[0];
     let raw = await api.getStateAsync(path);
-    if (path === '/recommended/' || path === '/recommended'){
-        raw = await api.getStateAsync('/@'+CURATION_ACCOUNT+'/feed');
+    if (path === '/recommended/' || path === '/recommended') {
+        raw = await api.getStateAsync('/@' + CURATION_ACCOUNT + '/feed');
     }
     if (path === '/likers/' || path === '/likers'){
         raw = await api.getStateAsync('/@'+LIKER_ACCOUNT+'/feed');
@@ -21,7 +31,12 @@ export async function getStateAsync(url) {
     if (!raw.accounts) {
         raw.accounts = {};
     }
+    
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
+    const username = url.match(/^[\/]?@([^\/]+)/);
+    if(username){
+    raw.notifications = await createBusyAPI(username[1]);
+    }
     if (urlParts) {
         const account = urlParts[1];
         if (!raw.accounts[account]) {
@@ -38,7 +53,8 @@ export async function getStateAsync(url) {
                 account
             );
         }
-        const [tokenBalances,tokenStatuses] = await Promise.all([
+
+        const [tokenBalances, tokenStatuses] = await Promise.all([
             // modified to get all tokens. - by anpigon
             ssc.find('tokens', 'balances', {
                 account,

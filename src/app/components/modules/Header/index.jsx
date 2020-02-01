@@ -215,6 +215,11 @@ class Header extends React.Component {
                     username: user_title,
                 });
             }
+            if(route.params[1]==='notifications'){
+                page_title = tt('header_jsx.notifications', {
+                    username: user_title,
+                });
+            }
             // @user/"posts" is deprecated in favor of "comments" as of oct-2016 (#443)
             if (route.params[1] === 'posts' || route.params[1] === 'comments') {
                 page_title = tt('header_jsx.comments_by', {
@@ -273,6 +278,7 @@ class Header extends React.Component {
         const comments_link = `/@${username}/comments`;
         const wallet_link = `/@${username}/transfers`;
         const settings_link = `/@${username}/settings`;
+        const notifications_link =`/@${username}/notifications`;
         const pathCheck = userPath === '/submit.html' ? true : null;
 
         const user_menu = [
@@ -282,6 +288,11 @@ class Header extends React.Component {
                 value: tt('g.feed'),
             },
             { link: account_link, icon: 'profile', value: tt('g.blog') },
+            {
+                link: notifications_link,
+                icon: 'notification',
+                value: tt('g.notifications'),
+            },
             { link: comments_link, icon: 'replies', value: tt('g.comments') },
             {
                 link: replies_link,
