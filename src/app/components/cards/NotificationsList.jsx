@@ -67,7 +67,7 @@ const pic = author => {
 export default class NotificationsList extends React.Component {
     render() {
         const { notifications,accountname } = this.props;
-
+        localStorage.setItem('last_timestamp', Math.floor(Date.now() / 1000));
         const renderItem = item => {
             if (item.type === 'mention') {
                 let type = item.type;
