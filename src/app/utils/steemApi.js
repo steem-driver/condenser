@@ -68,7 +68,6 @@ export async function getStateAsync(url) {
             raw.accounts[account].all_token_status = tokenStatuses;
         }
     }
-    console.log(raw);
     const cleansed = stateCleaner(raw);
 
     return cleansed;
