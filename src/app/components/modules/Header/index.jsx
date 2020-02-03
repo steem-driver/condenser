@@ -124,9 +124,29 @@ class Header extends React.Component {
             walletUrl,
             content,
             gptBannedTags,
+            notifications,
         } = this.props;
 
         const { showAd, showAnnouncement } = this.state;
+
+        let lastSeenTimestamp = 0;
+        let unreadNotificationCount  = 0;
+        if (typeof localStorage != 'undefined' && notifications!=undefined && loggedIn) {
+            if (localStorage.getItem('last_timestamp') !== null) {
+                lastSeenTimestamp = localStorage.getItem('last_timestamp');
+            } else {
+                localStorage.setItem('last_timestamp', Math.floor(Date.now() / 1000));
+            }
+            notifications.map(notifications => {
+                let timestamp = notifications.toJS().timestamp
+                if (lastSeenTimestamp < timestamp) {
+                    unreadNotificationCount ++;
+                }
+            });
+        }
+
+
+
 
         /*Set the document.title on each header render.*/
         const route = resolveRoute(pathname);
@@ -215,7 +235,7 @@ class Header extends React.Component {
                     username: user_title,
                 });
             }
-            if(route.params[1]==='notifications'){
+            if (route.params[1] === 'notifications') {
                 page_title = tt('header_jsx.notifications', {
                     username: user_title,
                 });
@@ -278,9 +298,13 @@ class Header extends React.Component {
         const comments_link = `/@${username}/comments`;
         const wallet_link = `/@${username}/transfers`;
         const settings_link = `/@${username}/settings`;
-        const notifications_link =`/@${username}/notifications`;
+        const notifications_link = `/@${username}/notifications`;
         const pathCheck = userPath === '/submit.html' ? true : null;
-
+        const notif_label =
+        tt('g.notifications') +
+        (unreadNotificationCount > 0
+            ? ` (${unreadNotificationCount})`
+            : '');
         const user_menu = [
             {
                 link: feed_link,
@@ -291,7 +315,7 @@ class Header extends React.Component {
             {
                 link: notifications_link,
                 icon: 'notification',
-                value: tt('g.notifications'),
+                value: notif_label,
             },
             { link: comments_link, icon: 'replies', value: tt('g.comments') },
             {
@@ -431,6 +455,17 @@ class Header extends React.Component {
                                             <Userpic account={username} />
                                         </span>
                                     </li>
+                                    {unreadNotificationCount > 0 && (
+                                            <div
+                                                className={
+                                                    'Header__notification'
+                                                }
+                                            >
+                                                <span>
+                                                    {unreadNotificationCount}
+                                                </span>
+                                            </div>
+                                        )}
                                 </DropdownMenu>
                             )}
                         </div>
@@ -463,6 +498,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const userPath = state.routing.locationBeforeTransitions.pathname;
     const username = state.user.getIn(['current', 'username']);
+    const notifications = state.global.get('notifications');
     const loggedIn = !!username;
     const current_account_name = username
         ? username
@@ -485,6 +521,7 @@ const mapStateToProps = (state, ownProps) => {
         gptBannedTags,
         walletUrl,
         content,
+        notifications,
         ...ownProps,
     };
 };
