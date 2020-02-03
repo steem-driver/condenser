@@ -15,7 +15,7 @@ class LikeButton extends Component {
             if (liker_id != '') {
                 let src = `https://button.like.co/in/embed/${
                     liker_id
-                }/button?referrer=https://steem.buzz/${post.url}`;
+                }/button?referrer=https://steem.buzz${post.url}`;
                 return (
                     <div>
                         <iframe
