@@ -20,6 +20,8 @@ import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
+import MarkdownViewer from 'app/components/cards/MarkdownViewer';
+
 import { TAG_LIST, CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 
@@ -284,6 +286,11 @@ class PostsIndex extends React.Component {
                             <ArticleLayoutSelector />
                         </div>
                     </div>
+                    {topics_order === 'likers' && (
+                        <MarkdownViewer
+                            text={tt('g.likers_message')}
+                        />
+                    )}
                     <hr className="articles__hr" />
                     {!fetching &&
                         (posts && !posts.size) &&

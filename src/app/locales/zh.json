@@ -229,7 +229,8 @@
             "one": "%(count)s回复",
             "other": "%(count)s个回复"
         },
-        "useful_links": "常用链接"
+        "useful_links": "常用链接",
+        "likers_message":"发送1 STEEM到@steem-drivers账号验证Liker公民身份(帖子会出现在这个类别，并且头像旁边会有拍手的图标)<br/><br/>想了解怎么添加Like按钮，可以查看: [SteemCN添加Like Button](https://steem.buzz/hive-180932/@ericet/steemcn-like-button)"
     },
     "navigation": {
         "about": "关于",
