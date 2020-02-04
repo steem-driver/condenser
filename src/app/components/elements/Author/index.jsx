@@ -9,10 +9,10 @@ import { authorNameAndRep } from 'app/utils/ComponentFormatters';
 import AuthorDropdown from '../AuthorDropdown';
 import Reputation from 'app/components/elements/Reputation';
 import normalizeProfile from 'app/utils/NormalizeProfile';
-import AffiliationMap from 'app/utils/AffiliationMap';
 import tt from 'counterpart';
 import Overlay from 'react-overlays/lib/Overlay';
 import { findDOMNode } from 'react-dom';
+import Likers from '../Likers';
 
 const { string, bool, number } = PropTypes;
 
@@ -115,11 +115,7 @@ class Author extends React.Component {
                         <Link to={'/@' + author}>{author}</Link>
                     </strong>{' '}
                     <Reputation value={authorRepLog10} />
-                    {AffiliationMap[author] && AffiliationMap[author] == 'like' ? (
-                        <span title="LikeCoin">
-                            <Icon name="like" />
-                        </span>
-                    ) : null}
+                   <Likers author={author}/>
                 </span>
             );
         }
@@ -143,11 +139,8 @@ class Author extends React.Component {
 
                             <Icon name="dropdown-arrow" />
                         </Link>
-                        {showAffiliation && AffiliationMap[author]  && AffiliationMap[author] == 'like'? (
-                            <span title="LikeCoin">
-                                <Icon name="like" />
-                            </span>
-                        ) : null}
+                        <Likers author={author}/>
+
                     </strong>
                 </span>
                 <Overlay

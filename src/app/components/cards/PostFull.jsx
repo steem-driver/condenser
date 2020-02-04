@@ -29,7 +29,6 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import { GoogleAd } from 'app/components/elements/GoogleAd';
 import ContentEditedWrapper from '../elements/ContentEditedWrapper';
 import LikeButton from '../elements/LikeButton';
-import LikeIcon from '../elements/LikeIcon';
 
 function TimeAuthorCategory({ content, authorRepLog10, showTags }) {
     return (
@@ -380,7 +379,6 @@ class PostFull extends React.Component {
                         <Icon name="steempower" />
                     </span>
                 )}
-                <LikeIcon author={content.author} />
             </h1>
         );
         if (content.depth > 0) {

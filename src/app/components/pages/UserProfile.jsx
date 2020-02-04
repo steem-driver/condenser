@@ -25,13 +25,12 @@ import Userpic from 'app/components/elements/Userpic';
 import Callout from 'app/components/elements/Callout';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import userIllegalContent from 'app/utils/userIllegalContent';
-import AffiliationMap from 'app/utils/AffiliationMap';
 import proxifyImageUrl from 'app/utils/ProxifyUrl';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import SanitizedLink from 'app/components/elements/SanitizedLink';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
-import LikeIcon from '../elements/LikeIcon';
 import NotificationsList from '../cards/NotificationsList';
+import Likers from '../elements/Likers';
 
 export default class UserProfile extends React.Component {
     constructor() {
@@ -602,11 +601,8 @@ export default class UserProfile extends React.Component {
                                     ({rep} {title})
                                 </span>
                             </Tooltip>
-                            {AffiliationMap[accountname] && AffiliationMap[accountname]=='like'? (
-                                    <span title="LikeCoin">
-                                    <Icon name="like" />
-                                </span>
-                            ) : null}
+                            <Likers author={accountname}/>
+
                         </h1>
                         <div>
                             {about && (
