@@ -1192,12 +1192,8 @@ export default formId =>
                                         beneficiaries: [
                                             {
                                                 account: 'likwid',
-                                                weight: 9900,
-                                            },
-                                            {
-                                                account: 'steem-drivers',
-                                                weight: 100,
-                                            },
+                                                weight: 10000,
+                                            }
                                         ],
                                     },
                                 ],
