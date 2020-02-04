@@ -42,6 +42,8 @@ const map = {
     'xzlubing': 'like',
     'ybeyond': 'like',
     'youandme': 'like',
+    'windowglass':'like',
+    'lixing':'like',
 };
 
 export default map;
