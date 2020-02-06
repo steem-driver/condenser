@@ -314,6 +314,7 @@ export default `
 /anime/@kissanime/one-piece-episode-869-english-subbed
 /movie/@w4mbo/p5sqaxxd
 /bird/@steemity-gift/worlds-most-beautiful-birds
+/networking/@electronicartist/how-to-get-paid-to-watch-videos-vtv0hvna
 `
     .trim()
     .split('\n');
