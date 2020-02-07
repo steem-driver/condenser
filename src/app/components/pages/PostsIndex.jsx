@@ -249,7 +249,8 @@ class PostsIndex extends React.Component {
             ? ' layout-block'
             : ' layout-list';
         let date = this.getDate();
-        let src = `https://button.like.co/in/embed/steemcn/button?referrer=${date}`;
+        let steemcn = `https://button.like.co/in/embed/steemcn/button?referrer=${date}`;
+        let justyy = `https://button.like.co/in/embed/justyyuk/button?referrer=${date}`;
 
         return (
             <div
@@ -329,9 +330,23 @@ class PostsIndex extends React.Component {
 
 
                     <div className="c-sidebar__content">
+                    给SteemCN拍手
                         <div>
                             <iframe
-                                src={src}
+                                src={steemcn}
+                                frameBorder="0"
+                                allowFullScreen="true"
+                                scrolling="no"
+                                align="middle"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="c-sidebar__content">
+                        给行长@justyy拍手
+                        <div>
+                            <iframe
+                                src={justyy}
                                 frameBorder="0"
                                 allowFullScreen="true"
                                 scrolling="no"
