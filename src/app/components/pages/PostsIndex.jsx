@@ -330,7 +330,7 @@ class PostsIndex extends React.Component {
 
 
                     <div className="c-sidebar__content">
-                    给SteemCN拍手
+                    请给SteemCN拍手，谢谢~
                         <div>
                             <iframe
                                 src={steemcn}
@@ -343,7 +343,7 @@ class PostsIndex extends React.Component {
                     </div>
 
                     <div className="c-sidebar__content">
-                        给行长@justyy拍手
+                        请给行长@justyy拍手，谢谢~
                         <div>
                             <iframe
                                 src={justyy}
