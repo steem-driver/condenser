@@ -50,7 +50,7 @@ class MarkdownViewer extends Component {
 
     constructor() {
         super();
-        this.state = { allowNoImage: true };
+        this.state = { allowNoImage: false };
     }
 
     shouldComponentUpdate(np, ns) {

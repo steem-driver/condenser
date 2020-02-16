@@ -59,7 +59,14 @@ class PostSummary extends React.Component {
 
     render() {
         const { thumbSize, ignore } = this.props;
-        const { post, content, featured, promoted, onClose, isLiker } = this.props;
+        const {
+            post,
+            content,
+            featured,
+            promoted,
+            onClose,
+            isLiker,
+        } = this.props;
         const { account } = this.props;
         if (!content) return null;
 
@@ -173,7 +180,10 @@ class PostSummary extends React.Component {
                     <div className="user">
                         {!isNsfw ? (
                             <div className="user__col user__col--left">
-                                <a className="user__link" href={'/@' + p.author}>
+                                <a
+                                    className="user__link"
+                                    href={'/@' + p.author}
+                                >
                                     <Userpic
                                         account={p.author}
                                         size={avatarSize.small}
@@ -225,8 +235,6 @@ class PostSummary extends React.Component {
                 </div>
             );
         }
-
-
 
         const content_footer = (
             <div className="PostSummary__footer">
@@ -298,17 +306,17 @@ class PostSummary extends React.Component {
                                     </Link>.
                                 </span>
                             ) : (
-                                    <span>
-                                        <a href={SIGNUP_URL}>
-                                            {tt(
-                                                'postsummary_jsx.create_an_account'
-                                            )}
-                                        </a>{' '}
+                                <span>
+                                    <a href={SIGNUP_URL}>
                                         {tt(
-                                            'postsummary_jsx.to_save_your_preferences'
-                                        )}.
+                                            'postsummary_jsx.create_an_account'
+                                        )}
+                                    </a>{' '}
+                                    {tt(
+                                        'postsummary_jsx.to_save_your_preferences'
+                                    )}.
                                 </span>
-                                )}
+                            )}
                             {summary_footer}
                         </div>
                     </article>
@@ -319,7 +327,7 @@ class PostSummary extends React.Component {
         const userBlacklisted = ImageUserBlockList.includes(p.author);
 
         let thumb = null;
-        if (!gray && p.image_link && !userBlacklisted) {
+        if (p.image_link && !userBlacklisted) {
             // on mobile, we always use blog layout style -- there's no toggler
             // on desktop, we offer a choice of either blog or list
             // if blogmode is false, output an image with a srcset
@@ -360,7 +368,7 @@ class PostSummary extends React.Component {
         // A post is hidden if it's marked "gray" or "ignore" and it's not
         // special.
         const commentClasses = [];
-        if (!special && (gray || ignore)) commentClasses.push('downvoted'); // rephide
+        if (!special && ignore) commentClasses.push('downvoted'); // rephide
         return (
             <div className="articles__summary">
                 {reblogged_by}
