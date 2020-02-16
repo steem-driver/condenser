@@ -20,6 +20,8 @@ import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
 import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
+import MarkdownViewer from 'app/components/cards/MarkdownViewer';
+
 import { TAG_LIST, CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 
@@ -247,7 +249,8 @@ class PostsIndex extends React.Component {
             ? ' layout-block'
             : ' layout-list';
         let date = this.getDate();
-        let src = `https://button.like.co/in/embed/steemcn/button?referrer=${date}`;
+        let steemcn = `https://button.like.co/in/embed/steemcn/button?referrer=${date}`;
+        let justyy = `https://button.like.co/in/embed/justyyuk/button?referrer=${date}`;
 
         return (
             <div
@@ -284,6 +287,11 @@ class PostsIndex extends React.Component {
                             <ArticleLayoutSelector />
                         </div>
                     </div>
+                    {topics_order === 'likers' && (
+                        <MarkdownViewer
+                            text={tt('g.likers_message')}
+                        />
+                    )}
                     <hr className="articles__hr" />
                     {!fetching &&
                         (posts && !posts.size) &&
@@ -322,9 +330,23 @@ class PostsIndex extends React.Component {
 
 
                     <div className="c-sidebar__content">
+                    请给SteemCN拍手，谢谢~
                         <div>
                             <iframe
-                                src={src}
+                                src={steemcn}
+                                frameBorder="0"
+                                allowFullScreen="true"
+                                scrolling="no"
+                                align="middle"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="c-sidebar__content">
+                        请给行长@justyy拍手，谢谢~
+                        <div>
+                            <iframe
+                                src={justyy}
                                 frameBorder="0"
                                 allowFullScreen="true"
                                 scrolling="no"

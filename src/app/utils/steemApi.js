@@ -3,7 +3,7 @@ import { Client } from '@busyorg/busyjs';
 import stateCleaner from 'app/redux/stateCleaner';
 import axios from 'axios';
 import SSC from 'sscjs';
-import {CURATION_ACCOUNT,LIKER_ACCOUNT } from 'app/client_config';
+import { CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
@@ -25,18 +25,22 @@ export async function getStateAsync(url) {
     if (path === '/recommended/' || path === '/recommended') {
         raw = await api.getStateAsync('/@' + CURATION_ACCOUNT + '/feed');
     }
-    if (path === '/likers/' || path === '/likers'){
-        raw = await api.getStateAsync('/@'+LIKER_ACCOUNT+'/feed');
+    if (path === '/likers/' || path === '/likers') {
+        raw = await api.getStateAsync('/@' + LIKER_ACCOUNT + '/feed');
     }
     if (!raw.accounts) {
         raw.accounts = {};
     }
-    
+  
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
     const username = url.match(/^[\/]?@([^\/]+)/);
-    if(username){
-    raw.notifications = await createBusyAPI(username[1]);
+    if (username) {
+        raw.notifications = await createBusyAPI(username[1]);
     }
+    if(!raw.likers){
+        raw.likers={};
+    }
+    raw.likers =  await getFollowing(LIKER_ACCOUNT);
     if (urlParts) {
         const account = urlParts[1];
         if (!raw.accounts[account]) {
@@ -68,10 +72,25 @@ export async function getStateAsync(url) {
             raw.accounts[account].all_token_status = tokenStatuses;
         }
     }
-    console.log(raw);
     const cleansed = stateCleaner(raw);
 
     return cleansed;
+}
+
+async function getFollowing(account, startFollowing = '', limit = 500,followings={}) {
+    return new Promise((resolve, reject) => {
+        api.getFollowing(account, startFollowing, 'blog', limit, function (err, result) {
+            if (result.length > 1) {
+                for(let res of result){
+                    followings[res.following]='like';
+                }
+                getFollowing(account,result[result.length-1],limit,followings).then(resolve).catch(reject);
+            }else{
+                resolve(followings);
+            }
+        });
+    });
+
 }
 
 export async function getScotDataAsync(path, params) {

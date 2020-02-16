@@ -19,7 +19,7 @@ const notificationsIcon = type => {
         error: 'cog',
         reblog: 'reblog',
         mention: 'chatboxes',
-        transfer:'transfer'
+        transfer: 'transfer'
     };
     let icon = 'chain';
     if (type in types) {
@@ -63,12 +63,17 @@ const pic = author => {
     );
 };
 
-
 export default class NotificationsList extends React.Component {
     render() {
-        const { notifications,accountname } = this.props;
-        localStorage.setItem('last_timestamp', Math.floor(Date.now() / 1000));
-        const renderItem = item => {
+        const { notifications, accountname } = this.props;
+        const renderItem = (item, index) => {
+            let key = `${index}${item.timestamp}`
+            if (index === 0) {
+                if (typeof localStorage != 'undefined' && notifications != undefined) {
+                    localStorage.setItem('last_timestamp', item.timestamp);
+                }
+
+            }
             if (item.type === 'mention') {
                 let type = item.type;
                 let account = item.author;
@@ -76,18 +81,18 @@ export default class NotificationsList extends React.Component {
                 let permlink = item.permlink;
                 return (
                     <div
-                        key={item.timestamp}
+                        key={key}
                         className="notification__item flex-body"
                     >
                         <div className="flex-row">{pic(`${account}`)}</div>
                         <div className="flex-column">
                             <div className="notification__message">
                                 <a href={`/@${account}/${permlink}`}>
-                                {highlightText(
-                                        `${tt('notificationsList_jsx.mention',{account})}`,
+                                    {highlightText(
+                                        `${tt('notificationsList_jsx.mention', { account })}`,
                                         `${account}`
                                     )}
-                                   
+
                                 </a>
                             </div>
                         </div>
@@ -108,7 +113,7 @@ export default class NotificationsList extends React.Component {
                 let amount = item.amount;
                 return (
                     <div
-                        key={timestamp}
+                        key={key}
                         className="notification__item flex-body"
                     >
                         <div className="flex-row">{pic(`${account}`)}</div>
@@ -116,7 +121,7 @@ export default class NotificationsList extends React.Component {
                             <div className="notification__message">
                                 <a href={`/@${accountname}/transfers`}>
                                     {highlightText(
-                                        `${tt('notificationsList_jsx.transfer',{account,amount})}`,
+                                        `${tt('notificationsList_jsx.transfer', { account, amount })}`,
                                         `${account}`
                                     )}
                                 </a>
@@ -140,7 +145,7 @@ export default class NotificationsList extends React.Component {
                 let permlink = item.permlink;
                 return (
                     <div
-                        key={timestamp}
+                        key={key}
                         className="notification__item flex-body"
                     >
                         <div className="flex-row">{pic(`${account}`)}</div>
@@ -148,7 +153,7 @@ export default class NotificationsList extends React.Component {
                             <div className="notification__message">
                                 <a href={`/@${account}/${permlink}`}>
                                     {highlightText(
-                                        `${tt('notificationsList_jsx.reply',{account})}`,
+                                        `${tt('notificationsList_jsx.reply', { account })}`,
                                         `${account}`
                                     )}
                                 </a>
@@ -171,7 +176,7 @@ export default class NotificationsList extends React.Component {
                 let permlink = item.permlink;
                 return (
                     <div
-                        key={timestamp}
+                        key={key}
                         className="notification__item flex-body"
                     >
                         <div className="flex-row">{pic(`${account}`)}</div>
@@ -179,7 +184,7 @@ export default class NotificationsList extends React.Component {
                             <div className="notification__message">
                                 <a href={`/@${accountname}/${permlink}`}>
                                     {highlightText(
-                                        `${tt('notificationsList_jsx.reblog',{account})}`,
+                                        `${tt('notificationsList_jsx.reblog', { account })}`,
                                         `${account}`
                                     )}
                                 </a>
@@ -201,7 +206,7 @@ export default class NotificationsList extends React.Component {
                 let timestamp = item.timestamp;
                 return (
                     <div
-                        key={timestamp}
+                        key={key}
                         className="notification__item flex-body"
                     >
                         <div className="flex-row">
@@ -211,7 +216,7 @@ export default class NotificationsList extends React.Component {
                             <div className="notification__message">
                                 <a href={`/@${account}`}>
                                     {highlightText(
-                                        `${tt('notificationsList_jsx.follow',{account})}`,
+                                        `${tt('notificationsList_jsx.follow', { account })}`,
                                         `${account}`
                                     )}
                                 </a>
@@ -233,7 +238,7 @@ export default class NotificationsList extends React.Component {
                 let timestamp = item.timestamp;
                 return (
                     <div
-                        key={item.timestamp}
+                        key={key}
                         className="notification__item flex-body"
                     >
                         <div className="flex-row">{pic(`${account}`)}</div>
@@ -241,7 +246,7 @@ export default class NotificationsList extends React.Component {
                             <div className="notification__message">
                                 <a href={`/@${account}`}>
                                     {highlightText(
-                                         `${tt('notificationsList_jsx.vote',{account})}`,
+                                        `${tt('notificationsList_jsx.vote', { account })}`,
                                         `${account}`
                                     )}
                                 </a>
@@ -262,8 +267,8 @@ export default class NotificationsList extends React.Component {
 
         return (
             <div style={{ lineHeight: '1rem' }}>
-                {notifications.map(item => renderItem(item.toJS()))}
-            </div>
+                {notifications.map((item, index) => renderItem(item.toJS(), index))}
+            </div >
         );
     }
 }

@@ -253,7 +253,8 @@
                 "Legitimate users, including employees of Steemit Inc., will never ask you for a private key or master password.",
             "checkbox": "I understand"
         },
-        "useful_links": "Useful Links"
+        "useful_links": "Useful Links",
+        "likers_message":"Transfer 1 STEEM to @steem-drivers to be a Certified Liker(Your post will be shown under this category and a hand clap icon will be displayed next to your profile picture. <br/><br/>To learn more about how to setup the Like button, please read: [SteemCN添加Like Button](https://steem.buzz/hive-180932/@ericet/steemcn-like-button)"
     },
     "navigation": {
         "about": "About Steemit, Inc.",

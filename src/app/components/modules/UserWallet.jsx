@@ -108,7 +108,7 @@ class UserWallet extends React.Component {
         } = this.props;
         const gprops = this.props.gprops.toJS();
 
-        if (!account) return null;
+        if (!account || !account.get('token_balances') || !account.get('all_token_status')) return null;
         let allTokenBalances = account.has('token_balances')
             ? account.get('token_balances').toJS()
             : [
