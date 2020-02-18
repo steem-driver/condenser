@@ -236,6 +236,7 @@ export default class NotificationsList extends React.Component {
                 let type = item.type;
                 let account = item.voter;
                 let timestamp = item.timestamp;
+                let permlink = item.permlink;
                 return (
                     <div
                         key={key}
@@ -244,7 +245,7 @@ export default class NotificationsList extends React.Component {
                         <div className="flex-row">{pic(`${account}`)}</div>
                         <div className="flex-column">
                             <div className="notification__message">
-                                <a href={`/@${account}`}>
+                                <a href={`/@${accountname}/${permlink}`}>
                                     {highlightText(
                                         `${tt('notificationsList_jsx.vote', { account })}`,
                                         `${account}`
