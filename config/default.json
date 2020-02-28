@@ -4,7 +4,7 @@
   "helmet": {
     "directives": {
       "childSrc": "'self' emb.d.tube player.twitch.tv www.youtube.com staticxx.facebook.com w.soundcloud.com player.vimeo.com player.bilibili.com",
-      "connectSrc": "https://steemd.minnowsupportproject.org https://button.like.co wss://api.busy.org https://scot-api.steem-engine.com https://api.steem-engine.com https://anyx.io https://hive.anyx.io securepubads.g.doubleclick.net 'self' steemit.com https://api.steemit.com https://steemitimages.com api.blocktrades.us",
+      "connectSrc": "https://steemd.minnowsupportproject.org https://button.like.co ws://35.223.127.58:4000 wss://api.busy.org https://scot-api.steem-engine.com https://api.steem-engine.com https://anyx.io https://hive.anyx.io securepubads.g.doubleclick.net 'self' steemit.com https://api.steemit.com https://steemitimages.com api.blocktrades.us",
       "defaultSrc": "tpc.googlesyndication.com 'self' emb.d.tube www.youtube.com staticxx.facebook.com player.vimeo.com",
       "fontSrc": "data: fonts.gstatic.com",
       "frameAncestors": "'none'",

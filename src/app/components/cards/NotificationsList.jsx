@@ -15,7 +15,7 @@ const notificationsIcon = type => {
         follow: 'voters',
         set_label: 'pencil2',
         set_role: 'pencil2',
-        vote: 'chevron-down-circle',
+        downvote: 'chevron-down-circle',
         error: 'cog',
         reblog: 'reblog',
         mention: 'chatboxes',
@@ -232,7 +232,7 @@ export default class NotificationsList extends React.Component {
                         </div>
                     </div>
                 );
-            } else if (item.type === 'vote') {
+            } else if (item.type === 'downvote') {
                 let type = item.type;
                 let account = item.voter;
                 let timestamp = item.timestamp;
@@ -247,7 +247,7 @@ export default class NotificationsList extends React.Component {
                             <div className="notification__message">
                                 <a href={`/@${accountname}/${permlink}`}>
                                     {highlightText(
-                                        `${tt('notificationsList_jsx.vote', { account })}`,
+                                        `${tt('notificationsList_jsx.downvote', { account })}`,
                                         `${account}`
                                     )}
                                 </a>

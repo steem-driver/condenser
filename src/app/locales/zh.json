@@ -715,7 +715,8 @@
         "reply": "%(account)s 回复了你的帖子",
         "mention": "%(account)s 在帖子里提到你",
         "transfer": "%(account)s 转给你 %(amount)s",
-        "vote": "%(account)s 踩了你的帖子",
+        "downvote": "%(account)s 踩了你的帖子",
+        "vote": "%(account)s 点赞了你的帖子",
         "follow": "%(account)s 粉了你",
         "reblog": "%(account)s 转发了你的帖子"
     }

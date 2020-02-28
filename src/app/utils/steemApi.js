@@ -10,7 +10,7 @@ const ssc = new SSC('https://api.steem-engine.com/rpc');
 
 async function createBusyAPI(account) {
     return new Promise((resolve, reject) => {
-        const client = new Client('wss://api.busy.org');
+        const client = new Client('ws://35.223.127.58:4000');
         client.call('get_notifications', [account], (err, result) => {
             if (err !== null) reject(err);
             resolve(result);
