@@ -21,26 +21,29 @@ async function createBusyAPI(account) {
 export async function getStateAsync(url) {
     // strip off query string
     const path = url.split('?')[0];
-    let raw = await api.getStateAsync(path);
+    let raw;
+
     if (path === '/recommended/' || path === '/recommended') {
         raw = await api.getStateAsync('/@' + CURATION_ACCOUNT + '/feed');
     }
-    if (path === '/likers/' || path === '/likers') {
+    else if (path === '/likers/' || path === '/likers') {
         raw = await api.getStateAsync('/@' + LIKER_ACCOUNT + '/feed');
+    } else {
+        raw = await api.getStateAsync(path);
     }
     if (!raw.accounts) {
         raw.accounts = {};
     }
-  
+
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
     const username = url.match(/^[\/]?@([^\/]+)/);
     if (username) {
         raw.notifications = await createBusyAPI(username[1]);
     }
-    if(!raw.likers){
-        raw.likers={};
+    if (!raw.likers) {
+        raw.likers = {};
     }
-    raw.likers =  await getFollowing(LIKER_ACCOUNT);
+    raw.likers = await getFollowing(LIKER_ACCOUNT);
     if (urlParts) {
         const account = urlParts[1];
         if (!raw.accounts[account]) {
@@ -77,17 +80,19 @@ export async function getStateAsync(url) {
     return cleansed;
 }
 
-async function getFollowing(account, startFollowing = '', limit = 500,followings={}) {
+async function getFollowing(account, startFollowing = '', limit = 500, followings = {}) {
     return new Promise((resolve, reject) => {
+        console.log(account)
         api.getFollowing(account, startFollowing, 'blog', limit, function (err, result) {
+            console.log(result);
             if (result.length > 1) {
-                for(let res of result){
-                    followings[res.following]='like';
+                for (let res of result) {
+                    followings[res.following] = 'like';
                 }
-                getFollowing(account,result[result.length-1],limit,followings).then(resolve).catch(reject);
-            }else{
-                resolve(followings);
+                //getFollowing(account,result[result.length-1],limit,followings).then(resolve).catch(reject);
             }
+            resolve(followings);
+
         });
     });
 
