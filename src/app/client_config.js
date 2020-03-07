@@ -30,7 +30,7 @@ export const DEFAULT_TAGS = [
     'palnet',
     'zzan',
     'dblog',
-    'mediaofficials',
+    'diamondtoken',
     'marlians',
     'neoxian',
     'lassecash',
