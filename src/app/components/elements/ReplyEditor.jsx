@@ -661,7 +661,7 @@ class ReplyEditor extends React.Component {
                                                 {tt('g.app')}
                                                 {': '}
                                                 {this.props.appType ==
-                                                    'steemcn' &&
+                                                    'steemcn/0.1' &&
                                                     tt(
                                                         'app_selections.steemcn'
                                                     )}
@@ -892,7 +892,7 @@ export default formId =>
                 'appType',
             ]);
             if (!appType) {
-                appType = 'steemcn';
+                appType = 'steemcn/0.1';
             }
 
             const ret = {
@@ -955,7 +955,7 @@ export default formId =>
                 type,
                 originalPost,
                 payoutType = '50%',
-                appType = 'steemcn',
+                appType = 'steemcn/0.1',
                 state,
                 jsonMetadata,
                 successCallback,
@@ -1045,12 +1045,11 @@ export default formId =>
                     appType = 'steemcoinpan/0.1';
                     selection = 'krwp';
                 }
-                if (appType == 'steemcn') {
-                    appType = 'busy/2.5.4';
+                if (appType == 'steemcn/0.1') {
                     selection = 'steemcn';
                 }
                 if (appType == 'likwid') {
-                    appType = 'busy/2.5.4';
+                    appType = 'steemcn/0.1';
                     selection = 'likwid';
                 }
                 if (appType == 'steemcoinpan/0.1') {
@@ -1062,11 +1061,11 @@ export default formId =>
                     allCategories = allCategories.add(DEFAULT_TAGS[i]);
                 }
                 if (isEdit) {
-                    appType = 'busy/2.5.4';
+                    appType = 'steemcn/0.1';
                 }
-                if (appType == 'busy/2.5.4' || appType == 'steemcn') {
-                    allCategories = allCategories.add('busy');
-                }
+                // if (appType == 'busy/2.5.4' || appType == 'steemcn') {
+                //     allCategories = allCategories.add('busy');
+                // }
                 if (!allCategories.includes('iv')) {
                     allCategories = allCategories.add('actnearn');
                 }
@@ -1147,21 +1146,6 @@ export default formId =>
                                         beneficiaries: [
                                             {
                                                 account: 'esteemapp',
-                                                weight: 300,
-                                            },
-                                        ],
-                                    },
-                                ],
-                            ];
-                            break;
-                        case 'steemcn':
-                            __config.comment_options.extensions = [
-                                [
-                                    0,
-                                    {
-                                        beneficiaries: [
-                                            {
-                                                account: 'steem-drivers',
                                                 weight: 300,
                                             },
                                         ],

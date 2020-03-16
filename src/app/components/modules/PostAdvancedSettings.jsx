@@ -131,7 +131,7 @@ class PostAdvancedSettings extends Component {
                             defaultValue={appType}
                             onChange={this.handleAppChange}
                         >
-                            <option value="steemcn">
+                            <option value="steemcn/0.1">
                                 {tt('app_selections.steemcn')}
                             </option>
                             <option value="steemzzang/0.1">
