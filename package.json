@@ -187,8 +187,8 @@
     "webpack-bundle-analyzer": "2.9.0"
   },
   "engines": {
-    "node": ">=8.7.0",
-    "npm": ">=5.4.2"
+    "node": "13.11.0",
+    "npm": "6.13.7"
   },
   "lint-staged": {
     "src/**/*.js*": [
