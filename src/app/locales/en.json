@@ -902,7 +902,8 @@
         "reply": "%(account)s commented on your post",
         "mention": "%(account)s mentioned you in a post",
         "transfer": "%(account)s transferred %(amount)s to you",
-        "vote": "%(account)s downvoted your post",
+        "downvote": "%(account)s downvoted your post",
+        "vote": "%(account)s voted your post",
         "follow": "%(account)s started following you",
         "reblog": "%(account)s reblogged your post"
     }
