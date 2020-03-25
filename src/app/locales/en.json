@@ -324,13 +324,8 @@
         "advanced_settings": "Advanced settings"
     },
     "app_selections": {
-        "likwid": "Likwid",
-        "zzan": "Steemzzang",
-        "leo": "SteemLeo",
-        "busy": "Busy",
-        "esteem": "Esteem",
         "steemcn": "SteemCN",
-        "krwp": "KRWP"
+        "steem2hive": "Sync Post to HIVE(need to authorize @steem2hive in HIVE)"
     },
     "category_selector_jsx": {
         "tag_your_story":

@@ -666,22 +666,8 @@ class ReplyEditor extends React.Component {
                                                         'app_selections.steemcn'
                                                     )}
                                                 {this.props.appType ==
-                                                    'busy/2.5.4' &&
-                                                    tt('app_selections.busy')}
-                                                {this.props.appType ==
-                                                    'steemzzang/0.1' &&
-                                                    tt('app_selections.zzan')}
-                                                {this.props.appType ==
-                                                    'steemleo/0.1' &&
-                                                    tt('app_selections.leo')}
-                                                {this.props.appType ==
-                                                    'esteem/2.2.2-mobile' &&
-                                                    tt('app_selections.esteem')}
-                                                {this.props.appType == 'krwp' &&
-                                                    tt('app_selections.krwp')}
-                                                {this.props.appType ==
-                                                    'likwid' &&
-                                                    tt('app_selections.likwid')}
+                                                    'steem2hive' &&
+                                                    tt('app_selections.steem2hive')}
                                             </div>
                                             <a
                                                 href="#"
@@ -1034,28 +1020,34 @@ export default formId =>
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-                if (appType == 'esteem/2.2.2-mobile') {
-                    allCategories = allCategories.add('esteem');
-                    allCategories = allCategories.add('esteem-cn');
-                }
-                if (appType == 'steemleo/0.1') {
-                    allCategories = allCategories.add('steemleo');
-                }
-                if (appType == 'krwp') {
-                    appType = 'steemcoinpan/0.1';
-                    selection = 'krwp';
-                }
+                // if (appType == 'esteem/2.2.2-mobile') {
+                //     allCategories = allCategories.add('esteem');
+                //     allCategories = allCategories.add('esteem-cn');
+                // }
+                // if (appType == 'steemleo/0.1') {
+                //     allCategories = allCategories.add('steemleo');
+                // }
+                // if (appType == 'krwp') {
+                //     appType = 'steemcoinpan/0.1';
+                //     selection = 'krwp';
+                // }
+               
+                // if (appType == 'likwid') {
+                //     appType = 'steemcn/0.1';
+                //     selection = 'likwid';
+                // }
+                // if (appType == 'steemcoinpan/0.1') {
+                //     allCategories = allCategories.add('sct');
+                //     allCategories = allCategories.add('sct-cn');
+                //     allCategories = allCategories.add('sct-freeboard');
+                // }
+
                 if (appType == 'steemcn/0.1') {
                     selection = 'steemcn';
                 }
-                if (appType == 'likwid') {
+                if (appType == 'steem2hive') {
                     appType = 'steemcn/0.1';
-                    selection = 'likwid';
-                }
-                if (appType == 'steemcoinpan/0.1') {
-                    allCategories = allCategories.add('sct');
-                    allCategories = allCategories.add('sct-cn');
-                    allCategories = allCategories.add('sct-freeboard');
+                    allCategories = allCategories.add('steem2hive');
                 }
                 for (var i in DEFAULT_TAGS) {
                     allCategories = allCategories.add(DEFAULT_TAGS[i]);
@@ -1136,55 +1128,55 @@ export default formId =>
                     if (!__config.comment_options) {
                         __config.comment_options = {};
                     }
-                    switch (selection) {
-                        case 'esteem/2.2.2-mobile':
-                            meta.community = 'esteemapp';
-                            __config.comment_options.extensions = [
-                                [
-                                    0,
-                                    {
-                                        beneficiaries: [
-                                            {
-                                                account: 'esteemapp',
-                                                weight: 300,
-                                            },
-                                        ],
-                                    },
-                                ],
-                            ];
-                            break;
-                        case 'krwp':
-                            __config.comment_options.extensions = [
-                                [
-                                    0,
-                                    {
-                                        beneficiaries: [
-                                            {
-                                                account: 'sct.krwp',
-                                                weight: 10000,
-                                            },
-                                        ],
-                                    },
-                                ],
-                            ];
-                            break;
-                        case 'likwid':
-                            __config.comment_options.extensions = [
-                                [
-                                    0,
-                                    {
-                                        beneficiaries: [
-                                            {
-                                                account: 'likwid',
-                                                weight: 10000,
-                                            }
-                                        ],
-                                    },
-                                ],
-                            ];
-                            break;
-                        default:
-                    }
+                    // switch (selection) {
+                    //     case 'esteem/2.2.2-mobile':
+                    //         meta.community = 'esteemapp';
+                    //         __config.comment_options.extensions = [
+                    //             [
+                    //                 0,
+                    //                 {
+                    //                     beneficiaries: [
+                    //                         {
+                    //                             account: 'esteemapp',
+                    //                             weight: 300,
+                    //                         },
+                    //                     ],
+                    //                 },
+                    //             ],
+                    //         ];
+                    //         break;
+                    //     case 'krwp':
+                    //         __config.comment_options.extensions = [
+                    //             [
+                    //                 0,
+                    //                 {
+                    //                     beneficiaries: [
+                    //                         {
+                    //                             account: 'sct.krwp',
+                    //                             weight: 10000,
+                    //                         },
+                    //                     ],
+                    //                 },
+                    //             ],
+                    //         ];
+                    //         break;
+                    //     case 'likwid':
+                    //         __config.comment_options.extensions = [
+                    //             [
+                    //                 0,
+                    //                 {
+                    //                     beneficiaries: [
+                    //                         {
+                    //                             account: 'likwid',
+                    //                             weight: 10000,
+                    //                         }
+                    //                     ],
+                    //                 },
+                    //             ],
+                    //         ];
+                    //         break;
+                    //     default:
+                    // }
                 }
 
                 const operation = {
