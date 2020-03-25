@@ -5,12 +5,11 @@ import axios from 'axios';
 import SSC from 'sscjs';
 import { CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
-
 const ssc = new SSC('https://api.steem-engine.com/rpc');
 
 async function createBusyAPI(account) {
     return new Promise((resolve, reject) => {
-        const client = new Client('wss://api.busy.org');
+        const client = new Client('wss://notification.steem.buzz');
         client.call('get_notifications', [account], (err, result) => {
             if (err !== null) reject(err);
             resolve(result);
@@ -25,8 +24,7 @@ export async function getStateAsync(url) {
 
     if (path === '/recommended/' || path === '/recommended') {
         raw = await api.getStateAsync('/@' + CURATION_ACCOUNT + '/feed');
-    }
-    else if (path === '/likers/' || path === '/likers') {
+    } else if (path === '/likers/' || path === '/likers') {
         raw = await api.getStateAsync('/@' + LIKER_ACCOUNT + '/feed');
     } else {
         raw = await api.getStateAsync(path);
@@ -80,10 +78,18 @@ export async function getStateAsync(url) {
     return cleansed;
 }
 
-async function getFollowing(account, startFollowing = '', limit = 500, followings = {}) {
+async function getFollowing(
+    account,
+    startFollowing = '',
+    limit = 500,
+    followings = {}
+) {
     return new Promise((resolve, reject) => {
-        console.log(account)
-        api.getFollowing(account, startFollowing, 'blog', limit, function (err, result) {
+        console.log(account);
+        api.getFollowing(account, startFollowing, 'blog', limit, function(
+            err,
+            result
+        ) {
             console.log(result);
             if (result.length > 1) {
                 for (let res of result) {
@@ -92,10 +98,8 @@ async function getFollowing(account, startFollowing = '', limit = 500, following
                 //getFollowing(account,result[result.length-1],limit,followings).then(resolve).catch(reject);
             }
             resolve(followings);
-
         });
     });
-
 }
 
 export async function getScotDataAsync(path, params) {
