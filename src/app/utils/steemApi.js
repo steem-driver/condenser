@@ -85,12 +85,10 @@ async function getFollowing(
     followings = {}
 ) {
     return new Promise((resolve, reject) => {
-        console.log(account);
         api.getFollowing(account, startFollowing, 'blog', limit, function(
             err,
             result
         ) {
-            console.log(result);
             if (result.length > 1) {
                 for (let res of result) {
                     followings[res.following] = 'like';

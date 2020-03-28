@@ -43,7 +43,7 @@ export default class UserProfile extends React.Component {
     }
 
     shouldComponentUpdate(np, ns) {
-        const { follow, follow_count, account, accountname,notifications } = this.props;
+        const { follow, follow_count, account, accountname, notifications } = this.props;
 
         let followersLoading = false,
             npFollowersLoading = false;
@@ -81,7 +81,7 @@ export default class UserProfile extends React.Component {
             np.location.pathname !== this.props.location.pathname ||
             np.follow_count !== this.props.follow_count ||
             np.blogmode !== this.props.blogmode ||
-            ns.showResteem !== this.state.showResteem || np.notifications !==this.props.notifications
+            ns.showResteem !== this.state.showResteem || np.notifications !== this.props.notifications
         );
     }
 
@@ -151,6 +151,7 @@ export default class UserProfile extends React.Component {
             onPrint,
         } = this;
         const username = current_user ? current_user.get('username') : null;
+        console.log('username: ' + username);
 
         let { section } = this.props.routeParams;
         if (!section) section = 'blog';
@@ -304,10 +305,10 @@ export default class UserProfile extends React.Component {
                         <br />
                     </div>
                 ) : (
-                    tt('user_profile.user_hasnt_started_bloggin_yet', {
-                        name: accountname,
-                    })
-                );
+                        tt('user_profile.user_hasnt_started_bloggin_yet', {
+                            name: accountname,
+                        })
+                    );
 
                 if (!fetching && (posts && !posts.size)) {
                     tab_content = <Callout>{emptyText}</Callout>;
@@ -373,9 +374,11 @@ export default class UserProfile extends React.Component {
             }
         }
         else if (section === 'notifications') {
-            tab_content = (
-           <NotificationsList notifications={this.props.notifications} accountname={accountname}/>
-            );
+            if (username === accountname) {
+                tab_content = (
+                    <NotificationsList notifications={this.props.notifications} accountname={accountname} />
+                );
+            }
         }
         else {
             //    console.log( "no matches" );
@@ -398,8 +401,6 @@ export default class UserProfile extends React.Component {
                 page_title = tt('g.my_replies');
             } else if (section === 'settings') {
                 page_title = tt('g.settings');
-            } else if(section === 'notifications'){
-                page_title = tt('g.my_notifications');
             }
         } else {
             if (section === 'blog') {
@@ -410,8 +411,6 @@ export default class UserProfile extends React.Component {
                 page_title = tt('g.replies');
             } else if (section === 'settings') {
                 page_title = tt('g.settings');
-            }else if(section === 'notifications'){
-                page_title = tt('g.notifications');
             }
         }
 
@@ -502,14 +501,17 @@ export default class UserProfile extends React.Component {
                                 {tt('g.replies')}
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                to={`/@${accountname}/notifications`}
-                                activeClassName="active"
-                            >
-                                {tt('g.notifications')}
-                            </Link>
-                        </li>
+                        {username===accountname &(
+                            <li>
+                                <Link
+                                    to={`/@${accountname}/notifications`}
+                                    activeClassName="active"
+                                >
+                                    {tt('g.notifications')}
+                                </Link>
+                            </li>
+                        )
+                        }
                         <DropdownMenu
                             items={rewardsMenu}
                             el="li"
@@ -601,7 +603,7 @@ export default class UserProfile extends React.Component {
                                     ({rep} {title})
                                 </span>
                             </Tooltip>
-                            <Likers author={accountname}/>
+                            <Likers author={accountname} />
 
                         </h1>
                         <div>
@@ -683,7 +685,7 @@ module.exports = {
                 global_status: state.global.get('status'),
                 accountname: accountname,
                 account: state.global.getIn(['accounts', accountname]),
-                notifications:state.global.get('notifications'),
+                notifications: state.global.get('notifications'),
                 follow: state.global.get('follow'),
                 follow_count: state.global.get('follow_count'),
                 blogmode: state.app.getIn(['user_preferences', 'blogmode']),
