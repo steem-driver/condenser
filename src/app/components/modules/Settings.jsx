@@ -9,6 +9,8 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import reactForm from 'app/utils/ReactForm';
 import UserList from 'app/components/elements/UserList';
 import Dropzone from 'react-dropzone';
+import * as steem from '@steemit/steem-js';
+
 
 class Settings extends React.Component {
     constructor(props) {
@@ -18,9 +20,9 @@ class Settings extends React.Component {
             successMessage: '',
             progress: {},
         };
-		this.initForm(props);
+        this.initForm(props);
         this.onNsfwPrefChange = this.onNsfwPrefChange.bind(this);
-        
+
     }
     onNsfwPrefChange(e) {
         this.props.setUserPreferences({
@@ -44,20 +46,20 @@ class Settings extends React.Component {
             validation: values => ({
                 profile_image:
                     values.profile_image &&
-                    !/^https?:\/\//.test(values.profile_image)
+                        !/^https?:\/\//.test(values.profile_image)
                         ? tt('settings_jsx.invalid_url')
                         : null,
                 cover_image:
                     values.cover_image &&
-                    !/^https?:\/\//.test(values.cover_image)
+                        !/^https?:\/\//.test(values.cover_image)
                         ? tt('settings_jsx.invalid_url')
                         : null,
                 name:
                     values.name && values.name.length > 20
                         ? tt('settings_jsx.name_is_too_long')
                         : values.name && /^\s*@/.test(values.name)
-                          ? tt('settings_jsx.name_must_not_begin_with')
-                          : null,
+                            ? tt('settings_jsx.name_must_not_begin_with')
+                            : null,
                 about:
                     values.about && values.about.length > 160
                         ? tt('settings_jsx.about_is_too_long')
@@ -70,8 +72,8 @@ class Settings extends React.Component {
                     values.website && values.website.length > 100
                         ? tt('settings_jsx.website_url_is_too_long')
                         : values.website && !/^https?:\/\//.test(values.website)
-                          ? tt('settings_jsx.invalid_url')
-                          : null,
+                            ? tt('settings_jsx.invalid_url')
+                            : null,
             }),
         });
         this.handleSubmitForm = this.state.accountSettings.handleSubmit(args =>
@@ -213,6 +215,13 @@ class Settings extends React.Component {
         this.props.setUserPreferences(userPreferences);
     };
 
+    handleNodeChange = event => {
+        const node = event.target.value;
+        const userPreferences = { ...this.props.user_preferences, node };
+        steem.api.setOptions({ url: node });
+        this.props.setUserPreferences(userPreferences);
+    };
+
     render() {
         const { state, props } = this;
 
@@ -229,7 +238,7 @@ class Settings extends React.Component {
             progress,
         } = this.state;
 
-        const {  
+        const {
             follow,
             account,
             isOwnAccount,
@@ -260,6 +269,22 @@ class Settings extends React.Component {
                                     <option value="ja">Japanese 日本語</option>
                                     <option value="pl">Polish</option>
                                     <option value="zh">Chinese 简体中文</option>
+                                </select>
+                            </label>
+                            <br />
+
+                            <label>
+                                RPC Node
+                                <select
+                                    defaultValue={user_preferences.node}
+                                    onChange={this.handleNodeChange}
+                                >
+                                    <option value="https://api.steem.bts.tw">https://api.steem.bts.tw</option>
+                                    <option value="https://api.justyy.com">https://api.justyy.com</option>
+                                    <option value="https://steem.61bts.com">https://steem.61bts.com</option>
+                                    <option value="https://api.steemit.com">https://api.steemit.com</option>
+                                    <option value="https://s2.61bts.com">https://s2.61bts.com</option>
+                                    <option value="https://anyx.io">HIVE</option>
                                 </select>
                             </label>
                             <br />
@@ -506,12 +531,11 @@ export default connect(
             metaData = o2j.ifStringParseJSON(metaData); // issue #1237
         const profile = metaData && metaData.profile ? metaData.profile : {};
         const user_preferences = state.app.get('user_preferences').toJS();
-
         return {
-            account:state.global.getIn(['accounts', accountname]).toJS(),
+            account: state.global.getIn(['accounts', accountname]).toJS(),
             metaData,
             isOwnAccount:
-            state.user.getIn(['current', 'username'], '') == accountname,
+                state.user.getIn(['current', 'username'], '') == accountname,
             accountname,
             profile,
             follow: state.global.get('follow'),
@@ -523,6 +547,10 @@ export default connect(
     dispatch => ({
         changeLanguage: language => {
             dispatch(userActions.changeLanguage(language));
+        },
+        changeNode: node => {
+            dispatch(userActions.changeNode(node));
+
         },
         setUserPreferences: payload => {
             dispatch(appActions.setUserPreferences(payload));

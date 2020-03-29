@@ -300,6 +300,7 @@ export async function serverRender(
             if (process.env.OFFLINE_SSR_TEST) {
                 content = get_content_perf;
             } else {
+                
                 content = await api.getContentAsync(params[0], params[1]);
             }
             if (content.author && content.permlink) {
@@ -380,8 +381,8 @@ export async function serverRender(
     }
 
     return {
-        title: 'Steemit',
-        titleBase: 'Steemit - ',
+        title: 'SteemCN',
+        titleBase: 'SteemCN - ',
         meta,
         statusCode: status,
         body: Iso.render(app, server_store.getState()),
