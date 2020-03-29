@@ -80,7 +80,7 @@ function runApp(initial_state) {
     const config = initial_state.offchain.config;
     const node = initial_state.app.user_preferences.node;
     steem.api.setOptions({
-        url: config.steemd_connection_client,
+        url: node===undefined?config.steemd_connection_client:node,
         retry: true,
         useAppbaseApi: !!config.steemd_use_appbase,
     });
