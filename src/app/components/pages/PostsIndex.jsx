@@ -24,7 +24,6 @@ import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 
 import { TAG_LIST, CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
-
 class PostsIndex extends React.Component {
     static propTypes = {
         discussions: PropTypes.object,
@@ -249,8 +248,12 @@ class PostsIndex extends React.Component {
             ? ' layout-block'
             : ' layout-list';
         let date = this.getDate();
-        let steemcn = `https://button.like.co/in/embed/steemcn/button?referrer=${date}`;
-        let justyy = `https://button.like.co/in/embed/justyyuk/button?referrer=${date}`;
+        let steemcn = `https://button.like.co/in/embed/steemcn/button?referrer=${
+            date
+        }`;
+        let familyonline = `https://button.like.co/in/embed/familyonlinetv/button?referrer=${
+            date
+        }`;
 
         return (
             <div
@@ -288,49 +291,46 @@ class PostsIndex extends React.Component {
                         </div>
                     </div>
                     {topics_order === 'likers' && (
-                        <MarkdownViewer
-                            text={tt('g.likers_message')}
-                        />
+                        <MarkdownViewer text={tt('g.likers_message')} />
                     )}
                     <hr className="articles__hr" />
                     {!fetching &&
-                        (posts && !posts.size) &&
-                        (featured && !featured.size) &&
-                        (promoted && !promoted.size) ? (
-                            <Callout>{emptyText}</Callout>
-                        ) : (
-                            <PostsList
-                                ref="list"
-                                posts={posts ? posts : List()}
-                                loading={fetching}
-                                anyPosts
-                                category={category}
-                                loadMore={this.loadMore}
-                                showFeatured
-                                showPromoted
-                                showSpam={showSpam}
-                                allowAdsOnContent={allowAdsOnContent}
-                            />
-                        )}
+                    (posts && !posts.size) &&
+                    (featured && !featured.size) &&
+                    (promoted && !promoted.size) ? (
+                        <Callout>{emptyText}</Callout>
+                    ) : (
+                        <PostsList
+                            ref="list"
+                            posts={posts ? posts : List()}
+                            loading={fetching}
+                            anyPosts
+                            category={category}
+                            loadMore={this.loadMore}
+                            showFeatured
+                            showPromoted
+                            showSpam={showSpam}
+                            allowAdsOnContent={allowAdsOnContent}
+                        />
+                    )}
                 </article>
 
                 <aside className="c-sidebar c-sidebar--right">
                     {this.props.isBrowser &&
-                        !this.props.maybeLoggedIn &&
-                        !this.props.username ? (
-                            <SidebarNewUsers />
-                        ) : (
-                            this.props.isBrowser && (
-                                <div>
-                                    {/* <SidebarStats steemPower={123} followers={23} reputation={62} />  */}
-                                    <SidebarLinks username={this.props.username} />
-                                </div>
-                            )
-                        )}
-
+                    !this.props.maybeLoggedIn &&
+                    !this.props.username ? (
+                        <SidebarNewUsers />
+                    ) : (
+                        this.props.isBrowser && (
+                            <div>
+                                {/* <SidebarStats steemPower={123} followers={23} reputation={62} />  */}
+                                <SidebarLinks username={this.props.username} />
+                            </div>
+                        )
+                    )}
 
                     <div className="c-sidebar__content">
-                    请给SteemCN拍手，谢谢~
+                        请给SteemCN拍手，谢谢~
                         <div>
                             <iframe
                                 src={steemcn}
@@ -343,10 +343,10 @@ class PostsIndex extends React.Component {
                     </div>
 
                     <div className="c-sidebar__content">
-                        请给行长@justyy拍手，谢谢~
+                        请给FamilyOnline.TV拍手，谢谢~
                         <div>
                             <iframe
-                                src={justyy}
+                                src={familyonline}
                                 frameBorder="0"
                                 allowFullScreen="true"
                                 scrolling="no"
