@@ -38,7 +38,7 @@ const ABOUT_FLAG = (
 );
 
 const MAX_VOTES_DISPLAY = 20;
-const VOTE_WEIGHT_DROPDOWN_THRESHOLD = 1.0 * 1000.0 * 1000.0;
+const VOTE_WEIGHT_DROPDOWN_THRESHOLD = 1.0 * 200.0 * 1000.0;
 const SBD_PRINT_RATE_MAX = 10000;
 const MAX_WEIGHT = 10000;
 
@@ -232,12 +232,14 @@ class Voting extends React.Component {
         } = this.props;
 
         const voting_manabar = current_account
-        ? current_account.get('voting_manabar')
-        : 0;
-        const current_mana = voting_manabar?voting_manabar.get('current_mana'):0;
+            ? current_account.get('voting_manabar')
+            : 0;
+        const current_mana = voting_manabar
+            ? voting_manabar.get('current_mana')
+            : 0;
         const last_update_time = voting_manabar
-        ? voting_manabar.get('last_update_time')
-        : 0;
+            ? voting_manabar.get('last_update_time')
+            : 0;
         const vesting_shares = current_account
             ? current_account.get('vesting_shares')
             : 0.0;
@@ -254,14 +256,12 @@ class Voting extends React.Component {
             ? current_account.get('received_vesting_shares')
             : 0.0;
 
-
         const net_vesting_shares =
             vesting_shares - delegated_vesting_shares + received_vesting_shares;
 
-
-        let elapsed = (new Date())/1000 - last_update_time;
+        let elapsed = new Date() / 1000 - last_update_time;
         let maxMana = net_vesting_shares * 1000000;
-        let currentMana = parseFloat(current_mana)+elapsed*maxMana/432000;
+        let currentMana = parseFloat(current_mana) + elapsed * maxMana / 432000;
         if (currentMana > maxMana) {
             currentMana = maxMana;
         }
@@ -285,25 +285,25 @@ class Voting extends React.Component {
                 <span>
                     <div className="weight-display">{s + b / 100}%</div>
                     <div id="btn_group">
-                    <button
+                        <button
                             id="weight-left"
                             onClick={this.handleButtonWeightChange(up, 1000)}
                         >
-                             {' '}
+                            {' '}
                             10%{' '}
                         </button>
                         <button
                             id="weight-center"
                             onClick={this.handleButtonWeightChange(up, 2500)}
                         >
-                             {' '}
+                            {' '}
                             25%{' '}
                         </button>
                         <button
                             id="weight-center"
                             onClick={this.handleButtonWeightChange(up, 5000)}
                         >
-                              {' '}
+                            {' '}
                             50%{' '}
                         </button>
                         <button
@@ -317,7 +317,7 @@ class Voting extends React.Component {
                             id="weight-right"
                             onClick={this.handleButtonWeightChange(up, 10000)}
                         >
-                             {' '}
+                            {' '}
                             100%{' '}
                         </button>
                     </div>
@@ -330,9 +330,9 @@ class Voting extends React.Component {
                         onChangeComplete={this.storeSliderWeight(up)}
                         tooltip={false}
                     />
-                     {currentVp ? (
+                    {currentVp ? (
                         <div className="voting-power-display">
-                             {tt('voting_jsx.voting_power')}:{' '}
+                            {tt('voting_jsx.voting_power')}:{' '}
                             {currentVp.toFixed(1)}%
                         </div>
                     ) : (
@@ -541,10 +541,11 @@ class Voting extends React.Component {
                             : '') +
                         formatDecimal(pending_payout_sp).join('') +
                         ' ' +
-                        INVEST_TOKEN_SHORT+')',
+                        INVEST_TOKEN_SHORT +
+                        ')',
                 });
             }
-            // add beneficiary info. 
+            // add beneficiary info.
             const beneficiaries = post_obj.get('beneficiaries');
             if (beneficiaries) {
                 beneficiaries.forEach(function(key) {
@@ -641,13 +642,15 @@ class Voting extends React.Component {
                     value:
                         (sign > 0 ? '+ ' : '- ') +
                         voter +
-                        ': $' +(payout * rshares / total_rshares).toFixed(3)+' ('+
-                        percent / 100  +'%)',
+                        ': $' +
+                        (payout * rshares / total_rshares).toFixed(3) +
+                        ' (' +
+                        percent / 100 +
+                        '%)',
                     link: '/@' + voter,
                 });
-    
             }
-           
+
             if (total_votes > voters.length) {
                 voters.push({
                     value: (
