@@ -36,7 +36,8 @@ export async function getStateAsync(url) {
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
     const username = url.match(/^[\/]?@([^\/]+)/);
     if (username) {
-        raw.notifications = await createBusyAPI(username[1]);
+        // raw.notifications = await createBusyAPI(username[1]);.
+        raw.notifications = {};
     }
     if (!raw.likers) {
         raw.likers = {};
