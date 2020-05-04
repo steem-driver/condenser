@@ -9,8 +9,7 @@ import LoadingIndicator from 'app/components/elements/LoadingIndicator';
 import reactForm from 'app/utils/ReactForm';
 import UserList from 'app/components/elements/UserList';
 import Dropzone from 'react-dropzone';
-import * as steem from '@steemit/steem-js';
-
+import * as api from '@steemit/steem-js';
 
 class Settings extends React.Component {
     constructor(props) {
@@ -22,7 +21,6 @@ class Settings extends React.Component {
         };
         this.initForm(props);
         this.onNsfwPrefChange = this.onNsfwPrefChange.bind(this);
-
     }
     onNsfwPrefChange(e) {
         this.props.setUserPreferences({
@@ -46,20 +44,20 @@ class Settings extends React.Component {
             validation: values => ({
                 profile_image:
                     values.profile_image &&
-                        !/^https?:\/\//.test(values.profile_image)
+                    !/^https?:\/\//.test(values.profile_image)
                         ? tt('settings_jsx.invalid_url')
                         : null,
                 cover_image:
                     values.cover_image &&
-                        !/^https?:\/\//.test(values.cover_image)
+                    !/^https?:\/\//.test(values.cover_image)
                         ? tt('settings_jsx.invalid_url')
                         : null,
                 name:
                     values.name && values.name.length > 20
                         ? tt('settings_jsx.name_is_too_long')
                         : values.name && /^\s*@/.test(values.name)
-                            ? tt('settings_jsx.name_must_not_begin_with')
-                            : null,
+                          ? tt('settings_jsx.name_must_not_begin_with')
+                          : null,
                 about:
                     values.about && values.about.length > 160
                         ? tt('settings_jsx.about_is_too_long')
@@ -72,8 +70,8 @@ class Settings extends React.Component {
                     values.website && values.website.length > 100
                         ? tt('settings_jsx.website_url_is_too_long')
                         : values.website && !/^https?:\/\//.test(values.website)
-                            ? tt('settings_jsx.invalid_url')
-                            : null,
+                          ? tt('settings_jsx.invalid_url')
+                          : null,
             }),
         });
         this.handleSubmitForm = this.state.accountSettings.handleSubmit(args =>
@@ -215,11 +213,45 @@ class Settings extends React.Component {
         this.props.setUserPreferences(userPreferences);
     };
 
-    handleNodeChange = event => {
-        const node = event.target.value;
-        const userPreferences = { ...this.props.user_preferences, node };
-        steem.api.setOptions({ url: node });
-        this.props.setUserPreferences(userPreferences);
+    generateAPIEndpointOptions = () => {
+        let endpoints = [
+            'https://api.steems.top',
+            'https://api.steemit.com',
+            'https://api.steem.bts.tw',
+            'https://s2.61bts.com',
+            'https://steem.61bts.com',
+            'https://anyx.io',
+        ];
+        let preferred_api_endpoint = '';
+        if (typeof window !== 'undefined')
+            preferred_api_endpoint =
+                localStorage.getItem('user_preferred_api_endpoint') === null
+                    ? 'https://api.steems.top'
+                    : localStorage.getItem('user_preferred_api_endpoint');
+        if (endpoints === null || endpoints === undefined) {
+            return null;
+        }
+        let entries = [];
+        for (var endpoint of endpoints) {
+            if (endpoint === preferred_api_endpoint) continue;
+            let endpointValue = endpoint;
+            if (endpoint === 'https://anyx.io') {
+                endpointValue = 'HIVE';
+            }
+            let entry = <option value={endpoint}>{endpointValue}</option>;
+            entries.push(entry);
+        }
+        return entries;
+    };
+
+    handlePreferredAPIEndpointChange = event => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(
+                'user_preferred_api_endpoint',
+                event.target.value
+            );
+            api.api.setOptions({ url: event.target.value });
+        }
     };
 
     render() {
@@ -238,11 +270,15 @@ class Settings extends React.Component {
             progress,
         } = this.state;
 
-        const {
-            follow,
-            account,
-            isOwnAccount,
-            user_preferences, } = this.props;
+        let preferred_api_endpoint = 'https://api.steems.top';
+        if (typeof window !== 'undefined') {
+            preferred_api_endpoint =
+                localStorage.getItem('user_preferred_api_endpoint') === null
+                    ? 'https://api.steems.top'
+                    : localStorage.getItem('user_preferred_api_endpoint');
+        }
+
+        const { follow, account, isOwnAccount, user_preferences } = this.props;
         const following =
             follow && follow.getIn(['getFollowingAsync', account.name]);
         const ignores =
@@ -274,17 +310,20 @@ class Settings extends React.Component {
                             <br />
 
                             <label>
-                                RPC Node
+                                {tt(
+                                    'settings_jsx.choose_preferred_api_endpoint'
+                                )}
                                 <select
-                                    defaultValue={user_preferences.node}
-                                    onChange={this.handleNodeChange}
+                                    defaultValue={preferred_api_endpoint}
+                                    onChange={
+                                        this.handlePreferredAPIEndpointChange
+                                    }
                                 >
-                                    <option value="https://api.steem.bts.tw">https://api.steem.bts.tw</option>
-                                    <option value="https://api.justyy.com">https://api.justyy.com</option>
-                                    <option value="https://steem.61bts.com">https://steem.61bts.com</option>
-                                    <option value="https://api.steemit.com">https://api.steemit.com</option>
-                                    <option value="https://s2.61bts.com">https://s2.61bts.com</option>
-                                    <option value="https://anyx.io">HIVE</option>
+                                    <option value={preferred_api_endpoint}>
+                                        {preferred_api_endpoint}
+                                    </option>
+
+                                    {this.generateAPIEndpointOptions()}
                                 </select>
                             </label>
                             <br />
@@ -547,10 +586,6 @@ export default connect(
     dispatch => ({
         changeLanguage: language => {
             dispatch(userActions.changeLanguage(language));
-        },
-        changeNode: node => {
-            dispatch(userActions.changeNode(node));
-
         },
         setUserPreferences: payload => {
             dispatch(appActions.setUserPreferences(payload));

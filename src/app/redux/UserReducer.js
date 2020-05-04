@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { DEFAULT_LANGUAGE,DEFAULT_NODE } from 'app/client_config';
+import { DEFAULT_LANGUAGE } from 'app/client_config';
 
 // Action constants
 const SHOW_LOGIN = 'user/SHOW_LOGIN';
@@ -12,7 +12,6 @@ export const SAVE_LOGIN_CONFIRM = 'user/SAVE_LOGIN_CONFIRM';
 export const SAVE_LOGIN = 'user/SAVE_LOGIN';
 const REMOVE_HIGH_SECURITY_KEYS = 'user/REMOVE_HIGH_SECURITY_KEYS';
 const CHANGE_LANGUAGE = 'user/CHANGE_LANGUAGE';
-const CHANGE_NODE = 'user/CHANGE_NODE';
 const SHOW_TRANSFER = 'user/SHOW_TRANSFER';
 const HIDE_TRANSFER = 'user/HIDE_TRANSFER';
 const SHOW_POWERDOWN = 'user/SHOW_POWERDOWN';
@@ -56,7 +55,6 @@ const defaultState = fromJS({
     show_post_advanced_settings_modal: '', // formId
     pub_keys_used: null,
     locale: DEFAULT_LANGUAGE,
-    node: DEFAULT_NODE,
     show_side_panel: false,
     maybeLoggedIn: false,
     showAnnouncement: true,
@@ -146,8 +144,6 @@ export default function reducer(state = defaultState, action) {
 
         case CHANGE_LANGUAGE:
             return state.set('locale', payload);
-        case CHANGE_NODE:
-                return state.set('node', payload);
         case SHOW_TRANSFER:
             return state.set('show_transfer_modal', true);
 
@@ -266,12 +262,12 @@ export default function reducer(state = defaultState, action) {
 
         case SHOW_ANNOUNCEMENT:
             typeof localStorage !== 'undefined' &&
-            localStorage.setItem('hideAnnouncement', 'false');
+                localStorage.setItem('hideAnnouncement', 'false');
             return state.set('showAnnouncement', true);
 
         case HIDE_ANNOUNCEMENT:
             typeof localStorage !== 'undefined' &&
-            localStorage.setItem('hideAnnouncement', 'true');
+                localStorage.setItem('hideAnnouncement', 'true');
             return state.set('showAnnouncement', false);
 
         default:
@@ -324,11 +320,6 @@ export const removeHighSecurityKeys = payload => ({
 
 export const changeLanguage = payload => ({
     type: CHANGE_LANGUAGE,
-    payload,
-});
-
-export const changeNode = payload => ({
-    type: CHANGE_NODE,
     payload,
 });
 

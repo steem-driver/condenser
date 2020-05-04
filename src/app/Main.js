@@ -78,9 +78,12 @@ function runApp(initial_state) {
         cmd(CMD_LOG_O);
     }
     const config = initial_state.offchain.config;
-    const node = initial_state.app.user_preferences.node;
     steem.api.setOptions({
-        url: node===undefined?config.steemd_connection_client:node,
+        url:
+            localStorage.getItem('user_preferred_api_endpoint') === null
+                ? config.steemd_connection_client
+                : localStorage.getItem('user_preferred_api_endpoint'),
+
         retry: true,
         useAppbaseApi: !!config.steemd_use_appbase,
     });

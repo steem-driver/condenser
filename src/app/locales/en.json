@@ -30,7 +30,7 @@
         "email": "Email",
         "external_link_message":
             "This link will take you away from steemit.com",
-        "affiliation_like":"LikeCoin",
+        "affiliation_like": "LikeCoin",
         "feed": "Feed",
         "follow": "Follow",
         "for": " for ",
@@ -53,7 +53,7 @@
         "my_comments": "My comments",
         "my_feed": "My feed",
         "my_replies": "Replies to me",
-        "my_notifications":"My Notifications",
+        "my_notifications": "My Notifications",
         "my_wallet": "My wallet",
         "new": "New",
         "newer": "Newer",
@@ -254,7 +254,8 @@
             "checkbox": "I understand"
         },
         "useful_links": "Useful Links",
-        "likers_message":"Transfer 1 STEEM to @steem-drivers to be a Certified Liker(Your post will be shown under this category and a hand clap icon will be displayed next to your profile picture. <br/><br/>To learn more about how to setup the Like button, please read: [SteemCN添加Like Button](https://steem.buzz/hive-180932/@ericet/steemcn-like-button)"
+        "likers_message":
+            "Transfer 1 STEEM to @steem-drivers to be a Certified Liker(Your post will be shown under this category and a hand clap icon will be displayed next to your profile picture. <br/><br/>To learn more about how to setup the Like button, please read: [SteemCN添加Like Button](https://steem.buzz/hive-180932/@ericet/steemcn-like-button)"
     },
     "navigation": {
         "about": "About Steemit, Inc.",
@@ -683,7 +684,7 @@
         "author_rewards_by": "Author rewards by %(username)s",
         "replies_to": "Replies to %(username)s",
         "comments_by": "Comments by %(username)s",
-        "notifications":"Notifications"
+        "notifications": "Notifications"
     },
     "loginform_jsx": {
         "you_need_a_private_password_or_key":
@@ -792,7 +793,8 @@
         "thumbnail_url": "Thumbnail url",
         "thumbnail_description":
             "Select the thumbnail used for this post. By default the first image will be used",
-        "saved": "Saved!"
+        "saved": "Saved!",
+        "choose_preferred_api_endpoint": "Choose Your Preferred API Node"
     },
     "transfer_jsx": {
         "amount_is_in_form": "Amount is in the form 99999.999",

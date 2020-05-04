@@ -46,7 +46,7 @@
         "mute": "屏蔽",
         "my_blog": "我的文章",
         "notifications": "我的消息",
-        "my_notifications":"我的消息",
+        "my_notifications": "我的消息",
         "my_comments": "我的评论",
         "my_feed": "我的订阅",
         "my_replies": "给我的回复",
@@ -230,7 +230,8 @@
             "other": "%(count)s个回复"
         },
         "useful_links": "常用链接",
-        "likers_message":"发送1 STEEM到@steem-drivers账号验证Liker公民身份(帖子会出现在这个类别，并且头像旁边会有拍手的图标)<br/><br/>想了解怎么添加Like按钮，可以查看: [SteemCN添加Like Button](https://steem.buzz/hive-180932/@ericet/steemcn-like-button)"
+        "likers_message":
+            "发送1 STEEM到@steem-drivers账号验证Liker公民身份(帖子会出现在这个类别，并且头像旁边会有拍手的图标)<br/><br/>想了解怎么添加Like按钮，可以查看: [SteemCN添加Like Button](https://steem.buzz/hive-180932/@ericet/steemcn-like-button)"
     },
     "navigation": {
         "about": "关于",
@@ -264,7 +265,7 @@
         "hot": "热门",
         "trending": "流行",
         "recommended": "好文推荐",
-        "likers":"拍手公民"
+        "likers": "拍手公民"
     },
     "reply_editor": {
         "shorten_title": "缩短标题",
@@ -553,7 +554,7 @@
         "author_rewards_by": "作者收入 by",
         "replies_to": "回复",
         "comments_by": "评论",
-        "notifications":"消息提醒"
+        "notifications": "消息提醒"
     },
     "loginform_jsx": {
         "you_need_a_private_password_or_key":
@@ -639,7 +640,8 @@
         "thumbnail_url": "帖子封面的网址",
         "thumbnail_description":
             "选择这篇帖子的封面. 如果没有选择，帖子的第一个图片将默认为帖子封面",
-        "saved": "已保存!"
+        "saved": "已保存!",
+        "choose_preferred_api_endpoint": "选择节点"
     },
     "transfer_jsx": {
         "amount_is_in_form": "金额以99999.999的形式出现",
