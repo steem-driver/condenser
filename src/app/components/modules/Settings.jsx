@@ -220,6 +220,7 @@ class Settings extends React.Component {
             'https://api.steem.bts.tw',
             'https://s2.61bts.com',
             'https://steem.61bts.com',
+            'https://api.steemitdev.com',
             'https://anyx.io',
         ];
         let preferred_api_endpoint = '';
