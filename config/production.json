@@ -4,7 +4,7 @@
     "helmet": {
       "directives": {
         "childSrc": "'self' emb.d.tube player.twitch.tv www.youtube.com staticxx.facebook.com w.soundcloud.com player.vimeo.com player.bilibili.com",
-        "connectSrc": "https://s2.61bts.com https://api.steem.bts.tw https://api.justyy.com https://api.steems.top https://steem.61bts.com https://button.like.co wss://notification.steem.buzz https://scot-api.steem-engine.com https://api.steem-engine.com https://anyx.io securepubads.g.doubleclick.net 'self' steemit.com https://api.steemit.com https://steemitimages.com api.blocktrades.us",
+        "connectSrc": "https://s2.61bts.com https://api.steemitdev.com https://api.steem.bts.tw https://api.justyy.com https://api.steems.top https://steem.61bts.com https://button.like.co wss://notification.steem.buzz https://scot-api.steem-engine.com https://api.steem-engine.com https://anyx.io securepubads.g.doubleclick.net 'self' steemit.com https://api.steemit.com https://steemitimages.com api.blocktrades.us",
         "defaultSrc": "tpc.googlesyndication.com 'self' emb.d.tube www.youtube.com staticxx.facebook.com player.vimeo.com",
         "fontSrc": "data: fonts.gstatic.com",
         "frameAncestors": "'none'",
