@@ -81,14 +81,13 @@ class UserWallet extends React.Component {
         this.shouldComponentUpdate = shouldComponentUpdate(this, 'UserWallet');
     }
 
-    handleClaimRewards = (account) => {
+    handleClaimRewards = account => {
         this.setState({ claimInProgress: true }); // disable the claim button
         this.props.claimRewards(account);
-        
     };
-    handleClaimAllTokensRewards = (account,pendingTokenSymbols) => {
+    handleClaimAllTokensRewards = (account, pendingTokenSymbols) => {
         this.setState({ claimTokensInProgress: true }); // disable the claim button
-        this.props.claimAllTokensRewards(account,pendingTokenSymbols);
+        this.props.claimAllTokensRewards(account, pendingTokenSymbols);
     };
     render() {
         const {
@@ -108,7 +107,12 @@ class UserWallet extends React.Component {
         } = this.props;
         const gprops = this.props.gprops.toJS();
 
-        if (!account || !account.get('token_balances') || !account.get('all_token_status')) return null;
+        if (
+            !account ||
+            !account.get('token_balances') ||
+            !account.get('all_token_status')
+        )
+            return null;
         let allTokenBalances = account.has('token_balances')
             ? account.get('token_balances').toJS()
             : [
@@ -122,24 +126,22 @@ class UserWallet extends React.Component {
             token => token.balance > 0 || token.stake > 0
         );
         const allTokenStatus = account.get('all_token_status').toJS();
-        const pendingTokens = Object.values(allTokenStatus)
-            .filter(e => parseFloat(e.pending_token));
-        const pendingTokenSymbols = pendingTokens
-            .map(({ symbol }) => symbol);
-        let pendingTokenString ='';
-        if(pendingTokens){
-        pendingTokens.forEach(pendingToken=>{
-            let symbol = pendingToken.symbol;
-            let precision = pendingToken.precision;
-            let token = pendingToken.pending_token/Math.pow(10, precision);
-            pendingTokenString +=`${token} ${symbol} | `;
-        })
-        //console.log(pendingTokens);
-    }
+        const pendingTokens = Object.values(allTokenStatus).filter(e =>
+            parseFloat(e.pending_token)
+        );
+        const pendingTokenSymbols = pendingTokens.map(({ symbol }) => symbol);
+        let pendingTokenString = '';
+        if (pendingTokens) {
+            pendingTokens.forEach(pendingToken => {
+                let symbol = pendingToken.symbol;
+                let precision = pendingToken.precision;
+                let token =
+                    pendingToken.pending_token / Math.pow(10, precision);
+                pendingTokenString += `${token} ${symbol} | `;
+            });
+            //console.log(pendingTokens);
+        }
         //console.log(pendingTokenSymbols);
-
-
-
 
         let vesting_steem = vestingSteem(account.toJS(), gprops);
         let delegated_steem = delegatedSteem(account.toJS(), gprops);
@@ -373,6 +375,15 @@ class UserWallet extends React.Component {
                 link: '#',
                 onClick: powerDown.bind(this, false),
             },
+            {
+                value: tt('userwallet_jsx.delegate'),
+                link: '#',
+                onClick: showTransfer.bind(
+                    this,
+                    'DELEGATE_VESTS',
+                    'Delegate to Account'
+                ),
+            },
         ];
         let dollar_menu = [
             {
@@ -514,20 +525,20 @@ class UserWallet extends React.Component {
         }
 
         let claimbox;
-        if (current_user && (rewards_str) && isMyAccount) {
+        if (current_user && rewards_str && isMyAccount) {
             claimbox = (
                 <div className="row">
                     <div className="columns small-12">
                         <div className="UserWallet__claimbox">
-                        <span className="UserWallet__claimbox-text">
-                                Your current rewards: {rewards_str} 
+                            <span className="UserWallet__claimbox-text">
+                                Your current rewards: {rewards_str}
                             </span>
-                    
+
                             <button
                                 disabled={this.state.claimInProgress}
                                 className="button"
                                 onClick={e => {
-                                    this.handleClaimRewards(account);                                    
+                                    this.handleClaimRewards(account);
                                 }}
                             >
                                 {tt('userwallet_jsx.redeem_rewards')}
@@ -538,19 +549,22 @@ class UserWallet extends React.Component {
             );
         }
         let claimAllTokens;
-        if (current_user && (pendingTokenString) && isMyAccount) {
+        if (current_user && pendingTokenString && isMyAccount) {
             claimAllTokens = (
                 <div className="row">
                     <div className="columns small-12">
                         <div className="UserWallet__claimbox">
-                        <span className="UserWallet__claimbox-text">
-                        Your current SCOT rewards: {pendingTokenString}
+                            <span className="UserWallet__claimbox-text">
+                                Your current SCOT rewards: {pendingTokenString}
                             </span>
                             <button
                                 disabled={this.state.claimTokensInProgress}
                                 className="button"
                                 onClick={e => {
-                                    this.handleClaimAllTokensRewards(account,pendingTokenSymbols);                                    
+                                    this.handleClaimAllTokensRewards(
+                                        account,
+                                        pendingTokenSymbols
+                                    );
                                 }}
                             >
                                 {tt('userwallet_jsx.redeem_rewards')}
@@ -560,7 +574,6 @@ class UserWallet extends React.Component {
                 </div>
             );
         }
-
 
         return (
             <div className="UserWallet">
