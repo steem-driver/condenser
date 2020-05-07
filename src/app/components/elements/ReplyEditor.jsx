@@ -18,6 +18,8 @@ import Remarkable from 'remarkable';
 import Dropzone from 'react-dropzone';
 import tt from 'counterpart';
 import { DEFAULT_TAGS, APP_MAX_TAG, SCOT_TAGS } from 'app/client_config';
+const MAX_FILE_TO_UPLOAD = 10;
+let imagesToUpload = [];
 
 const remarkable = new Remarkable({ html: true, linkify: false, breaks: true });
 
@@ -256,18 +258,43 @@ class ReplyEditor extends React.Component {
         this.props.showAdvancedSettings(this.props.formId);
     };
 
+    displayErrorMessage = message => {
+        this.setState({
+            progress: { error: message },
+        });
+
+        setTimeout(() => {
+            this.setState({ progress: {} });
+        }, 6000); // clear message
+    };
+
     onDrop = (acceptedFiles, rejectedFiles) => {
         if (!acceptedFiles.length) {
             if (rejectedFiles.length) {
-                this.setState({
-                    progress: { error: 'Please insert only image files.' },
-                });
+                this.displayErrorMessage('Please insert only image files.');
                 console.log('onDrop Rejected files: ', rejectedFiles);
             }
             return;
         }
-        const file = acceptedFiles[0];
-        this.upload(file, file.name);
+        if (acceptedFiles.length > MAX_FILE_TO_UPLOAD) {
+            this.displayErrorMessage(
+                `Please upload up to maximum ${MAX_FILE_TO_UPLOAD} images.`
+            );
+            console.log('onDrop too many files to upload');
+            return;
+        }
+
+        for (let fi = 0; fi < acceptedFiles.length; fi += 1) {
+            const acceptedFile = acceptedFiles[fi];
+            const imageToUpload = {
+                file: acceptedFile,
+                temporaryTag: '',
+            };
+            imagesToUpload.push(imageToUpload);
+        }
+
+        this.insertPlaceHolders();
+        this.uploadNextImage();
     };
 
     onOpenClick = imageName => {
@@ -283,9 +310,14 @@ class ReplyEditor extends React.Component {
                 for (const item of e.clipboardData.items) {
                     if (item.kind === 'file' && /^image\//.test(item.type)) {
                         const blob = item.getAsFile();
-                        this.upload(blob);
+                        imagesToUpload.push({
+                            file: blob,
+                            temporaryTag: '',
+                        });
                     }
                 }
+                this.insertPlaceHolders();
+                this.uploadNextImage();
             } else {
                 // http://joelb.me/blog/2011/code-snippet-accessing-clipboard-images-with-javascript/
                 // contenteditable element that catches all pasted data
@@ -295,17 +327,50 @@ class ReplyEditor extends React.Component {
             console.error('Error analyzing clipboard event', error);
         }
     };
+    uploadNextImage = () => {
+        if (imagesToUpload.length > 0) {
+            const nextImage = imagesToUpload.pop();
+            this.upload(nextImage);
+        }
+    };
 
-    upload = (file, name = '') => {
+    insertPlaceHolders = () => {
+        let { imagesUploadCount } = this.state;
+        const { body } = this.state;
+        const { selectionStart } = this.refs.postRef;
+        let placeholder = '';
+
+        for (let ii = 0; ii < imagesToUpload.length; ii += 1) {
+            const imageToUpload = imagesToUpload[ii];
+
+            if (imageToUpload.temporaryTag === '') {
+                imagesUploadCount++;
+                imageToUpload.temporaryTag = `![Uploading image #${
+                    imagesUploadCount
+                }...]()`;
+                placeholder += `\n${imageToUpload.temporaryTag}\n`;
+            }
+        }
+        this.setState({ imagesUploadCount: imagesUploadCount });
+
+        // Insert the temporary tag where the cursor currently is
+        body.props.onChange(
+            body.value.substring(0, selectionStart) +
+                placeholder +
+                body.value.substring(selectionStart, body.value.length)
+        );
+    };
+
+    upload = image => {
         const { uploadImage } = this.props;
         this.setState({
             progress: { message: tt('reply_editor.uploading') },
         });
-        uploadImage(file, progress => {
+        uploadImage(image.file, progress => {
             if (progress.url) {
                 this.setState({ progress: {} });
                 const { url } = progress;
-                const image_md = `![${name}](${url})`;
+                const imageMd = `![${image.file.name}](${url})`;
                 const image_url = `${url}`;
                 let field;
                 if (this.state.imageInProgress === 'thumbnail') {
@@ -315,20 +380,22 @@ class ReplyEditor extends React.Component {
                     const { body } = this.state;
                     const { selectionStart, selectionEnd } = this.refs.postRef;
                     body.props.onChange(
-                        body.value.substring(0, selectionStart) +
-                            image_md +
-                            body.value.substring(
-                                selectionEnd,
-                                body.value.length
-                            )
+                        body.value.replace(image.temporaryTag, imageMd)
                     );
                 }
+                this.uploadNextImage();
             } else {
-                this.setState({ progress });
+                if (progress.hasOwnProperty('error')) {
+                    this.displayErrorMessage(progress.error);
+                    const imageMd = `![${image.file.name}](UPLOAD FAILED)`;
+                    // Remove temporary image MD tag
+                    body.props.onChange(
+                        body.value.replace(image.temporaryTag, imageMd)
+                    );
+                } else {
+                    this.setState({ progress });
+                }
             }
-            setTimeout(() => {
-                this.setState({ progress: {} });
-            }, 4000); // clear message
         });
     };
 
@@ -524,7 +591,7 @@ class ReplyEditor extends React.Component {
                                                 : 'none'
                                         }
                                         disableClick
-                                        multiple={false}
+                                        multiple
                                         accept="image/*"
                                         ref={node => {
                                             this.dropzone = node;
@@ -667,7 +734,9 @@ class ReplyEditor extends React.Component {
                                                     )}
                                                 {this.props.appType ==
                                                     'steem2hive' &&
-                                                    tt('app_selections.steem2hive')}
+                                                    tt(
+                                                        'app_selections.steem2hive'
+                                                    )}
                                             </div>
                                             <a
                                                 href="#"
@@ -1031,7 +1100,7 @@ export default formId =>
                 //     appType = 'steemcoinpan/0.1';
                 //     selection = 'krwp';
                 // }
-               
+
                 // if (appType == 'likwid') {
                 //     appType = 'steemcn/0.1';
                 //     selection = 'likwid';
