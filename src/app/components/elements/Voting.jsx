@@ -141,10 +141,10 @@ class Voting extends React.Component {
                 : this.state.sliderWeight.down;
             localStorage.setItem(
                 'voteWeight' +
-                    (up ? '' : 'Down') +
-                    '-' +
-                    username +
-                    (is_comment ? '-comment' : ''),
+                (up ? '' : 'Down') +
+                '-' +
+                username +
+                (is_comment ? '-comment' : ''),
                 weight
             );
         };
@@ -154,18 +154,18 @@ class Voting extends React.Component {
                 const sliderWeightUp = Number(
                     localStorage.getItem(
                         'voteWeight' +
-                            '-' +
-                            username +
-                            (is_comment ? '-comment' : '')
+                        '-' +
+                        username +
+                        (is_comment ? '-comment' : '')
                     )
                 );
                 const sliderWeightDown = Number(
                     localStorage.getItem(
                         'voteWeight' +
-                            'Down' +
-                            '-' +
-                            username +
-                            (is_comment ? '-comment' : '')
+                        'Down' +
+                        '-' +
+                        username +
+                        (is_comment ? '-comment' : '')
                     )
                 );
                 this.setState({
@@ -249,15 +249,14 @@ class Voting extends React.Component {
             : 0.0;
 
         const vesting_withdraw_rate = current_account
-            ? current_account.get('vesting_withdraw_rate')
+            ? current_account.get('vesting_withdraw_rate')?current_account.get('vesting_withdraw_rate').split(" ")[0]:0.0
             : 0.0;
 
         const received_vesting_shares = current_account
             ? current_account.get('received_vesting_shares')
             : 0.0;
-
         const net_vesting_shares =
-            vesting_shares - delegated_vesting_shares + received_vesting_shares;
+            vesting_shares - delegated_vesting_shares + received_vesting_shares - Number(vesting_withdraw_rate);
 
         let elapsed = new Date() / 1000 - last_update_time;
         let maxMana = net_vesting_shares * 1000000;
@@ -336,8 +335,8 @@ class Voting extends React.Component {
                             {currentVp.toFixed(1)}%
                         </div>
                     ) : (
-                        ''
-                    )}
+                            ''
+                        )}
                 </span>
             );
         };
@@ -360,10 +359,10 @@ class Voting extends React.Component {
             const { username, is_comment } = this.props;
             localStorage.setItem(
                 'voteWeight' +
-                    (up ? '' : 'Down') +
-                    '-' +
-                    username +
-                    (is_comment ? '-comment' : ''),
+                (up ? '' : 'Down') +
+                '-' +
+                username +
+                (is_comment ? '-comment' : ''),
                 weight
             );
         };
@@ -533,11 +532,11 @@ class Voting extends React.Component {
                         ', ' +
                         (sbd_print_rate != SBD_PRINT_RATE_MAX
                             ? formatDecimal(pending_payout_printed_steem).join(
-                                  ''
-                              ) +
-                              ' ' +
-                              LIQUID_TOKEN_UPPERCASE +
-                              ', '
+                                ''
+                            ) +
+                            ' ' +
+                            LIQUID_TOKEN_UPPERCASE +
+                            ', '
                             : '') +
                         formatDecimal(pending_payout_sp).join('') +
                         ' ' +
@@ -548,7 +547,7 @@ class Voting extends React.Component {
             // add beneficiary info.
             const beneficiaries = post_obj.get('beneficiaries');
             if (beneficiaries) {
-                beneficiaries.forEach(function(key) {
+                beneficiaries.forEach(function (key) {
                     payoutItems.push({
                         value:
                             key.get('account') +
@@ -625,7 +624,7 @@ class Voting extends React.Component {
             avotes.sort(
                 (a, b) =>
                     Math.abs(parseInt(a.rshares)) >
-                    Math.abs(parseInt(b.rshares))
+                        Math.abs(parseInt(b.rshares))
                         ? -1
                         : 1
             );
@@ -680,15 +679,15 @@ class Voting extends React.Component {
         let voteChevron = votingUpActive ? (
             up
         ) : (
-            <a
-                href="#"
-                onClick={voteUpClick}
-                title={myVote > 0 ? tt('g.remove_vote') : tt('g.upvote')}
-                id="upvote_button"
-            >
-                {up}
-            </a>
-        );
+                <a
+                    href="#"
+                    onClick={voteUpClick}
+                    title={myVote > 0 ? tt('g.remove_vote') : tt('g.upvote')}
+                    id="upvote_button"
+                >
+                    {up}
+                </a>
+            );
         if (myVote <= 0 && enable_slider) {
             voteUpClick = this.toggleWeightUp;
             voteChevron = null;
@@ -717,15 +716,15 @@ class Voting extends React.Component {
                                 <Icon size="2x" name={'empty'} />
                             </a>
                         ) : (
-                            <a
-                                href="#"
-                                onClick={this.voteUp}
-                                className="confirm_weight"
-                                title={tt('g.upvote')}
-                            >
-                                <Icon size="2x" name="chevron-up-circle" />
-                            </a>
-                        )}
+                                <a
+                                    href="#"
+                                    onClick={this.voteUp}
+                                    className="confirm_weight"
+                                    title={tt('g.upvote')}
+                                >
+                                    <Icon size="2x" name="chevron-up-circle" />
+                                </a>
+                            )}
                         {slider(true)}
                         <CloseButton
                             className="Voting__adjust_weight_close"
@@ -811,20 +810,20 @@ export default connect(
                     return isFlag
                         ? tt('voting_jsx.removing_your_vote')
                         : tt(
-                              'voting_jsx.removing_your_vote_will_reset_curation_rewards_for_this_post'
-                          );
+                            'voting_jsx.removing_your_vote_will_reset_curation_rewards_for_this_post'
+                        );
                 if (weight > 0)
                     return isFlag
                         ? tt('voting_jsx.changing_to_an_upvote')
                         : tt(
-                              'voting_jsx.changing_to_an_upvote_will_reset_curation_rewards_for_this_post'
-                          );
+                            'voting_jsx.changing_to_an_upvote_will_reset_curation_rewards_for_this_post'
+                        );
                 if (weight < 0)
                     return isFlag
                         ? tt('voting_jsx.changing_to_a_downvote')
                         : tt(
-                              'voting_jsx.changing_to_a_downvote_will_reset_curation_rewards_for_this_post'
-                          );
+                            'voting_jsx.changing_to_a_downvote_will_reset_curation_rewards_for_this_post'
+                        );
                 return null;
             };
             dispatch(
