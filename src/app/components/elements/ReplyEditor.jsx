@@ -220,7 +220,7 @@ class ReplyEditor extends React.Component {
             });
             this.setState({ progress: {} });
             this.props.setPayoutType(formId, defaultPayoutType);
-            this.props.setAppType(formId, 'steemcoinpan/0.1');
+            this.props.setAppType(formId, 'steemcn/0.1');
             if (onCancel) onCancel(e);
         }
     };
@@ -444,7 +444,7 @@ class ReplyEditor extends React.Component {
             }
             this.setState({ loading: false });
             this.props.setPayoutType(formId, defaultPayoutType);
-            this.props.setAppType(formId, 'steemcoinpan/0.1');
+            this.props.setAppType(formId, 'steemcn/0.1');
             if (successCallback) successCallback(args);
         };
         const isHtml = rte || isHtmlTest(body.value);
