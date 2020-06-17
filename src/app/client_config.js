@@ -27,13 +27,10 @@ export const TAG_LIST = List([
     'teamcn-homework',
 ]);
 export const DEFAULT_TAGS = [
-    'palnet',
     'zzan',
     'dblog',
     'diamondtoken',
     'marlians',
-    'neoxian',
-    'lassecash',
     'upfundme',
 ];
 export const LANGUAGE_TAGS = List(['cn:中文']);
@@ -41,27 +38,18 @@ export const SCOT_TAGS = List([
     'lifestyle:生活',
     'photography:摄影',
     'food:美食',
-    'build-it:DIY',
-    'naturalproducts:养生',
-    'steemleo:投资',
     'creativecoin:艺术',
     'steemace battle iv:游戏',
-    'spt battle steemace iv:Steemmonsters',
-    'aaa:影评',
-    'sportstalk:体育',
-    'realityhubs:产品评价',
 ]);
 
 export const NORMAL_TAGS = List([
     'cn-reader cn-curation whalepower:中文好文',
     'ocd-resteem:英文好文',
     'cn-voice creativecoin sonicgroove tunes:好声音',
-    'steem-guides sct-userguide:STEEM指南',
+    'steem-guides:STEEM指南',
     'cn-hello introduceyourself:自我介绍',
     'cn-activity:发起活动',
-    'teamcn-homework:新手作业',
-    'cn-stem steemstem:科学技术',
-    'cn-stem steemstem cn-programming:编程',
+    'cn-programming:编程',
 ]);
 
 export const LIQUID_TOKEN = 'Steem';
