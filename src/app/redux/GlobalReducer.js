@@ -38,6 +38,9 @@ const FETCH_JSON = 'global/FETCH_JSON';
 const FETCH_JSON_RESULT = 'global/FETCH_JSON_RESULT';
 const SHOW_DIALOG = 'global/SHOW_DIALOG';
 const HIDE_DIALOG = 'global/HIDE_DIALOG';
+const RECEIVE_NOTIFICATIONS = 'global/RECEIVE_NOTIFICATIONS';
+const RECEIVE_UNREAD_NOTIFICATIONS = 'global/RECEIVE_UNREAD_NOTIFICATIONS';
+const NOTIFICATIONS_LOADING = 'global/NOTIFICATIONS_LOADING';
 // Saga-related:
 export const GET_STATE = 'global/GET_STATE';
 
@@ -102,6 +105,29 @@ export default function reducer(state = defaultState, action = {}) {
                 new_state = new_state.set('content', content);
             }
             return state.mergeDeep(new_state);
+        }
+        case RECEIVE_NOTIFICATIONS: {
+            console.log('Receive notifications', payload);
+            return state.updateIn(['notifications', payload.name], Map(), n =>
+                n.withMutations(nmut =>
+                    nmut
+                        .update('notifications', List(), a =>
+                            a.concat(fromJS(payload.notifications))
+                        )
+                        .set('isLastPage', payload.isLastPage)
+                )
+            );
+        }
+
+        case RECEIVE_UNREAD_NOTIFICATIONS: {
+            return state.setIn(
+                ['notifications', payload.name, 'unreadNotifications'],
+                Map(payload.unreadNotifications)
+            );
+        }
+
+        case NOTIFICATIONS_LOADING: {
+            return state.setIn(['notifications', 'loading'], payload);
         }
 
         case RECEIVE_ACCOUNT: {
@@ -450,6 +476,20 @@ export default function reducer(state = defaultState, action = {}) {
 }
 
 // Action creators
+export const receiveNotifications = payload => ({
+    type: RECEIVE_NOTIFICATIONS,
+    payload,
+});
+
+export const receiveUnreadNotifications = payload => ({
+    type: RECEIVE_UNREAD_NOTIFICATIONS,
+    payload,
+});
+
+export const notificationsLoading = payload => ({
+    type: NOTIFICATIONS_LOADING,
+    payload,
+});
 
 export const setCollapsed = payload => ({
     type: SET_COLLAPSED,

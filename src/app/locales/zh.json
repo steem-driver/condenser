@@ -708,13 +708,14 @@
         "deadline_for_recovery_is": "恢复的截止日期是",
         "i_understand_dont_show_again": "我明白，不要再显示"
     },
-    "notificationsList_jsx": {
-        "reply": "%(account)s 回复了你的帖子",
-        "mention": "%(account)s 在帖子里提到你",
-        "transfer": "%(account)s 转给你 %(amount)s",
-        "downvote": "%(account)s 踩了你的帖子",
-        "vote": "%(account)s 给你的帖子点赞",
-        "follow": "%(account)s 关注了你",
-        "reblog": "%(account)s 转发了你的帖子"
+    "notificationslist_jsx": {
+        "mark_all_as_read": "标记已读",
+        "load_more": "载入更多消息...",
+        "all": "全部消息",
+        "replies": "回复",
+        "follows": "关注",
+        "resteems": "转发",
+        "upvotes": "点赞",
+        "mentions": "提到"
     }
 }

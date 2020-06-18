@@ -901,13 +901,14 @@
         "phishylink_caution": "Link hidden; phishing attempt",
         "phishylink_reveal": "show link"
     },
-    "notificationsList_jsx": {
-        "reply": "%(account)s commented on your post",
-        "mention": "%(account)s mentioned you in a post",
-        "transfer": "%(account)s transferred %(amount)s to you",
-        "downvote": "%(account)s downvoted your post",
-        "vote": "%(account)s voted your post",
-        "follow": "%(account)s started following you",
-        "reblog": "%(account)s reblogged your post"
+    "notificationslist_jsx": {
+        "mark_all_as_read": "Mark all as read",
+        "load_more": "Load more...",
+        "all": "All",
+        "replies": "Replies",
+        "follows": "Follows",
+        "resteems": "Resteems",
+        "upvotes": "Upvotes",
+        "mentions": "Mentions"
     }
 }

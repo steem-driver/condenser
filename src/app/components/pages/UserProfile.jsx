@@ -147,6 +147,7 @@ export default class UserProfile extends React.Component {
                 follow,
                 accountname,
                 walletUrl,
+                notifications
             },
             onPrint,
         } = this;
@@ -374,9 +375,13 @@ export default class UserProfile extends React.Component {
             }
         }
         else if (section === 'notifications') {
+            console.log(notifications)
             if (username === accountname) {
                 tab_content = (
-                    <NotificationsList notifications={this.props.notifications} accountname={accountname} />
+                    <NotificationsList
+                    username={accountname}
+                    notifications={notifications && notifications.toJS()}
+                />
                 );
             }
         }
@@ -685,7 +690,10 @@ module.exports = {
                 global_status: state.global.get('status'),
                 accountname: accountname,
                 account: state.global.getIn(['accounts', accountname]),
-                notifications: state.global.get('notifications'),
+                notifications: state.global.getIn(
+                    ['notifications', accountname, 'notifications'],
+                    null
+                ),
                 follow: state.global.get('follow'),
                 follow_count: state.global.get('follow_count'),
                 blogmode: state.app.getIn(['user_preferences', 'blogmode']),

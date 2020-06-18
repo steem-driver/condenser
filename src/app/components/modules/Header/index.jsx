@@ -11,6 +11,7 @@ import tt from 'counterpart';
 import { APP_NAME } from 'app/client_config';
 import { APP_ICON } from 'app/client_config';
 import SortOrder from 'app/components/elements/SortOrder';
+import { actions as fetchDataSagaActions } from 'app/redux/FetchDataSaga';
 import SearchInput from 'app/components/elements/SearchInput';
 import IconButton from 'app/components/elements/IconButton';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
@@ -19,6 +20,7 @@ import * as appActions from 'app/redux/AppReducer';
 import Userpic from 'app/components/elements/Userpic';
 import { SIGNUP_URL } from 'shared/constants';
 import SteemLogo from 'app/components/elements/SteemLogo';
+import { startPolling } from 'app/redux/PollingSaga';
 import normalizeProfile from 'app/utils/NormalizeProfile';
 import Announcement from 'app/components/elements/Announcement';
 import GptAd from 'app/components/elements/GptAd';
@@ -31,6 +33,10 @@ class Header extends React.Component {
         category: PropTypes.string,
         order: PropTypes.string,
         pathname: PropTypes.string,
+        getUnreadAccountNotifications: PropTypes.func,
+        startNotificationsPolling: PropTypes.func,
+        loggedIn: PropTypes.bool,
+        unreadNotificationCount: PropTypes.number,
     };
 
     constructor(props) {
@@ -41,6 +47,17 @@ class Header extends React.Component {
             showAd: false,
             showAnnouncement: this.props.showAnnouncement,
         };
+    }
+
+    componentWillMount() {
+        const {
+            loggedIn,
+            current_account_name,
+            startNotificationsPolling,
+        } = this.props;
+        if (loggedIn) {
+            startNotificationsPolling(current_account_name);
+        }
     }
 
     componentDidMount() {
@@ -124,30 +141,11 @@ class Header extends React.Component {
             walletUrl,
             content,
             gptBannedTags,
-            notifications,
+            unreadNotificationCount,
+            notificationActionPending,
         } = this.props;
 
         const { showAd, showAnnouncement } = this.state;
-
-        let lastSeenTimestamp = 0;
-        let unreadNotificationCount  = 0;
-        if (typeof localStorage != 'undefined' && notifications!=undefined && loggedIn) {
-            if (localStorage.getItem('last_timestamp') !== null) {
-                lastSeenTimestamp = localStorage.getItem('last_timestamp');
-            } else {
-                localStorage.setItem('last_timestamp', Math.floor(Date.now() / 1000));
-            }
-            notifications.map(notifications => {
-                let timestamp = notifications.toJS().timestamp
-                if (lastSeenTimestamp < timestamp) {
-                    unreadNotificationCount ++;
-                }
-            });
-        }
-
-
-
-
         /*Set the document.title on each header render.*/
         const route = resolveRoute(pathname);
         let allowAdsOnContent = true;
@@ -301,10 +299,10 @@ class Header extends React.Component {
         const notifications_link = `/@${username}/notifications`;
         const pathCheck = userPath === '/submit.html' ? true : null;
         const notif_label =
-        tt('g.notifications') +
-        (unreadNotificationCount > 0
-            ? ` (${unreadNotificationCount})`
-            : '');
+            tt('g.notifications') +
+            (unreadNotificationCount > 0
+                ? ` (${unreadNotificationCount})`
+                : '');
         const user_menu = [
             {
                 link: feed_link,
@@ -451,11 +449,10 @@ class Header extends React.Component {
                                     position="left"
                                 >
                                     <li className={'Header__userpic '}>
-                                        <span title={username}>
                                             <Userpic account={username} />
-                                        </span>
-                                    </li>
-                                    {unreadNotificationCount > 0 && (
+                                        </li>
+                                    {!notificationActionPending &&
+                                        unreadNotificationCount > 0 && (
                                             <div
                                                 className={
                                                     'Header__notification'
@@ -487,18 +484,23 @@ const mapStateToProps = (state, ownProps) => {
         };
     }
 
-    let user_profile;
+    let display_name;
     const route = resolveRoute(ownProps.pathname);
     if (route.page === 'UserProfile') {
-        user_profile = state.global.getIn([
-            'accounts',
-            route.params[0].slice(1),
-        ]);
+        display_name = state.userProfiles.getIn(
+            [
+                'profiles',
+                route.params[0].slice(1),
+                'metadata',
+                'profile',
+                'name',
+            ],
+            null
+        );
     }
 
     const userPath = state.routing.locationBeforeTransitions.pathname;
-    const username = state.user.getIn(['current', 'username']);
-    const notifications = state.global.get('notifications');
+    const username = state.user.getIn(['current', 'username']);    
     const loggedIn = !!username;
     const current_account_name = username
         ? username
@@ -508,20 +510,39 @@ const mapStateToProps = (state, ownProps) => {
     const gptBannedTags = state.app.getIn(['googleAds', 'gptBannedTags']);
     const walletUrl = state.app.get('walletUrl');
     const content = state.global.get('content');
-
+    let unreadNotificationCount = 0;
+    if (
+        loggedIn &&
+        state.global.getIn([
+            'notifications',
+            current_account_name,
+            'unreadNotifications',
+        ])
+    ) {
+        unreadNotificationCount = state.global.getIn([
+            'notifications',
+            current_account_name,
+            'unreadNotifications',
+            'unread',
+        ]);
+    }
     return {
         username,
         loggedIn,
         userPath,
         nightmodeEnabled: state.user.getIn(['user_preferences', 'nightmode']),
-        account_meta: user_profile,
+        display_name,
         current_account_name,
         showAnnouncement: state.user.get('showAnnouncement'),
         gptEnabled,
         gptBannedTags,
         walletUrl,
         content,
-        notifications,
+        unreadNotificationCount,
+        notificationActionPending: state.global.getIn([
+            'notifications',
+            'loading',
+        ]),
         ...ownProps,
     };
 };
@@ -546,6 +567,25 @@ const mapDispatchToProps = dispatch => ({
         dispatch(userActions.hideSidePanel());
     },
     hideAnnouncement: () => dispatch(userActions.hideAnnouncement()),
+    getUnreadAccountNotifications: username => {
+        const query = {
+            account: username,
+        };
+        return dispatch(
+            fetchDataSagaActions.getUnreadAccountNotifications(query)
+        );
+    },
+    startNotificationsPolling: username => {
+        const query = {
+            account: username,
+        };
+        const params = {
+            pollAction: fetchDataSagaActions.getUnreadAccountNotifications,
+            pollPayload: query,
+            delay: 600000, // The delay between successive polls
+        };
+        return dispatch(startPolling(params));
+    },
 });
 
 const connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);

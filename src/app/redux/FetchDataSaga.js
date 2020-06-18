@@ -13,9 +13,12 @@ import * as globalActions from './GlobalReducer';
 import * as appActions from './AppReducer';
 import constants from './constants';
 import { fromJS, Map, Set } from 'immutable';
-import { getStateAsync } from 'app/utils/steemApi';
+import { getStateAsync,callBridge } from 'app/utils/steemApi';
 import {CURATION_ACCOUNT } from 'app/client_config';
-
+const GET_ACCOUNT_NOTIFICATIONS = 'fetchDataSaga/GET_ACCOUNT_NOTIFICATIONS';
+const GET_UNREAD_ACCOUNT_NOTIFICATIONS =
+    'fetchDataSaga/GET_UNREAD_ACCOUNT_NOTIFICATIONS';
+    const MARK_NOTIFICATIONS_AS_READ = 'fetchDataSaga/MARK_NOTIFICATIONS_AS_READ';
 
 
 const REQUEST_DATA = 'fetchDataSaga/REQUEST_DATA';
@@ -28,6 +31,12 @@ export const fetchDataWatches = [
     takeLatest('@@router/LOCATION_CHANGE', fetchState),
     takeLatest(FETCH_STATE, fetchState),
     takeEvery('global/FETCH_JSON', fetchJson),
+    takeEvery(GET_ACCOUNT_NOTIFICATIONS, getAccountNotifications),
+    takeEvery(
+        GET_UNREAD_ACCOUNT_NOTIFICATIONS,
+        getUnreadAccountNotificationsSaga
+    ),
+    takeEvery(MARK_NOTIFICATIONS_AS_READ, markNotificationsAsReadSaga),
 ];
 
 export function* getContentCaller(action) {
@@ -136,6 +145,114 @@ function* getAccounts(usernames) {
     const accounts = yield call([api, api.getAccountsAsync], usernames);
     yield put(globalActions.receiveAccounts({ accounts }));
 }
+
+/**
+ * Request notifications for given account
+ * @param {object} payload containing:
+ *   - account (string)
+ *   - last_id (string), optional, for pagination
+ *   - limit (int), optional, defualt is 100
+ */
+export function* getAccountNotifications(action) {
+    if (!action.payload) throw 'no account specified';
+    yield put(globalActions.notificationsLoading(true));
+    try {
+        const notifications = yield call(
+            callBridge,
+            'account_notifications',
+            action.payload
+        );
+
+        if (notifications && notifications.error) {
+            console.error(
+                '~~ Saga getAccountNotifications error ~~>',
+                notifications.error
+            );
+            yield put(appActions.steemApiError(notifications.error.message));
+        } else {
+            const limit = action.payload.limit ? action.payload.limit : 100;
+            const isLastPage = notifications.length < action.payload.limit;
+            yield put(
+                globalActions.receiveNotifications({
+                    name: action.payload.account,
+                    notifications,
+                    isLastPage,
+                })
+            );
+        }
+    } catch (error) {
+        console.error('~~ Saga getAccountNotifications error ~~>', error);
+        yield put(appActions.steemApiError(error.message));
+    }
+    yield put(globalActions.notificationsLoading(false));
+}
+
+/**
+ * Request unread notifications for given account
+ * @param {object} payload containing:
+ *   - account (string)
+ */
+
+export function* getUnreadAccountNotificationsSaga(action) {
+    if (!action.payload) throw 'no account specified';
+    yield put(globalActions.notificationsLoading(true));
+    try {
+        const unreadNotifications = yield call(
+            callBridge,
+            'unread_notifications',
+            action.payload
+        );
+        if (unreadNotifications && unreadNotifications.error) {
+            console.error(
+                '~~ Saga getUnreadAccountNotifications error ~~>',
+                unreadNotifications.error
+            );
+            yield put(
+                appActions.steemApiError(unreadNotifications.error.message)
+            );
+        } else {
+            yield put(
+                globalActions.receiveUnreadNotifications({
+                    name: action.payload.account,
+                    unreadNotifications,
+                })
+            );
+        }
+    } catch (error) {
+        console.error('~~ Saga getUnreadAccountNotifications error ~~>', error);
+        yield put(appActions.steemApiError(error.message));
+    }
+    yield put(globalActions.notificationsLoading(false));
+}
+export function* markNotificationsAsReadSaga(action) {
+    const { timeNow, username, successCallback } = action.payload;
+    const ops = ['setLastRead', { date: timeNow }];
+    yield put(globalActions.notificationsLoading(true));
+    try {
+        yield put(
+            transactionActions.broadcastOperation({
+                type: 'custom_json',
+                operation: {
+                    id: 'notify',
+                    required_posting_auths: [username],
+                    json: JSON.stringify(ops),
+                },
+                successCallback: () => {
+                    successCallback(username, timeNow);
+                },
+                errorCallback: () => {
+                    console.log(
+                        'There was an error marking notifications as read!'
+                    );
+                    globalActions.notificationsLoading(false);
+                },
+            })
+        );
+    } catch (error) {
+        yield put(globalActions.notificationsLoading(false));
+    }
+}
+
 
 export function* fetchData(action) {
     const { order, author, permlink, accountname, postFilter } = action.payload;
@@ -397,6 +514,20 @@ function* fetchJson({
 
 // Action creators
 export const actions = {
+    getAccountNotifications: payload => ({
+        type: GET_ACCOUNT_NOTIFICATIONS,
+        payload,
+    }),
+
+    getUnreadAccountNotifications: payload => ({
+        type: GET_UNREAD_ACCOUNT_NOTIFICATIONS,
+        payload,
+    }),
+
+    markNotificationsAsRead: payload => ({
+        type: MARK_NOTIFICATIONS_AS_READ,
+        payload,
+    }),
     requestData: payload => ({
         type: REQUEST_DATA,
         payload,
@@ -411,4 +542,5 @@ export const actions = {
         type: FETCH_STATE,
         payload,
     }),
+    
 };

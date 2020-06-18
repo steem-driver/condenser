@@ -7,6 +7,21 @@ import { CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
 
+
+export async function callBridge(method, params) {
+    console.log(
+        'call bridge',
+        method,
+        params && JSON.stringify(params).substring(0, 200)
+    );
+
+    return new Promise(function(resolve, reject) {
+        api.call('bridge.' + method, params, function(err, data) {
+            if (err) reject(err);
+            else resolve(data);
+        });
+    });
+}
 async function createBusyAPI(account) {
     return new Promise((resolve, reject) => {
         const client = new Client('wss://notification.steem.buzz');
@@ -35,10 +50,10 @@ export async function getStateAsync(url) {
 
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
     const username = url.match(/^[\/]?@([^\/]+)/);
-    if (username) {
-        raw.notifications = await createBusyAPI(username[1]);
-        // raw.notifications = {};
-    }
+    // if (username) {
+    //     raw.notifications = await createBusyAPI(username[1]);
+    //     // raw.notifications = {};
+    // }
     if (!raw.likers) {
         raw.likers = {};
     }
