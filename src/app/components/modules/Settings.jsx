@@ -215,6 +215,7 @@ class Settings extends React.Component {
 
     generateAPIEndpointOptions = () => {
         let endpoints = [
+            'https://api.steem.buzz',
             'https://cn.steems.top',
             'https://api.justyy.com',
             'https://api.steemitdev.com',
@@ -225,7 +226,7 @@ class Settings extends React.Component {
         if (typeof window !== 'undefined')
             preferred_api_endpoint =
                 localStorage.getItem('user_preferred_api_endpoint') === null
-                    ? 'https://cn.steems.top'
+                    ? 'https://api.steem.buzz'
                     : localStorage.getItem('user_preferred_api_endpoint');
         if (endpoints === null || endpoints === undefined) {
             return null;
@@ -269,11 +270,11 @@ class Settings extends React.Component {
             progress,
         } = this.state;
 
-        let preferred_api_endpoint = 'https://cn.steems.top';
+        let preferred_api_endpoint = 'https://api.steem.buzz';
         if (typeof window !== 'undefined') {
             preferred_api_endpoint =
                 localStorage.getItem('user_preferred_api_endpoint') === null
-                    ? 'https://cn.steems.top'
+                    ? 'https://api.steem.buzz'
                     : localStorage.getItem('user_preferred_api_endpoint');
         }
 
