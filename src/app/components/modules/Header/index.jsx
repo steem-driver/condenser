@@ -484,19 +484,13 @@ const mapStateToProps = (state, ownProps) => {
         };
     }
 
-    let display_name;
+    let user_profile;
     const route = resolveRoute(ownProps.pathname);
     if (route.page === 'UserProfile') {
-        display_name = state.userProfiles.getIn(
-            [
-                'profiles',
-                route.params[0].slice(1),
-                'metadata',
-                'profile',
-                'name',
-            ],
-            null
-        );
+        user_profile = state.global.getIn([
+            'accounts',
+            route.params[0].slice(1),
+        ]);
     }
 
     const userPath = state.routing.locationBeforeTransitions.pathname;
@@ -531,7 +525,7 @@ const mapStateToProps = (state, ownProps) => {
         loggedIn,
         userPath,
         nightmodeEnabled: state.user.getIn(['user_preferences', 'nightmode']),
-        display_name,
+        account_meta: user_profile,
         current_account_name,
         showAnnouncement: state.user.get('showAnnouncement'),
         gptEnabled,
@@ -567,6 +561,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(userActions.hideSidePanel());
     },
     hideAnnouncement: () => dispatch(userActions.hideAnnouncement()),
+
     getUnreadAccountNotifications: username => {
         const query = {
             account: username,

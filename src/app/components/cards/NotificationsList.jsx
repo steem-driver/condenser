@@ -411,8 +411,6 @@ class NotificationsList extends React.Component {
 export default connect(
     (state, props) => {
         const accountName = props.username;
-        console.log("State")
-        console.log(state);
         const isOwnAccount =
             state.user.getIn(['current', 'username'], '') == accountName;
         const notifications = state.global

@@ -15,6 +15,7 @@ import constants from './constants';
 import { fromJS, Map, Set } from 'immutable';
 import { getStateAsync,callBridge } from 'app/utils/steemApi';
 import {CURATION_ACCOUNT } from 'app/client_config';
+import * as transactionActions from './TransactionReducer';
 const GET_ACCOUNT_NOTIFICATIONS = 'fetchDataSaga/GET_ACCOUNT_NOTIFICATIONS';
 const GET_UNREAD_ACCOUNT_NOTIFICATIONS =
     'fetchDataSaga/GET_UNREAD_ACCOUNT_NOTIFICATIONS';
@@ -249,6 +250,7 @@ export function* markNotificationsAsReadSaga(action) {
             })
         );
     } catch (error) {
+        console.log(error)
         yield put(globalActions.notificationsLoading(false));
     }
 }

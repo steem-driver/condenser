@@ -5,6 +5,8 @@ import { marketWatches } from 'app/redux/MarketSaga';
 import { userWatches } from 'app/redux/UserSaga';
 import { authWatches } from 'app/redux/AuthSaga';
 import { transactionWatches } from 'app/redux/TransactionSaga';
+import { watchPollingTasks } from 'app/redux/PollingSaga';
+
 
 export default function* rootSaga() {
     yield all([
@@ -14,5 +16,6 @@ export default function* rootSaga() {
         ...authWatches,
 		...marketWatches,
         ...transactionWatches,
+        watchPollingTasks(),
     ]);
 }

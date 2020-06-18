@@ -152,7 +152,6 @@ export default class UserProfile extends React.Component {
             onPrint,
         } = this;
         const username = current_user ? current_user.get('username') : null;
-        console.log('username: ' + username);
 
         let { section } = this.props.routeParams;
         if (!section) section = 'blog';
@@ -375,7 +374,6 @@ export default class UserProfile extends React.Component {
             }
         }
         else if (section === 'notifications') {
-            console.log(notifications)
             if (username === accountname) {
                 tab_content = (
                     <NotificationsList
