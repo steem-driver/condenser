@@ -31,7 +31,7 @@ export const SCOT_TAGS = List([
 ]);
 
 export const NORMAL_TAGS = List([
-    'cn-reader cn-curation whalepower:中文好文',
+    'whalepower:中文好文',
     'ocd-resteem:英文好文',
     'cn-voice creativecoin sonicgroove tunes:好声音',
     'steem-guides:STEEM指南',
