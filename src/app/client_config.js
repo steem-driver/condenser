@@ -14,18 +14,6 @@ export const APP_URL = 'https://www.steemcn.org';
 export const APP_DOMAIN = 'www.steemcn.org';
 export const CURATION_ACCOUNT = 'cn-curators';
 export const LIKER_ACCOUNT = 'cn-likers';
-export const TAG_LIST = List([
-    'cn',
-    'cn-activity',
-    'cn-book',
-    'cn-curation',
-    'cn-hello',
-    'cn-reader',
-    'cn-voice',
-    'cnweekends',
-    'steem-guides',
-    'teamcn-homework',
-]);
 export const DEFAULT_TAGS = [
     'zzan',
     'dblog',

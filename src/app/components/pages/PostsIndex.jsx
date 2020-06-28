@@ -22,7 +22,7 @@ import Topics from './Topics';
 import SortOrder from 'app/components/elements/SortOrder';
 import MarkdownViewer from 'app/components/cards/MarkdownViewer';
 
-import { TAG_LIST, CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
+import { CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 class PostsIndex extends React.Component {
     static propTypes = {
@@ -411,7 +411,9 @@ module.exports = {
                 blogmode: state.app.getIn(['user_preferences', 'blogmode']),
                 sortOrder: ownProps.params.order,
                 topic: ownProps.params.category,
-                categories: TAG_LIST,
+                categories: state.global
+                .getIn(['tag_idx', 'trending'])
+                .take(50),
                 pinned: state.offchain.get('pinned_posts'),
                 maybeLoggedIn: state.user.get('maybeLoggedIn'),
                 isBrowser: process.env.BROWSER,
