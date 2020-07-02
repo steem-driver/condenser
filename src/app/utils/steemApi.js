@@ -1,12 +1,10 @@
 import { api } from '@steemit/steem-js';
-import { Client } from '@busyorg/busyjs';
 import stateCleaner from 'app/redux/stateCleaner';
 import axios from 'axios';
 import SSC from 'sscjs';
 import { CURATION_ACCOUNT, LIKER_ACCOUNT } from 'app/client_config';
 
 const ssc = new SSC('https://api.steem-engine.com/rpc');
-
 
 export async function callBridge(method, params) {
     console.log(
@@ -22,16 +20,6 @@ export async function callBridge(method, params) {
         });
     });
 }
-async function createBusyAPI(account) {
-    return new Promise((resolve, reject) => {
-        const client = new Client('wss://notification.steem.buzz');
-        client.call('get_notifications', [account], (err, result) => {
-            if (err !== null) reject(err);
-            resolve(result);
-        });
-    });
-}
-
 export async function getStateAsync(url) {
     // strip off query string
     const path = url.split('?')[0];
@@ -47,13 +35,20 @@ export async function getStateAsync(url) {
     if (!raw.accounts) {
         raw.accounts = {};
     }
-
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
-    const username = url.match(/^[\/]?@([^\/]+)/);
-    // if (username) {
-    //     raw.notifications = await createBusyAPI(username[1]);
-    //     // raw.notifications = {};
-    // }
+    let username;
+    if (path.includes('@')) {
+        let parts = path.split('/');
+        if (parts.length === 4) {
+            username = parts[2].replace('@', '');
+        } else {
+            username = url.match(/^[\/]?@([^\/]+)/)[1];
+        }
+        if (username) {
+            let account = await getAccount(username);
+            raw.accounts[username].json_metadata = account.json_metadata;
+        }
+    }
     if (!raw.likers) {
         raw.likers = {};
     }
