@@ -456,47 +456,59 @@ class TransferForm extends Component {
                                 spellCheck="false"
                                 disabled={loading}
                             />
-                            {asset.value !== 'VESTS' && (
-                                <span
-                                    className="input-group-label"
-                                    style={{ paddingLeft: 0, paddingRight: 0 }}
-                                >
-                                    <select
-                                        {...asset.props}
-                                        placeholder={tt('transfer_jsx.asset')}
-                                        disabled={loading}
+                            {asset &&
+                                asset.value !== 'VESTS' && (
+                                    <span
+                                        className="input-group-label"
                                         style={{
-                                            minWidth: '5rem',
-                                            height: 'inherit',
-                                            backgroundColor: 'transparent',
-                                            border: 'none',
+                                            paddingLeft: 0,
+                                            paddingRight: 0,
                                         }}
                                     >
-                                        <option value="STEEM">STEEM</option>
-                                        <option value="SBD">SBD</option>
-                                    </select>
-                                </span>
-                            )}
-                            {asset.value === 'VESTS' && (
-                                <span
-                                    className="input-group-label"
-                                    style={{ paddingLeft: 0, paddingRight: 0 }}
-                                >
-                                    <select
-                                        {...asset.props}
-                                        placeholder={tt('transfer_jsx.asset')}
-                                        disabled={loading}
+                                        <select
+                                            {...asset.props}
+                                            placeholder={tt(
+                                                'transfer_jsx.asset'
+                                            )}
+                                            disabled={loading}
+                                            style={{
+                                                minWidth: '5rem',
+                                                height: 'inherit',
+                                                backgroundColor: 'transparent',
+                                                border: 'none',
+                                            }}
+                                        >
+                                            <option value="STEEM">STEEM</option>
+                                            <option value="SBD">SBD</option>
+                                        </select>
+                                    </span>
+                                )}
+                            {asset &&
+                                asset.value === 'VESTS' && (
+                                    <span
+                                        className="input-group-label"
                                         style={{
-                                            minWidth: '5rem',
-                                            height: 'inherit',
-                                            backgroundColor: 'transparent',
-                                            border: 'none',
+                                            paddingLeft: 0,
+                                            paddingRight: 0,
                                         }}
                                     >
-                                        <option value="STEEM">STEEM</option>
-                                    </select>
-                                </span>
-                            )}
+                                        <select
+                                            {...asset.props}
+                                            placeholder={tt(
+                                                'transfer_jsx.asset'
+                                            )}
+                                            disabled={loading}
+                                            style={{
+                                                minWidth: '5rem',
+                                                height: 'inherit',
+                                                backgroundColor: 'transparent',
+                                                border: 'none',
+                                            }}
+                                        >
+                                            <option value="STEEM">STEEM</option>
+                                        </select>
+                                    </span>
+                                )}
                         </div>
                         <div style={{ marginBottom: '0.6rem' }}>
                             <AssetBalance
