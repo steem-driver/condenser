@@ -46,7 +46,10 @@ export async function getStateAsync(url) {
         }
         if (username) {
             let account = await getAccount(username);
-            raw.accounts[username].json_metadata = account.json_metadata;
+            raw.accounts[username].json_metadata =
+                account.json_metadata === '{}'
+                    ? account.posting_json_metadata
+                    : account.json_metadata;
         }
     }
     if (!raw.likers) {
