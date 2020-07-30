@@ -59,9 +59,9 @@
     "special_posts_url": false,
     "wallet_url": "https://wallet.steemitdev.com",
     "gpt_banned_tags": ["nsfw", "tante"],
-    "google_ad_enabled": null,
-    "google_ad_test": null,
-    "google_ad_client": null,
+    "google_ad_enabled": true,
+    "google_ad_test": false,
+    "google_ad_client": "ca-pub-2053083082232755",
     "google_ad_slots": {
       "market_1": {
         "slot_id": "2777377820"
@@ -72,7 +72,7 @@
         "every": 15
       }
     },
-    "gpt_enabled": null,
+    "gpt_enabled": true,
     "gpt_basic_slots": {
       "bottom-of-post": {
         "path": "/21784675435/steemit_bottom-of-post",
