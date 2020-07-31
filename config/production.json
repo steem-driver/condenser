@@ -72,7 +72,7 @@
         "every": 15
       }
     },
-    "gpt_enabled": true,
+    "gpt_enabled": null,
     "gpt_basic_slots": {
       "bottom-of-post": {
         "path": "/21784675435/steemit_bottom-of-post",
