@@ -334,7 +334,7 @@ class PostSummary extends React.Component {
             // which has the 256x512 for whatever the large breakpoint is where the list layout is used
             // and the 640 for lower than that
 
-            const blogSize = proxifyImageUrl(p.image_link, '640x480').replace(
+            const blogSize = proxifyImageUrl(p.image_link, '640x380').replace(
                 / /g,
                 '%20'
             );
@@ -373,6 +373,10 @@ class PostSummary extends React.Component {
             <div className="articles__summary">
                 {reblogged_by}
                 {summary_header}
+                <div className="articles__content-block articles__content-block--text">
+                    {content_title}
+                </div>
+
                 <div
                     className={
                         'articles__content hentry' +
@@ -390,7 +394,6 @@ class PostSummary extends React.Component {
                         </div>
                     ) : null}
                     <div className="articles__content-block articles__content-block--text">
-                        {content_title}
                         {content_body}
                         {this.props.blogmode ? null : summary_footer}
                     </div>
@@ -422,7 +425,10 @@ export default connect(
             username:
                 state.user.getIn(['current', 'username']) ||
                 state.offchain.get('account'),
-            blogmode: state.app.getIn(['user_preferences', 'blogmode']),
+            blogmode:
+                state.app.getIn(['user_preferences', 'blogmode']) === undefined
+                    ? true
+                    : state.app.getIn(['user_preferences', 'blogmode']),
         };
     },
 

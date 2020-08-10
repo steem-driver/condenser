@@ -408,12 +408,17 @@ module.exports = {
                 username:
                     state.user.getIn(['current', 'username']) ||
                     state.offchain.get('account'),
-                blogmode: state.app.getIn(['user_preferences', 'blogmode']),
+                blogmode:
+                    state.app.getIn(['user_preferences', 'blogmode']) ===
+                    undefined
+                        ? true
+                        : state.app.getIn(['user_preferences', 'blogmode']),
+
                 sortOrder: ownProps.params.order,
                 topic: ownProps.params.category,
                 categories: state.global
-                .getIn(['tag_idx', 'trending'])
-                .take(50),
+                    .getIn(['tag_idx', 'trending'])
+                    .take(50),
                 pinned: state.offchain.get('pinned_posts'),
                 maybeLoggedIn: state.user.get('maybeLoggedIn'),
                 isBrowser: process.env.BROWSER,

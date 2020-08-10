@@ -69,7 +69,9 @@ export default function reducer(state = defaultState, action = {}) {
         case TOGGLE_BLOGMODE:
             return state.setIn(
                 ['user_preferences', 'blogmode'],
-                !state.getIn(['user_preferences', 'blogmode'])
+                !(state.getIn(['user_preferences', 'blogmode']) === undefined
+                    ? true
+                    : state.getIn(['user_preferences', 'blogmode']))
             );
         case RECEIVE_FEATURE_FLAGS:
             const newFlags = state.get('featureFlags')

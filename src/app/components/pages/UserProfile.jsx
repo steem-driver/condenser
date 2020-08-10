@@ -43,7 +43,13 @@ export default class UserProfile extends React.Component {
     }
 
     shouldComponentUpdate(np, ns) {
-        const { follow, follow_count, account, accountname, notifications } = this.props;
+        const {
+            follow,
+            follow_count,
+            account,
+            accountname,
+            notifications,
+        } = this.props;
 
         let followersLoading = false,
             npFollowersLoading = false;
@@ -81,7 +87,8 @@ export default class UserProfile extends React.Component {
             np.location.pathname !== this.props.location.pathname ||
             np.follow_count !== this.props.follow_count ||
             np.blogmode !== this.props.blogmode ||
-            ns.showResteem !== this.state.showResteem || np.notifications !== this.props.notifications
+            ns.showResteem !== this.state.showResteem ||
+            np.notifications !== this.props.notifications
         );
     }
 
@@ -147,7 +154,7 @@ export default class UserProfile extends React.Component {
                 follow,
                 accountname,
                 walletUrl,
-                notifications
+                notifications,
             },
             onPrint,
         } = this;
@@ -305,10 +312,10 @@ export default class UserProfile extends React.Component {
                         <br />
                     </div>
                 ) : (
-                        tt('user_profile.user_hasnt_started_bloggin_yet', {
-                            name: accountname,
-                        })
-                    );
+                    tt('user_profile.user_hasnt_started_bloggin_yet', {
+                        name: accountname,
+                    })
+                );
 
                 if (!fetching && (posts && !posts.size)) {
                     tab_content = <Callout>{emptyText}</Callout>;
@@ -372,18 +379,16 @@ export default class UserProfile extends React.Component {
                     </center>
                 );
             }
-        }
-        else if (section === 'notifications') {
+        } else if (section === 'notifications') {
             if (username === accountname) {
                 tab_content = (
                     <NotificationsList
-                    username={accountname}
-                    notifications={notifications && notifications.toJS()}
-                />
+                        username={accountname}
+                        notifications={notifications && notifications.toJS()}
+                    />
                 );
             }
-        }
-        else {
+        } else {
             //    console.log( "no matches" );
         }
 
@@ -504,17 +509,17 @@ export default class UserProfile extends React.Component {
                                 {tt('g.replies')}
                             </Link>
                         </li>
-                        {username===accountname &(
-                            <li>
-                                <Link
-                                    to={`/@${accountname}/notifications`}
-                                    activeClassName="active"
-                                >
-                                    {tt('g.notifications')}
-                                </Link>
-                            </li>
-                        )
-                        }
+                        {(username === accountname) &
+                            (
+                                <li>
+                                    <Link
+                                        to={`/@${accountname}/notifications`}
+                                        activeClassName="active"
+                                    >
+                                        {tt('g.notifications')}
+                                    </Link>
+                                </li>
+                            )}
                         <DropdownMenu
                             items={rewardsMenu}
                             el="li"
@@ -607,7 +612,6 @@ export default class UserProfile extends React.Component {
                                 </span>
                             </Tooltip>
                             <Likers author={accountname} />
-
                         </h1>
                         <div>
                             {about && (
@@ -694,7 +698,12 @@ module.exports = {
                 ),
                 follow: state.global.get('follow'),
                 follow_count: state.global.get('follow_count'),
-                blogmode: state.app.getIn(['user_preferences', 'blogmode']),
+                blogmode:
+                    state.app.getIn(['user_preferences', 'blogmode']) ===
+                    undefined
+                        ? true
+                        : state.app.getIn(['user_preferences', 'blogmode']),
+
                 walletUrl,
             };
         },
