@@ -56,12 +56,12 @@
     "address_prefix": "STM",
     "conveyor_posting_wif": false,
     "conveyor_username": false,
-    "special_posts_url": false,
+    "special_posts_url": "https://raw.githubusercontent.com/ericet/steemcn-pinned/master/pinned-posts.json",
     "wallet_url": "https://wallet.steemitdev.com",
     "gpt_banned_tags": ["nsfw", "tante"],
     "google_ad_enabled": true,
     "google_ad_test": false,
-    "google_ad_client": "ca-pub-2053083082232755",
+    "google_ad_client": "ca-pub-3136148889231831",
     "google_ad_slots": {
       "market_1": {
         "slot_id": "2777377820"
