@@ -355,6 +355,11 @@ class PostsIndex extends React.Component {
                         </div>
                     </div>
                     <Notices notices={this.props.notices} />
+                    <div className="c-sidebar__content">
+                        <a href="https://nutbox.io">
+                            <img src="/images/pnut.png" />
+                        </a>
+                    </div>
                     <SteemMarket />
                     {this.props.gptEnabled && allowAdsOnContent ? (
                         <div className="sidebar-ad">
