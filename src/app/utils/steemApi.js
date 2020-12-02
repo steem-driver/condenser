@@ -74,6 +74,7 @@ export async function getStateAsync(url) {
         }
         raw.accounts[account].trxAddress = '';
         raw.accounts[account].trxBalance = 0;
+        raw.accounts[account].trxPendingReward = '0 TRX';
         await axios
             .get(
                 'https://cors-anywhere.herokuapp.com/https://steemitwallet.com/api/v1/tron/tron_user?username=' +
@@ -84,6 +85,8 @@ export async function getStateAsync(url) {
                 if (response.status === 200) {
                     raw.accounts[account].trxAddress =
                         response.data.result.tron_addr;
+                    raw.accounts[account].trxPendingReward =
+                        response.data.result.pending_claim_tron_reward;
                 }
             })
             .catch(error => {

@@ -506,9 +506,10 @@ class UserWallet extends React.Component {
                 ? account.get('reward_vesting_steem').replace('STEEM', 'SP')
                 : null;
         const reward_trx =
-            parseFloat(account.get('reward_vesting_steem').split(' ')[0]) > 0
-                ? account.get('reward_vesting_steem').replace('STEEM', 'TRX')
+            parseFloat(account.get('trxPendingReward').split(' ')[0]) > 0
+                ? account.get('trxPendingReward')
                 : null;
+
         const trx_address = account.get('trxAddress');
         const trx_balance = account.get('trxBalance');
         let rewards = [];
