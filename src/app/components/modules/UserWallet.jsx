@@ -509,7 +509,8 @@ class UserWallet extends React.Component {
             parseFloat(account.get('reward_vesting_steem').split(' ')[0]) > 0
                 ? account.get('reward_vesting_steem').replace('STEEM', 'TRX')
                 : null;
-
+        const trx_address = account.get('trxAddress');
+        const trx_balance = account.get('trxBalance');
         let rewards = [];
         if (reward_steem) rewards.push(reward_steem);
         if (reward_sbd) rewards.push(reward_sbd);
@@ -518,17 +519,21 @@ class UserWallet extends React.Component {
 
         let rewards_str;
         switch (rewards.length) {
-            case 3:
-                rewards_str = `${rewards[0]}, ${rewards[1]}, ${
+            case 4:
+                rewards_str = `${rewards[0]}, ${rewards[1]} , ${
                     rewards[2]
                 } and ${rewards[3]}`;
+                break;
+            case 3:
+                rewards_str = `${rewards[0]}, ${rewards[1]} and ${rewards[2]}`;
                 break;
             case 2:
                 rewards_str = `${rewards[0]} and ${rewards[1]}`;
                 break;
             case 1:
-                rewards_str = `${rewards[0]}`;
+                rewards_str = `${rewards[0] ? rewards[0] : rewards[3]}`;
                 break;
+            default:
         }
 
         let claimbox;
@@ -555,37 +560,37 @@ class UserWallet extends React.Component {
                 </div>
             );
         }
-        let claimAllTokens;
-        if (current_user && pendingTokenString && isMyAccount) {
-            claimAllTokens = (
-                <div className="row">
-                    <div className="columns small-12">
-                        <div className="UserWallet__claimbox">
-                            <span className="UserWallet__claimbox-text">
-                                Your current SCOT rewards: {pendingTokenString}
-                            </span>
-                            <button
-                                disabled={this.state.claimTokensInProgress}
-                                className="button"
-                                onClick={e => {
-                                    this.handleClaimAllTokensRewards(
-                                        account,
-                                        pendingTokenSymbols
-                                    );
-                                }}
-                            >
-                                {tt('userwallet_jsx.redeem_rewards')}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
+        // let claimAllTokens;
+        // if (current_user && pendingTokenString && isMyAccount) {
+        //     claimAllTokens = (
+        //         <div className="row">
+        //             <div className="columns small-12">
+        //                 <div className="UserWallet__claimbox">
+        //                     <span className="UserWallet__claimbox-text">
+        //                         Your current SCOT rewards: {pendingTokenString}
+        //                     </span>
+        //                     <button
+        //                         disabled={this.state.claimTokensInProgress}
+        //                         className="button"
+        //                         onClick={e => {
+        //                             this.handleClaimAllTokensRewards(
+        //                                 account,
+        //                                 pendingTokenSymbols
+        //                             );
+        //                         }}
+        //                     >
+        //                         {tt('userwallet_jsx.redeem_rewards')}
+        //                     </button>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     );
+        // }
 
         return (
             <div className="UserWallet">
                 {claimbox}
-                {claimAllTokens}
+                {/* {claimAllTokens} */}
                 <div className="row">
                     <div className="columns small-10 medium-12 medium-expand">
                         {/*isMyAccount ? (
@@ -762,6 +767,15 @@ class UserWallet extends React.Component {
                     </div>
                 </div>
                 <div className="UserWallet__balance row">
+                    <div className="column small-12 medium-8">
+                        TRX
+                        <div className="secondary">{trx_address}</div>
+                    </div>
+                    <div className="column small-12 medium-4">
+                        {trx_balance} TRX
+                    </div>
+                </div>
+                <div className="UserWallet__balance row zebra">
                     <div className="column small-12 medium-8">
                         {tt('userwallet_jsx.estimated_account_value')}
                         <div className="secondary">

@@ -72,6 +72,41 @@ export async function getStateAsync(url) {
                 account
             );
         }
+        raw.accounts[account].trxAddress = '';
+        raw.accounts[account].trxBalance = 0;
+        await axios
+            .get(
+                'https://cors-anywhere.herokuapp.com/https://steemitwallet.com/api/v1/tron/tron_user?username=' +
+                    account,
+                { timeout: 3000 }
+            )
+            .then(response => {
+                if (response.status === 200) {
+                    raw.accounts[account].trxAddress =
+                        response.data.result.tron_addr;
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        if (raw.accounts[account].trxAddress !== '') {
+            await axios
+                .get(
+                    'https://api.trongrid.io/v1/accounts/' +
+                        raw.accounts[account].trxAddress,
+                    { timeout: 3000 }
+                )
+                .then(response => {
+                    if (response.status === 200) {
+                        raw.accounts[account].trxBalance = (
+                            response.data.data[0].balance / 1000000
+                        ).toFixed(3);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
 
         const [tokenBalances, tokenStatuses] = await Promise.all([
             // modified to get all tokens. - by anpigon
@@ -113,6 +148,9 @@ async function getFollowing(
         });
     });
 }
+function getTrxAddress() {
+    return new Promise((resolve, reject) => {});
+}
 
 export async function getScotDataAsync(path, params) {
     return callApi(`https://scot-api.steem-engine.com/${path}`, params);
@@ -135,6 +173,17 @@ async function getAccountHistory(account) {
     let transfers = history.filter(tx => tx[1].op[0] === 'transfer');
     return transfers && transfers.length > 0 ? transfers : {};
 }
+
+async function getTrxBalance(account) {
+    let address = callApi(
+        `https://cors-anywhere.herokuapp.com/https://steemitwallet.com/api/v1/tron/tron_user?username=${
+            account
+        }`
+    );
+    let result = callApi(`https://api.trongrid.io/v1/accounts/${address}`);
+    console.log(result);
+}
+
 async function callApi(url, params) {
     return await axios({
         url,
