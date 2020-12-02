@@ -356,6 +356,7 @@ class PostsIndex extends React.Component {
                     </div>
                     <Notices notices={this.props.notices} />
                     <div className="c-sidebar__content">
+                        挖PNUT，参与DeFi
                         <a href="https://nutbox.io">
                             <img src="/images/pnut.png" />
                         </a>
