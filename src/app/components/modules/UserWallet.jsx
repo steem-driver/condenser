@@ -505,16 +505,23 @@ class UserWallet extends React.Component {
             parseFloat(account.get('reward_vesting_steem').split(' ')[0]) > 0
                 ? account.get('reward_vesting_steem').replace('STEEM', 'SP')
                 : null;
+        const reward_trx =
+            parseFloat(account.get('reward_vesting_steem').split(' ')[0]) > 0
+                ? account.get('reward_vesting_steem').replace('STEEM', 'TRX')
+                : null;
 
         let rewards = [];
         if (reward_steem) rewards.push(reward_steem);
         if (reward_sbd) rewards.push(reward_sbd);
         if (reward_sp) rewards.push(reward_sp);
+        if (reward_trx) rewards.push(reward_trx);
 
         let rewards_str;
         switch (rewards.length) {
             case 3:
-                rewards_str = `${rewards[0]}, ${rewards[1]} and ${rewards[2]}`;
+                rewards_str = `${rewards[0]}, ${rewards[1]}, ${
+                    rewards[2]
+                } and ${rewards[3]}`;
                 break;
             case 2:
                 rewards_str = `${rewards[0]} and ${rewards[1]}`;
