@@ -111,19 +111,19 @@ export async function getStateAsync(url) {
                 });
         }
 
-        const [tokenBalances, tokenStatuses] = await Promise.all([
-            // modified to get all tokens. - by anpigon
-            ssc.find('tokens', 'balances', {
-                account,
-            }),
-            getScotAccountDataAsync(account),
-        ]);
-        if (tokenBalances) {
-            raw.accounts[account].token_balances = tokenBalances;
-        }
-        if (tokenStatuses) {
-            raw.accounts[account].all_token_status = tokenStatuses;
-        }
+        // const [tokenBalances, tokenStatuses] = await Promise.all([
+        //     // modified to get all tokens. - by anpigon
+        //     ssc.find('tokens', 'balances', {
+        //         account,
+        //     }),
+        //     getScotAccountDataAsync(account),
+        // ]);
+        // if (tokenBalances) {
+        //     raw.accounts[account].token_balances = tokenBalances;
+        // }
+        // if (tokenStatuses) {
+        //     raw.accounts[account].all_token_status = tokenStatuses;
+        // }
     }
     const cleansed = stateCleaner(raw);
 
