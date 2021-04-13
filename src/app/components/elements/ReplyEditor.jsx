@@ -733,9 +733,9 @@ class ReplyEditor extends React.Component {
                                                         'app_selections.steemcn'
                                                     )}
                                                 {this.props.appType ==
-                                                    'steem2hive' &&
+                                                    'SteemitCryptoAcademy' &&
                                                     tt(
-                                                        'app_selections.steem2hive'
+                                                        'app_selections.steemit_crypto_academy'
                                                     )}
                                             </div>
                                             <a
@@ -1077,7 +1077,7 @@ export default formId =>
                               .split(/ +/)
                         : []
                 );
-                const rootCategory = 'hive-180932';
+                let rootCategory = 'hive-180932';
                 let allCategories = OrderedSet([...formCategories.toJS()]);
 
                 let postHashtags = [...rtags.hashtags];
@@ -1088,6 +1088,10 @@ export default formId =>
                         : 1 && postHashtags.length > 0
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
+                }
+                if(appType =='SteemitCryptoAcademy'){
+                    rootCategory = 'hive-108451';
+                    appType="steemcn/0.1";
                 }
                 // if (appType == 'esteem/2.2.2-mobile') {
                 //     allCategories = allCategories.add('esteem');
@@ -1114,10 +1118,9 @@ export default formId =>
                 if (appType == 'steemcn/0.1') {
                     selection = 'steemcn';
                 }
-                if (appType == 'steem2hive') {
-                    appType = 'steemcn/0.1';
-                    allCategories = allCategories.add('steem2hive');
-                }
+                // if (appType == 'SteemitCryptoAcademy') {
+                //     appType = 'steemcn/0.1';
+                // }
                 for (var i in DEFAULT_TAGS) {
                     allCategories = allCategories.add(DEFAULT_TAGS[i]);
                 }

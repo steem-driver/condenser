@@ -93,7 +93,7 @@
         "request": "请求",
         "required": "需要",
         "rewards": "奖励",
-        "app": "应用",
+        "app": "社区",
         "save": "保存",
         "saved": "已保存",
         "search": "搜索",
@@ -293,7 +293,7 @@
     },
     "app_selections": {
         "steemcn": "SteemCN",
-        "steem2hive": "同步帖子到HIVE（需要在HIVE上授权@steem2hive)"
+        "steemit_crypto_academy": "Steemit学院"
     },
     "category_selector_jsx": {
         "tag_your_story": "标签(最多25个标签)，第一个标签是您文章的主要类别。",
@@ -313,8 +313,8 @@
     "post_advanced_settings_jsx": {
         "payout_option_header": "作者收益",
         "payout_option_description": "选择哪种帖子收益方式？",
-        "app_selection_header": "应用选择",
-        "app_selection_description": "选择哪种应用？",
+        "app_selection_header": "社区选择",
+        "app_selection_description": "选择哪个社区？",
         "current_default": "默认",
         "update_default_in_settings": "更新"
     },

@@ -134,8 +134,8 @@ class PostAdvancedSettings extends Component {
                             <option value="steemcn/0.1">
                                 {tt('app_selections.steemcn')}
                             </option>
-                            <option value="steem2hive">
-                                {tt('app_selections.steem2hive')}
+                            <option value="SteemitCryptoAcademy">
+                                {tt('app_selections.steemit_crypto_academy')}
                             </option>
                         </select>
                     </div>

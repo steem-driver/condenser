@@ -100,7 +100,7 @@
         "request": "request",
         "required": "Required",
         "rewards": "Rewards",
-        "app": "App",
+        "app": "Community",
         "save": "Save",
         "saved": "Saved",
         "search": "Search",
@@ -326,7 +326,7 @@
     },
     "app_selections": {
         "steemcn": "SteemCN",
-        "steem2hive": "Sync Post to HIVE(need to authorize @steem2hive in HIVE)"
+        "steemit_crypto_academy": "Steemit Crypto Academy"
     },
     "category_selector_jsx": {
         "tag_your_story":
@@ -351,8 +351,8 @@
         "payout_option_header": "Author rewards",
         "payout_option_description":
             "What type of tokens do you want as rewards from this post?",
-        "app_selection_header": "App Selection",
-        "app_selection_description": "Which app would you like to use?",
+        "app_selection_header": "Community Selection",
+        "app_selection_description": "Which community would you like to post to?",
         "current_default": "Default",
         "update_default_in_settings": "Update"
     },
