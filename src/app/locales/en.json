@@ -326,7 +326,9 @@
     },
     "app_selections": {
         "steemcn": "SteemCN",
-        "steemit_crypto_academy": "Steemit Crypto Academy"
+        "steemit_crypto_academy": "Steemit Crypto Academy",
+        "lifestyle":"LifeStyle"
+
     },
     "category_selector_jsx": {
         "tag_your_story":

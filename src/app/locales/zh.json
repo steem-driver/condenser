@@ -293,7 +293,8 @@
     },
     "app_selections": {
         "steemcn": "SteemCN",
-        "steemit_crypto_academy": "Steemit学院"
+        "steemit_crypto_academy": "Steemit学院",
+        "lifestyle":"生活社区"
     },
     "category_selector_jsx": {
         "tag_your_story": "标签(最多25个标签)，第一个标签是您文章的主要类别。",
