@@ -219,6 +219,7 @@ export default class UserProfile extends React.Component {
                         showTransfer={this.props.showTransfer}
                         showPowerdown={this.props.showPowerdown}
                         cancelUnstake={this.props.cancelUnstake}
+                        withdrawVesting={this.props.withdrawVesting}
                     />
                 </div>
             );
@@ -725,6 +726,27 @@ module.exports = {
                 console.log('power down defaults:', powerdownDefaults);
                 dispatch(userActions.setPowerdownDefaults(powerdownDefaults));
                 dispatch(userActions.showPowerdown());
+            },
+            withdrawVesting: ({
+                account,
+                vesting_shares,
+                errorCallback,
+                successCallback,
+            }) => {
+                const successCallbackWrapper = (...args) => {
+                    dispatch(
+                        globalActions.getState({ url: `@${account}/transfers` })
+                    );
+                    return successCallback(...args);
+                };
+                dispatch(
+                    transactionActions.broadcastOperation({
+                        type: 'withdraw_vesting',
+                        operation: { account, vesting_shares },
+                        errorCallback,
+                        successCallback: successCallbackWrapper,
+                    })
+                );
             },
             requestData: args =>
                 dispatch(fetchDataSagaActions.requestData(args)),

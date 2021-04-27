@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Slider from 'react-rangeslider';
 import tt from 'counterpart';
-import reactForm from 'app/utils/ReactForm';
 import * as globalActions from 'app/redux/GlobalReducer';
 import * as transactionActions from 'app/redux/TransactionReducer';
 import * as userActions from 'app/redux/UserReducer';
@@ -112,7 +111,7 @@ class Powerdown extends React.Component {
             );
         }
         if (notes.length === 0) {
-            let AMOUNT = vestsToSpf(this.props.state, new_withdraw) / 13;
+            let AMOUNT = vestsToSpf(this.props.state, new_withdraw) / 4;
             AMOUNT = AMOUNT.toFixed(AMOUNT >= 10 ? 0 : 1);
             notes.push(
                 <li key="per_week">
