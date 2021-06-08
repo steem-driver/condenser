@@ -1186,55 +1186,24 @@ export default formId =>
                     if (!__config.comment_options) {
                         __config.comment_options = {};
                     }
-                    // switch (selection) {
-                    //     case 'esteem/2.2.2-mobile':
-                    //         meta.community = 'esteemapp';
-                    //         __config.comment_options.extensions = [
-                    //             [
-                    //                 0,
-                    //                 {
-                    //                     beneficiaries: [
-                    //                         {
-                    //                             account: 'esteemapp',
-                    //                             weight: 300,
-                    //                         },
-                    //                     ],
-                    //                 },
-                    //             ],
-                    //         ];
-                    //         break;
-                    //     case 'krwp':
-                    //         __config.comment_options.extensions = [
-                    //             [
-                    //                 0,
-                    //                 {
-                    //                     beneficiaries: [
-                    //                         {
-                    //                             account: 'sct.krwp',
-                    //                             weight: 10000,
-                    //                         },
-                    //                     ],
-                    //                 },
-                    //             ],
-                    //         ];
-                    //         break;
-                    //     case 'likwid':
-                    //         __config.comment_options.extensions = [
-                    //             [
-                    //                 0,
-                    //                 {
-                    //                     beneficiaries: [
-                    //                         {
-                    //                             account: 'likwid',
-                    //                             weight: 10000,
-                    //                         }
-                    //                     ],
-                    //                 },
-                    //             ],
-                    //         ];
-                    //         break;
-                    //     default:
-                    // }
+                    switch (selection) {
+                        case 'steemcn':
+                            __config.comment_options.extensions = [
+                                [
+                                    0,
+                                    {
+                                        beneficiaries: [
+                                            {
+                                                account: 'steem-drivers',
+                                                weight: 100,
+                                            },
+                                        ],
+                                    },
+                                ],
+                            ];
+                            break;
+                        default:
+                    }
                 }
 
                 const operation = {
