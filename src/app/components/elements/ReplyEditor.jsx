@@ -675,31 +675,6 @@ class ReplyEditor extends React.Component {
                                 </span>
                             )}
                         </div>
-                        <div
-                            className={vframe_section_shrink_class}
-                            style={{ marginTop: '0.5rem' }}
-                        >
-                            {isStory && (
-                                <label>
-                                    {tt('settings_jsx.thumbnail_url')}
-                                    <input
-                                        type="url"
-                                        {...thumbnail.props}
-                                        placeholder={tt(
-                                            'settings_jsx.thumbnail_description'
-                                        )}
-                                        autoComplete="off"
-                                    />
-                                    <a
-                                        onClick={() =>
-                                            this.onOpenClick('thumbnail')
-                                        }
-                                    >
-                                        {tt('settings_jsx.upload_thumbnail')}
-                                    </a>
-                                </label>
-                            )}
-                        </div>
                         <div className={vframe_section_shrink_class}>
                             {isStory &&
                                 !isEdit && (
