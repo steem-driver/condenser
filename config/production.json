@@ -50,7 +50,7 @@
     },
     "upload_image": "https://steemitimages.com",
     "steemd_connection_client": "https://api.steem.buzz",
-    "steemd_connection_server": "https://api.steemit.com",
+    "steemd_connection_server": "https://api.steem.buzz",
     "steemd_use_appbase": false,
     "chain_id": "0000000000000000000000000000000000000000000000000000000000000000",
     "address_prefix": "STM",

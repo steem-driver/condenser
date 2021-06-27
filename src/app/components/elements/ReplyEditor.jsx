@@ -737,6 +737,11 @@ class ReplyEditor extends React.Component {
                                                     tt(
                                                         'app_selections.steemit_crypto_academy'
                                                     )}
+                                                     {this.props.appType ==
+                                                    'SteemClass' &&
+                                                    tt(
+                                                        'app_selections.steem_class'
+                                                    )}
                                                  {this.props.appType ==
                                                     'LifeStyle' &&
                                                     tt(
@@ -1100,6 +1105,10 @@ export default formId =>
                 }
                 if(appType =='LifeStyle'){
                     rootCategory = 'hive-120412';
+                    appType="steemcn/0.1";
+                }
+                if(appType =='SteemClass'){
+                    rootCategory = 'hive-168619';
                     appType="steemcn/0.1";
                 }
 

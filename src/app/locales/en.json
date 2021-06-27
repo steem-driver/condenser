@@ -327,7 +327,8 @@
     "app_selections": {
         "steemcn": "SteemCN",
         "steemit_crypto_academy": "Steemit Crypto Academy",
-        "lifestyle":"LifeStyle"
+        "lifestyle":"LifeStyle",
+        "steem_class":"Steem Class"
 
     },
     "category_selector_jsx": {
