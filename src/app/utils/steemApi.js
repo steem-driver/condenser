@@ -13,8 +13,8 @@ export async function callBridge(method, params) {
         params && JSON.stringify(params).substring(0, 200)
     );
 
-    return new Promise(function(resolve, reject) {
-        api.call('bridge.' + method, params, function(err, data) {
+    return new Promise(function (resolve, reject) {
+        api.call('bridge.' + method, params, function (err, data) {
             if (err) reject(err);
             else resolve(data);
         });
@@ -35,6 +35,8 @@ export async function getStateAsync(url) {
     if (!raw.accounts) {
         raw.accounts = {};
     }
+    let tags = await getTrendingTags();
+    raw.tag_idx.trending=tags;
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
     let username;
     if (path.includes('@')) {
@@ -77,8 +79,8 @@ export async function getStateAsync(url) {
         raw.accounts[account].trxPendingReward = '0 TRX';
         await axios
             .get(
-                'https://cors-anywhere.herokuapp.com/https://steemitwallet.com/api/v1/tron/tron_user?username=' +
-                    account,
+                'https://steemyy.com/api/tron/?s=' +
+                account,
                 { timeout: 3000 }
             )
             .then(response => {
@@ -96,7 +98,7 @@ export async function getStateAsync(url) {
             await axios
                 .get(
                     'https://api.trongrid.io/v1/accounts/' +
-                        raw.accounts[account].trxAddress,
+                    raw.accounts[account].trxAddress,
                     { timeout: 3000 }
                 )
                 .then(response => {
@@ -130,6 +132,21 @@ export async function getStateAsync(url) {
     return cleansed;
 }
 
+function getTrendingTags() {
+    return new Promise((resolve, reject) => {
+        let tags = [];
+        api.getTrendingTags('', 25, function (err, result) {
+            if (!err && result) {
+                for (let tag of result) {
+                    tags.push(tag.name);
+                }
+            }
+            resolve(tags);
+        });
+
+    });
+}
+
 async function getFollowing(
     account,
     startFollowing = '',
@@ -137,7 +154,7 @@ async function getFollowing(
     followings = {}
 ) {
     return new Promise((resolve, reject) => {
-        api.getFollowing(account, startFollowing, 'blog', limit, function(
+        api.getFollowing(account, startFollowing, 'blog', limit, function (
             err,
             result
         ) {
@@ -150,9 +167,6 @@ async function getFollowing(
             resolve(followings);
         });
     });
-}
-function getTrxAddress() {
-    return new Promise((resolve, reject) => {});
 }
 
 export async function getScotDataAsync(path, params) {
@@ -179,8 +193,7 @@ async function getAccountHistory(account) {
 
 async function getTrxBalance(account) {
     let address = callApi(
-        `https://cors-anywhere.herokuapp.com/https://steemitwallet.com/api/v1/tron/tron_user?username=${
-            account
+        `https://steemyy.com/api/tron/?s=${account
         }`
     );
     let result = callApi(`https://api.trongrid.io/v1/accounts/${address}`);
