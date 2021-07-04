@@ -40,26 +40,41 @@ export default class Follow extends React.Component {
     }
 
     initEvents(props) {
-        const { updateFollow, follower, following } = props;
-        const upd = type => {
+        const {
+            updateFollow,
+            follower,
+            following,
+            followingWhat,
+            ignoreWhat,
+        } = props;
+        const upd = (action, index) => {
             if (this.state.busy) return;
             this.setState({ busy: true });
             const done = () => {
                 this.setState({ busy: false });
             };
-            updateFollow(follower, following, type, done);
+            const whatIf = [followingWhat, ignoreWhat];
+            const what = [];
+            what[index] = action;
+            const otherIndex = Number(!index);
+            if (whatIf && whatIf.length > 0) {
+                what[otherIndex] = whatIf[otherIndex];
+            } else {
+                what[otherIndex] = '';
+            }
+            updateFollow(follower, following, what, done);
         };
         this.follow = () => {
-            upd('blog');
+            upd('blog',0);
         };
         this.unfollow = () => {
-            upd();
+            upd('',0);
         };
         this.ignore = () => {
-            upd('ignore');
+            upd('ignore',1);
         };
         this.unignore = () => {
-            upd();
+            upd('',1);
         };
     }
 
@@ -100,7 +115,7 @@ export default class Follow extends React.Component {
         // Can't follow or ignore self
         if (follower === following) return <span />;
 
-        const { followingWhat } = this.props; // redux
+        const { followingWhat, ignoreWhat, whatIf } = this.props; // redux
         const { showFollow, showMute, fat, children } = this.props; // html
         const { busy } = this.state;
 
@@ -124,14 +139,14 @@ export default class Follow extends React.Component {
                     )}
 
                 {showMute &&
-                    followingWhat !== 'ignore' && (
+                    ignoreWhat !== 'ignore' && (
                         <label className={cnInactive} onClick={this.ignore}>
                             {tt('g.mute')}
                         </label>
                     )}
 
                 {showMute &&
-                    followingWhat === 'ignore' && (
+                    ignoreWhat === 'ignore' && (
                         <label className={cnInactive} onClick={this.unignore}>
                             {tt('g.unmute')}
                         </label>
@@ -166,20 +181,21 @@ module.exports = connect(
 
         const followingWhat = f.get('blog_result', emptySet).contains(following)
             ? 'blog'
-            : f.get('ignore_result', emptySet).contains(following)
-              ? 'ignore'
-              : null;
+            : '';
+        const ignoreWhat = f.get('ignore_result', emptySet).contains(following)
+            ? 'ignore'
+            : '';
 
         return {
             follower,
             following,
             followingWhat,
+            ignoreWhat,
             loading,
         };
     },
     dispatch => ({
-        updateFollow: (follower, following, action, done) => {
-            const what = action ? [action] : [];
+        updateFollow: (follower, following, what,action, done) => {
             const json = ['follow', { follower, following, what }];
             dispatch(
                 transactionActions.broadcastOperation({
