@@ -11,7 +11,7 @@ services:
             SDC_SITE_DOMAIN: steem.buzz
             SDC_IMAGE_PROXY_PREFIX: https://steemitimages.com/
             SDC_UPLOAD_IMAGE_URL: https://steemitimages.com
-            SDC_HELMET_CONNECTSRC: "https://steemyy.com https://api.steem.buzz https://api.trongrid.io https://cors-anywhere.herokuapp.com https://steemitwallet.com https://cn.steems.top https://api.steemitdev.com https://api.steem.bts.tw https://api.justyy.com https://api.steems.top https://steem.61bts.com https://button.like.co wss://notification.steem.buzz https://scot-api.steem-engine.com https://api.steem-engine.com https://anyx.io securepubads.g.doubleclick.net 'self' steemit.com https://api.steemit.com https://steemitimages.com api.blocktrades.us"
+            SDC_HELMET_CONNECTSRC: "https://api.steembasicincome.com/ https://steemyy.com https://api.steem.buzz https://api.trongrid.io https://cors-anywhere.herokuapp.com https://steemitwallet.com https://cn.steems.top https://api.steemitdev.com https://api.steem.bts.tw https://api.justyy.com https://api.steems.top https://steem.61bts.com https://button.like.co wss://notification.steem.buzz https://scot-api.steem-engine.com https://api.steem-engine.com https://anyx.io securepubads.g.doubleclick.net 'self' steemit.com https://api.steemit.com https://steemitimages.com api.blocktrades.us"
             SDC_HELMET_STYLESRC: "'self' 'unsafe-inline' fonts.googleapis.com platform.twitter.com www.reddit.com cdn.embedly.com"
             SDC_HELMET_FONTSRC: "data: fonts.gstatic.com cdn.embedly.com"
             WALLET_URL: https://steem.buzz/wallet

@@ -13,8 +13,8 @@ export async function callBridge(method, params) {
         params && JSON.stringify(params).substring(0, 200)
     );
 
-    return new Promise(function (resolve, reject) {
-        api.call('bridge.' + method, params, function (err, data) {
+    return new Promise(function(resolve, reject) {
+        api.call('bridge.' + method, params, function(err, data) {
             if (err) reject(err);
             else resolve(data);
         });
@@ -36,7 +36,7 @@ export async function getStateAsync(url) {
         raw.accounts = {};
     }
     let tags = await getTrendingTags();
-    raw.tag_idx.trending=tags;
+    raw.tag_idx.trending = tags;
     const urlParts = url.match(/^[\/]?@([^\/]+)\/transfers[\/]?$/);
     let username;
     if (path.includes('@')) {
@@ -78,11 +78,9 @@ export async function getStateAsync(url) {
         raw.accounts[account].trxBalance = 0;
         raw.accounts[account].trxPendingReward = '0 TRX';
         await axios
-            .get(
-                'https://steemyy.com/api/tron/?s=' +
-                account,
-                { timeout: 3000 }
-            )
+            .get('https://steemyy.com/api/tron/?s=' + account, {
+                timeout: 3000,
+            })
             .then(response => {
                 if (response.status === 200) {
                     raw.accounts[account].trxAddress =
@@ -98,7 +96,7 @@ export async function getStateAsync(url) {
             await axios
                 .get(
                     'https://api.trongrid.io/v1/accounts/' +
-                    raw.accounts[account].trxAddress,
+                        raw.accounts[account].trxAddress,
                     { timeout: 3000 }
                 )
                 .then(response => {
@@ -113,19 +111,7 @@ export async function getStateAsync(url) {
                 });
         }
 
-        // const [tokenBalances, tokenStatuses] = await Promise.all([
-        //     // modified to get all tokens. - by anpigon
-        //     ssc.find('tokens', 'balances', {
-        //         account,
-        //     }),
-        //     getScotAccountDataAsync(account),
-        // ]);
-        // if (tokenBalances) {
-        //     raw.accounts[account].token_balances = tokenBalances;
-        // }
-        // if (tokenStatuses) {
-        //     raw.accounts[account].all_token_status = tokenStatuses;
-        // }
+        raw.accounts[account].SBI = await getSBI(account);
     }
     const cleansed = stateCleaner(raw);
 
@@ -135,7 +121,7 @@ export async function getStateAsync(url) {
 function getTrendingTags() {
     return new Promise((resolve, reject) => {
         let tags = [];
-        api.getTrendingTags('', 25, function (err, result) {
+        api.getTrendingTags('', 25, function(err, result) {
             if (!err && result) {
                 for (let tag of result) {
                     tags.push(tag.name);
@@ -143,7 +129,24 @@ function getTrendingTags() {
             }
             resolve(tags);
         });
+    });
+}
 
+function getSBI(user) {
+    return new Promise((resolve, reject) => {
+        axios
+            .get('https://api.steembasicincome.com/getUserInfo?user=' + user, {
+                timeout: 3000,
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    resolve(response.data.data);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                resolve({});
+            });
     });
 }
 
@@ -154,7 +157,7 @@ async function getFollowing(
     followings = {}
 ) {
     return new Promise((resolve, reject) => {
-        api.getFollowing(account, startFollowing, 'blog', limit, function (
+        api.getFollowing(account, startFollowing, 'blog', limit, function(
             err,
             result
         ) {
@@ -192,10 +195,7 @@ async function getAccountHistory(account) {
 }
 
 async function getTrxBalance(account) {
-    let address = callApi(
-        `https://steemyy.com/api/tron/?s=${account
-        }`
-    );
+    let address = callApi(`https://steemyy.com/api/tron/?s=${account}`);
     let result = callApi(`https://api.trongrid.io/v1/accounts/${address}`);
     console.log(result);
 }

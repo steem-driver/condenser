@@ -14,7 +14,6 @@ import {
     delegatedSteem,
     pricePerSteem,
 } from 'app/utils/StateFunctions';
-import WalletSubMenu from 'app/components/elements/WalletSubMenu';
 import shouldComponentUpdate from 'app/utils/shouldComponentUpdate';
 import Tooltip from 'app/components/elements/Tooltip';
 import { FormattedHTMLMessage } from 'app/Translator';
@@ -27,8 +26,7 @@ import {
 import * as transactionActions from 'app/redux/TransactionReducer';
 import * as globalActions from 'app/redux/GlobalReducer';
 import DropdownMenu from 'app/components/elements/DropdownMenu';
-import classNames from 'classnames';
-import FormattedAssetTokens from 'app/components/elements/FormattedAssetTokens';
+import Icon from 'app/components/elements/Icon';
 
 const assetPrecision = 1000;
 
@@ -511,6 +509,17 @@ class UserWallet extends React.Component {
                 : null;
         const trx_address = account.get('trxAddress');
         const trx_balance = account.get('trxBalance');
+        const SBI = account.get('SBI');
+        let SbiUnit = 0,
+            SbiBonus = 0,
+            SbiBalance = 0,
+            SbiVote = 0;
+        if (SBI !== undefined) {
+            SbiUnit = SBI.get('shares');
+            SbiBonus = SBI.get('bonusShares');
+            SbiBalance = SBI.get('estimateBalanceValue');
+            SbiVote = SBI.get('estimatedNextVote');
+        }
         let rewards = [];
         if (reward_steem) rewards.push(reward_steem);
         if (reward_sbd) rewards.push(reward_sbd);
@@ -776,6 +785,28 @@ class UserWallet extends React.Component {
                     </div>
                 </div>
                 <div className="UserWallet__balance row zebra">
+                    <div className="column small-12 medium-8">
+                        SBI Units
+                        <div className="secondary">
+                            {' '}
+                            {tt('userwallet_jsx.sbi')}
+                        </div>
+                    </div>
+                    <div className="column small-12 medium-4">
+                        {SbiUnit} SBI
+                        <Tooltip
+                            t={tt('userwallet_jsx.sbi_info', {
+                                sbiShares: SbiUnit,
+                                sbiBonus: SbiBonus,
+                                sbiBalance: SbiBalance,
+                                sbiVote: SbiVote,
+                            })}
+                        >
+                            <Icon name="info" />
+                        </Tooltip>
+                    </div>
+                </div>
+                <div className="UserWallet__balance row">
                     <div className="column small-12 medium-8">
                         {tt('userwallet_jsx.estimated_account_value')}
                         <div className="secondary">

@@ -93,7 +93,7 @@
         "request": "请求",
         "required": "需要",
         "rewards": "奖励",
-        "app": "社区", 
+        "app": "社区",
         "save": "保存",
         "saved": "已保存",
         "search": "搜索",
@@ -294,8 +294,8 @@
     "app_selections": {
         "steemcn": "SteemCN",
         "steemit_crypto_academy": "Steemit学院",
-        "lifestyle":"生活社区",
-        "steem_class":"SteemClass专题课"
+        "lifestyle": "生活社区",
+        "steem_class": "SteemClass专题课"
     },
     "category_selector_jsx": {
         "tag_your_story": "标签(最多25个标签)，第一个标签是您文章的主要类别。",
@@ -689,7 +689,8 @@
         "transfers_are_temporary_disabled": "转移功能暂时被禁用。",
         "history": "历史",
         "redeem_rewards": "领取奖励(转移至余额)",
-        "buy_steem_or_steem_power": "购买STEEM或STEEM Power"
+        "buy_steem_or_steem_power": "购买STEEM或STEEM Power",
+        "sbi": "Steem Basic Income 提供终身点赞股份"
     },
     "powerdown_jsx": {
         "power_down": "Power Down",

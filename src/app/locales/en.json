@@ -327,9 +327,8 @@
     "app_selections": {
         "steemcn": "SteemCN",
         "steemit_crypto_academy": "Steemit Crypto Academy",
-        "lifestyle":"LifeStyle",
-        "steem_class":"Steem Class"
-
+        "lifestyle": "LifeStyle",
+        "steem_class": "Steem Class"
     },
     "category_selector_jsx": {
         "tag_your_story":
@@ -355,7 +354,8 @@
         "payout_option_description":
             "What type of tokens do you want as rewards from this post?",
         "app_selection_header": "Community Selection",
-        "app_selection_description": "Which community would you like to post to?",
+        "app_selection_description":
+            "Which community would you like to post to?",
         "current_default": "Default",
         "update_default_in_settings": "Update"
     },
@@ -850,7 +850,10 @@
         "transfers_are_temporary_disabled": "Transfers are temporary disabled.",
         "history": "HISTORY",
         "redeem_rewards": "Redeem Rewards (Transfer to Balance)",
-        "buy_steem_or_steem_power": "Buy STEEM or STEEM POWER"
+        "buy_steem_or_steem_power": "Buy STEEM or STEEM POWER",
+        "sbi": "Steem Basic Income provides lifetime steem upvotes",
+        "sbi_info":
+            "Units: %(sbiShares)s, Bonus: %(sbiBonus)s\nBalance: %(sbiBalance)s\nNext Vote: %(sbiVote)s"
     },
     "powerdown_jsx": {
         "power_down": "Power Down",
