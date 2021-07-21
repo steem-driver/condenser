@@ -675,6 +675,31 @@ class ReplyEditor extends React.Component {
                                 </span>
                             )}
                         </div>
+                        <div
+                            className={vframe_section_shrink_class}
+                            style={{ marginTop: '0.5rem' }}
+                        >
+                            {isStory && (
+                                <label>
+                                    {tt('settings_jsx.thumbnail_url')}
+                                    <input
+                                        type="url"
+                                        {...thumbnail.props}
+                                        placeholder={tt(
+                                            'settings_jsx.thumbnail_description'
+                                        )}
+                                        autoComplete="off"
+                                    />
+                                    <a
+                                        onClick={() =>
+                                            this.onOpenClick('thumbnail')
+                                        }
+                                    >
+                                        {tt('settings_jsx.upload_thumbnail')}
+                                    </a>
+                                </label>
+                            )}
+                        </div>
                         <div className={vframe_section_shrink_class}>
                             {isStory &&
                                 !isEdit && (
@@ -712,12 +737,12 @@ class ReplyEditor extends React.Component {
                                                     tt(
                                                         'app_selections.steemit_crypto_academy'
                                                     )}
-                                                     {this.props.appType ==
+                                                {this.props.appType ==
                                                     'SteemClass' &&
                                                     tt(
                                                         'app_selections.steem_class'
                                                     )}
-                                                 {this.props.appType ==
+                                                {this.props.appType ==
                                                     'LifeStyle' &&
                                                     tt(
                                                         'app_selections.lifestyle'
@@ -1074,17 +1099,17 @@ export default formId =>
                 ) {
                     allCategories = allCategories.add(postHashtags.shift());
                 }
-                if(appType =='SteemitCryptoAcademy'){
+                if (appType == 'SteemitCryptoAcademy') {
                     rootCategory = 'hive-108451';
-                    appType="steemcn/0.1";
+                    appType = 'steemcn/0.1';
                 }
-                if(appType =='LifeStyle'){
+                if (appType == 'LifeStyle') {
                     rootCategory = 'hive-120412';
-                    appType="steemcn/0.1";
+                    appType = 'steemcn/0.1';
                 }
-                if(appType =='SteemClass'){
+                if (appType == 'SteemClass') {
                     rootCategory = 'hive-168619';
-                    appType="steemcn/0.1";
+                    appType = 'steemcn/0.1';
                 }
 
                 if (appType == 'steemcn/0.1') {
