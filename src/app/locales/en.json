@@ -793,7 +793,7 @@
         "profile_location": "Location",
         "profile_website": "Website",
         "upload_thumbnail": "Upload a thumbnail",
-        "thumbnail_url": "Thumbnail url",
+        "thumbnail_url": "Cover Image",
         "thumbnail_description":
             "Select the thumbnail used for this post. By default the first image will be used",
         "saved": "Saved!",

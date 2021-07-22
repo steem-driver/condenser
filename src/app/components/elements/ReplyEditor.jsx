@@ -406,6 +406,10 @@ class ReplyEditor extends React.Component {
         };
         const { onCancel, onTitleChange } = this;
         const { title, category, body, thumbnail } = this.state;
+        let coverImage =
+            thumbnail.props.value == ''
+                ? require('app/assets/images/upload_image.png')
+                : thumbnail.props.value;
         const {
             reply,
             username,
@@ -682,25 +686,21 @@ class ReplyEditor extends React.Component {
                             {isStory && (
                                 <label>
                                     {tt('settings_jsx.thumbnail_url')}
-                                    <input
-                                        type="url"
-                                        {...thumbnail.props}
-                                        placeholder={tt(
-                                            'settings_jsx.thumbnail_description'
-                                        )}
-                                        autoComplete="off"
-                                    />
+                                    <br />
                                     <a
                                         onClick={() =>
                                             this.onOpenClick('thumbnail')
                                         }
                                     >
-                                        {tt('settings_jsx.upload_thumbnail')}
+                                        <img src={coverImage} width="100" />
                                     </a>
                                 </label>
                             )}
                         </div>
-                        <div className={vframe_section_shrink_class}>
+                        <div
+                            className={vframe_section_shrink_class}
+                            style={{ marginTop: '1.0rem' }}
+                        >
                             {isStory &&
                                 !isEdit && (
                                     <div className="ReplyEditor__options">
