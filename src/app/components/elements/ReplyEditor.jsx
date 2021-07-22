@@ -406,10 +406,7 @@ class ReplyEditor extends React.Component {
         };
         const { onCancel, onTitleChange } = this;
         const { title, category, body, thumbnail } = this.state;
-        let coverImage =
-            thumbnail.props.value == ''
-                ? require('app/assets/images/upload_image.png')
-                : thumbnail.props.value;
+
         const {
             reply,
             username,
@@ -434,6 +431,13 @@ class ReplyEditor extends React.Component {
             handleSubmit,
             resetForm,
         } = this.state.replyForm;
+        let coverImage = '';
+        if (isStory) {
+            coverImage =
+                thumbnail.props.value == ''
+                    ? require('app/assets/images/upload_image.png')
+                    : thumbnail.props.value;
+        }
         const { postError, titleWarn, rte } = this.state;
         const { progress, noClipboardData } = this.state;
         const disabled = submitting || !valid;
