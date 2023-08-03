@@ -4,8 +4,8 @@ import React from 'react';
 export const Announcement = ({ onClose }) => (
     <div className="annoucement-banner">
         <p className="announcement-banner__text">
-        <a className="announcement-banner__link" href="https://m.do.co/c/3136a668a3ea">
-        [AD]Try DigitalOcean for free with a $100 Credit
+        <a className="announcement-banner__link" href="https://steemcn.xyz">
+        steem.buzz域名将于10月19日过期，过期后将不继续续约。新域名为https://steemcn.xyz
             </a>
         </p>
         <button className="close-button" type="button" onClick={onClose}>
