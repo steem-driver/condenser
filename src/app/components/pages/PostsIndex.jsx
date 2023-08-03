@@ -13,8 +13,6 @@ import { isFetchingOrRecentlyUpdated } from 'app/utils/StateFunctions';
 import Callout from 'app/components/elements/Callout';
 import SidebarLinks from 'app/components/elements/SidebarLinks';
 import SidebarNewUsers from 'app/components/elements/SidebarNewUsers';
-import Notices from 'app/components/elements/Notices';
-import SteemMarket from 'app/components/elements/SteemMarket';
 import { GptUtils } from 'app/utils/GptUtils';
 import GptAd from 'app/components/elements/GptAd';
 import ArticleLayoutSelector from 'app/components/modules/ArticleLayoutSelector';
@@ -328,45 +326,6 @@ class PostsIndex extends React.Component {
                             </div>
                         )
                     )}
-
-                    <div className="c-sidebar__content">
-                        请给SteemCN拍手，谢谢~
-                        <div>
-                            <iframe
-                                src={steemcn}
-                                frameBorder="0"
-                                allowFullScreen="true"
-                                scrolling="no"
-                                align="middle"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="c-sidebar__content">
-                        请给FamilyOnline.TV拍手，谢谢~
-                        <div>
-                            <iframe
-                                src={familyonline}
-                                frameBorder="0"
-                                allowFullScreen="true"
-                                scrolling="no"
-                                align="middle"
-                            />
-                        </div>
-                    </div>
-                    <Notices notices={this.props.notices} />
-                    <div className="c-sidebar__content">
-                        挖PNUT，参与DeFi
-                        <a href="https://nutbox.io">
-                            <img src="/images/pnut.png" />
-                        </a>
-                    </div>
-                    <SteemMarket />
-                    {this.props.gptEnabled && allowAdsOnContent ? (
-                        <div className="sidebar-ad">
-                            <GptAd type="Freestar" id="steemit_160x600_Right" />
-                        </div>
-                    ) : null}
                 </aside>
 
                 <aside className="c-sidebar c-sidebar--left">
