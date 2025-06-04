@@ -17,6 +17,7 @@ module.exports = {
                 sequences: true,
                 dead_code: true,
                 drop_debugger: true,
+                drop_console: true,
                 comparisons: true,
                 conditionals: true,
                 evaluate: true,
@@ -26,11 +27,22 @@ module.exports = {
                 hoist_funs: true,
                 if_return: true,
                 join_vars: true,
-                cascade: true
+                cascade: true,
+                pure_getters: true,
+                unsafe: true,
+                unsafe_comps: true,
+                passes: 2
             },
             output: {
                 comments: false
-            }
+            },
+            parallel: true,
+            cache: true
+        }),
+        new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+            debug: false
         }),
         ...baseConfig.plugins,
         // Fix window.onerror

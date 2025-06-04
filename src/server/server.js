@@ -37,8 +37,26 @@ if (cluster.isMaster) console.log('application server starting, please wait.');
 const app = new Koa();
 app.name = 'SteemCN app';
 const env = process.env.NODE_ENV || 'development';
-// cache of a thousand days
-const cacheOpts = { maxAge: 86400000, gzip: true, buffer: false };
+// cache of a thousand days with better compression
+const cacheOpts = { 
+    maxAge: 86400000, // 1000 days
+    gzip: true, 
+    brotli: true,
+    buffer: false,
+    setHeaders: (res, path) => {
+        // Set immutable cache for versioned assets
+        if (path.includes('-') && (path.endsWith('.js') || path.endsWith('.css'))) {
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+        // Security headers
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+        // CORS for fonts and assets
+        if (path.endsWith('.woff') || path.endsWith('.woff2') || path.endsWith('.ttf')) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }
+};
 
 // import ads.txt to be served statically
 const adstxt = fs.readFileSync(
@@ -229,7 +247,15 @@ app.use(function*(next) {
 if (env === 'production') {
     app.use(require('koa-conditional-get')());
     app.use(require('koa-etag')());
-    app.use(require('koa-compressor')());
+    app.use(require('koa-compressor')({
+        filter: function (content_type) {
+            return /text|javascript|css|json|svg|xml/i.test(content_type);
+        },
+        threshold: 1024, // Only compress if size > 1KB
+        flush: require('zlib').constants.Z_SYNC_FLUSH,
+        level: 6, // Compression level (1-9, 6 is good balance)
+        memLevel: 8 // Memory usage (1-9, 8 is default)
+    }));
 }
 
 // Logging
@@ -259,6 +285,45 @@ app.use(
         this.body = 'User-agent: *\nAllow: /';
     })
 );
+
+// Serve service worker
+app.use(
+    mount('/service-worker.js', function*() {
+        this.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+        this.set('Pragma', 'no-cache');
+        this.set('Expires', '0');
+        this.type = 'application/javascript';
+        this.body = fs.readFileSync(
+            path.join(__dirname, '../app/assets/static/service-worker.js'),
+            'utf8'
+        );
+    })
+);
+
+// HTTP/2 Server Push for critical resources
+app.use(function*(next) {
+    if (this.request.path === '/' && this.request.method === 'GET') {
+        // Push critical resources
+        const criticalResources = [
+            '/assets/manifest.js',
+            '/assets/vendor.js',
+            '/assets/app.css'
+        ];
+        
+        criticalResources.forEach(resource => {
+            if (this.response.push) {
+                try {
+                    this.response.push(resource, {
+                        'content-type': resource.endsWith('.js') ? 'application/javascript' : 'text/css'
+                    });
+                } catch (e) {
+                    // HTTP/2 push failed, continue normally
+                }
+            }
+        });
+    }
+    yield next;
+});
 
 // set user's uid - used to identify users in logs and some other places
 // FIXME SECURITY PRIVACY cycle this uid after a period of time

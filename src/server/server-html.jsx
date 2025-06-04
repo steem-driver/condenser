@@ -24,6 +24,28 @@ export default function ServerHTML({
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"
                 />
+                
+                {/* DNS prefetch for external resources */}
+                <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+                <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+                <link rel="dns-prefetch" href="//steemitimages.com" />
+                <link rel="dns-prefetch" href="//techcoderx.com" />
+                
+                {/* Preconnect to critical external domains */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+                
+                {/* Preload critical assets */}
+                {assets.script && assets.script.length > 0 && (
+                    <>
+                        <link rel="preload" href={assets.script.find(s => s.includes('manifest'))} as="script" />
+                        <link rel="preload" href={assets.script.find(s => s.includes('vendor'))} as="script" />
+                        <link rel="preload" href={assets.script.find(s => s.includes('app'))} as="script" />
+                    </>
+                )}
+                {assets.style && assets.style.length > 0 && (
+                    <link rel="preload" href={assets.style[0]} as="style" />
+                )}
                 {meta &&
                     meta.map(m => {
                         if (m.title) {

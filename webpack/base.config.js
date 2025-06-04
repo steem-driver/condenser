@@ -39,8 +39,14 @@ module.exports = {
             'react',
             'react-dom',
             'react-router',
+            'redux',
+            'react-redux'
+        ],
+        steem: [
             '@steemit/steem-js',
-            'bytebuffer',
+            'bytebuffer'
+        ],
+        utils: [
             'immutable',
             'autolinker',
             'pako',
@@ -87,7 +93,11 @@ module.exports = {
         },
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
-           names: 'vendor',
+           names: ['vendor', 'steem', 'utils'],
+           minChunks: Infinity
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+           name: 'manifest',
            minChunks: Infinity
         }),
         webpack_isomorphic_tools_plugin,
