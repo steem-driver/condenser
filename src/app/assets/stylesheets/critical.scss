@@ -1,0 +1,210 @@
+// Critical CSS - Above the fold styles for faster initial render
+// This should contain only the essential styles needed for the initial viewport
+
+// Reset and base styles
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #333333;
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+// Header styles (critical for above-the-fold)
+.Header {
+    background-color: #4757b2;
+    color: white;
+    padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.Header__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.Header__logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+}
+
+// Navigation styles
+.Header__menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+}
+
+.Header__menu-item {
+    display: inline-block;
+}
+
+.Header__menu-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.Header__menu-link:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+// Main content container
+.App__content {
+    min-height: calc(100vh - 60px);
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+// Loading states
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: #666;
+}
+
+.loading::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #4757b2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+// Button styles (critical for interaction)
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4757b2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.button:hover {
+    background-color: #3a4a9a;
+}
+
+.button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+// Form elements
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #4757b2;
+    box-shadow: 0 0 0 2px rgba(71, 87, 178, 0.2);
+}
+
+// Mobile-first responsive design
+@media (max-width: 768px) {
+    .Header__nav {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .Header__menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .App__content {
+        padding: 0.5rem;
+    }
+    
+    .button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+    .Header {
+        border-bottom: 2px solid #000;
+    }
+    
+    .button {
+        border: 2px solid #000;
+    }
+    
+    .form-control {
+        border: 2px solid #000;
+    }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+// Print styles
+@media print {
+    .Header {
+        display: none;
+    }
+    
+    .App__content {
+        padding: 0;
+        max-width: none;
+    }
+    
+    .button {
+        display: none;
+    }
+}

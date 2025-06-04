@@ -12,6 +12,8 @@ import { serverApiRecordEvent } from 'app/utils/ServerApiClient';
 import * as steem from '@steemit/steem-js';
 import { determineViewMode } from 'app/utils/Links';
 import frontendLogger from 'app/utils/FrontendLogger';
+import registerServiceWorker from 'app/utils/RegisterServiceWorker';
+import performanceMonitor from 'app/utils/PerformanceMonitor';
 
 window.addEventListener('error', frontendLogger);
 
@@ -118,7 +120,21 @@ function runApp(initial_state) {
     }`;
 
     try {
+        // Mark app start for performance monitoring
+        performanceMonitor.mark('app-start');
+        
         clientRender(initial_state);
+        
+        // Mark app render complete
+        performanceMonitor.mark('app-render-complete');
+        performanceMonitor.measure('app-render-time', 'app-start', 'app-render-complete');
+        
+        // Register service worker for better caching and offline support
+        if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+            registerServiceWorker().catch(error => {
+                console.warn('Service worker registration failed:', error);
+            });
+        }
     } catch (error) {
         console.error(error);
         serverApiRecordEvent('client_error', error);
