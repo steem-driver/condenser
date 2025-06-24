@@ -215,18 +215,17 @@ class Settings extends React.Component {
 
     generateAPIEndpointOptions = () => {
         let endpoints = [
-            'https://api.steemcn.xyz',
-            'https://cn.steems.top',
+            'https://api.steemcn.blog',
             'https://api.justyy.com',
             'https://api.steemitdev.com',
             'https://api.steemit.com',
-            'https://anyx.io',
+            'https://steemapi.boylikegirl.club'
         ];
         let preferred_api_endpoint = '';
         if (typeof window !== 'undefined')
             preferred_api_endpoint =
                 localStorage.getItem('user_preferred_api_endpoint') === null
-                    ? 'https://api.steemcn.xyz'
+                    ? 'https://api.steemcn.blog'
                     : localStorage.getItem('user_preferred_api_endpoint');
         if (endpoints === null || endpoints === undefined) {
             return null;
@@ -270,11 +269,11 @@ class Settings extends React.Component {
             progress,
         } = this.state;
 
-        let preferred_api_endpoint = 'https://api.steemcn.xyz';
+        let preferred_api_endpoint = 'https://api.steemcn.blog';
         if (typeof window !== 'undefined') {
             preferred_api_endpoint =
                 localStorage.getItem('user_preferred_api_endpoint') === null
-                    ? 'https://api.steemcn.xyz'
+                    ? 'https://api.steemcn.blog'
                     : localStorage.getItem('user_preferred_api_endpoint');
         }
 
